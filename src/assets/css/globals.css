@@ -20,6 +20,10 @@
   /* Account chip background (coral peach) */
   --chip-rgb: 251 224 213;
   --chip-ink-rgb: 156 55 19;
+
+  /* App canvas (Figma page background) */
+  --canvas-rgb: 250 251 255;
+  --ink-rgb: 13 13 13;
 }
 
 [data-sentiment="positive"] {
@@ -51,8 +55,8 @@
 
 html,
 body {
-  background: #eef0f4;
-  color: #0d0d0d;
+  background: rgb(var(--canvas-rgb));
+  color: rgb(var(--ink-rgb));
   font-family: var(--font-inter-tight);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

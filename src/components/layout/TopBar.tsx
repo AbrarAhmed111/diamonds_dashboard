@@ -72,7 +72,7 @@ export default function TopBar({ title, subtitle, onOpenMenu }: TopBarProps) {
             type="button"
             onClick={() => setOpen((v) => !v)}
             className={cn(
-              "inline-flex items-center gap-2 rounded-2xl border border-neutral-500/70 bg-white py-1 pl-1 pr-3 text-small font-medium text-ink transition-colors duration-fast ease-standard hover:bg-neutral-400 focus-ring",
+              "inline-flex items-center gap-2 rounded-md border border-neutral-500/10 bg-white py-1 pl-1 pr-3 text-small font-medium text-ink transition-colors duration-fast ease-standard hover:bg-neutral-400 focus-ring",
             )}
             aria-haspopup="menu"
             aria-expanded={open}
@@ -93,7 +93,7 @@ export default function TopBar({ title, subtitle, onOpenMenu }: TopBarProps) {
           {open ? (
             <div
               role="menu"
-              className="absolute right-0 top-full mt-2 w-56 overflow-hidden rounded-2xl border border-neutral-500/40 bg-white shadow-card"
+              className="absolute right-0 top-full mt-2 w-56 overflow-hidden rounded-3xl border border-neutral-500/40 bg-white shadow-card"
             >
               <div className="border-b border-neutral-500/40 p-3">
                 <p className="text-small font-medium text-ink">Owen Wilson</p>

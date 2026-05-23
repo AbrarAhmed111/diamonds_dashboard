@@ -1,5 +1,7 @@
 "use client";
 
+import { chartColors, gaugeColors } from "@/lib/theme";
+
 interface Props {
   value: number;
   min?: number;
@@ -29,7 +31,7 @@ export default function HalfGaugeChart({
   max = 100,
   label,
   ticks = [0, 20, 40, 60, 80, 100],
-  color = "#C2F28C",
+  color = gaugeColors.positive,
   ariaLabel,
   size = 260,
 }: Props) {
@@ -54,7 +56,7 @@ export default function HalfGaugeChart({
     >
       <path
         d={arcPath(1, radius, cx, cy)}
-        stroke="#E5E5E5"
+        stroke={chartColors.grid}
         strokeWidth={stroke}
         strokeLinecap="round"
         fill="none"
@@ -83,7 +85,7 @@ export default function HalfGaugeChart({
             x={x}
             y={y}
             fontSize={8}
-            fill="#8B8B8B"
+            fill={chartColors.tick}
             textAnchor={anchor}
             dominantBaseline={baseline}
           >
@@ -96,7 +98,7 @@ export default function HalfGaugeChart({
         x={cx}
         y={cy - 5}
         fontSize={23}
-        fill="#0D0D0D"
+        fill={chartColors.ink}
         textAnchor="middle"
         dominantBaseline="middle"
         fontWeight={500}
@@ -108,7 +110,7 @@ export default function HalfGaugeChart({
           x={cx}
           y={cy + 11}
           fontSize={9}
-          fill="#8B8B8B"
+          fill={chartColors.tick}
           textAnchor="middle"
           dominantBaseline="middle"
         >

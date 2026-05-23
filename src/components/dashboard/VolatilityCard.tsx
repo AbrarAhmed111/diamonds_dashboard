@@ -4,23 +4,19 @@ import SegmentedGauge from "@/components/charts/SegmentedGauge";
 import GaugeAside, { GAUGE_DISPLAY_SIZE } from "./GaugeAside";
 import SplitFrame from "./SplitFrame";
 import { getLatestValue } from "@/lib/format";
+import { gaugeColors } from "@/lib/theme";
 import type { Signal } from "@/lib/types";
 
 interface Props {
   signal: Signal;
-  onSelect?: (signal: Signal) => void;
 }
-
-// VIX color rule: ≤25 → green, >25 → red.
-const COLOR_POSITIVE = "#C2F28C";
-const COLOR_NEGATIVE = "#E26A45";
 
 export default function VolatilityCard({ signal }: Props) {
   const latest = getLatestValue(signal);
   const value = Math.round(latest?.value ?? 0);
   const stateLabel =
     (signal.state_label as string | undefined) ?? deriveLabel(value);
-  const color = value <= 25 ? COLOR_POSITIVE : COLOR_NEGATIVE;
+  const color = value <= 25 ? gaugeColors.positive : gaugeColors.negative;
   const tone = value <= 25 ? "positive" : "negative";
 
   return (

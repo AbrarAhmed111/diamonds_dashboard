@@ -167,21 +167,21 @@ const signals = [
     name: "Buying Power",
     category: "on_chain",
     description:
-      "Stablecoin supply normalised by total crypto market cap, expressed in trillions. A rising ratio means there is more dry powder parked on the sidelines relative to risk assets, which historically precedes upside breakouts. We focus on the trend, not the absolute level, because the float of stables is a slow-moving balance sheet.",
+      "Crypto ipsum bitcoin ethereum dogecoin litecoin. Ox flow decentraland solana quant. Kava zcash gala secret amp terraUSD. TRON celo stellar filecoin THETA bitcoin crypto. EOS quant aave arweave holo telcoin celo kusama celsius maker.",
     source: "Diamond Pigs",
-    unit: "USD",
+    unit: "%",
     status: "healthy",
     sentiment: "positive",
     interpretation:
       "Buying power is sitting in the upper half of its 12-month range, hinting that capital remains parked and ready to redeploy.",
     values: dailySeries({
       seed: 53,
-      base: 84e12,
-      trend: 18e12,
-      volatility: 0.4,
-      min: 70e12,
-      max: 120e12,
-      decimals: 0,
+      base: 8.5,
+      trend: 2.5,
+      volatility: 0.35,
+      min: 2,
+      max: 12,
+      decimals: 2,
     }),
   },
   {
@@ -189,7 +189,7 @@ const signals = [
     name: "BTC Netflow",
     category: "on_chain",
     description:
-      "Net flow of Bitcoin moving into and out of major exchanges over the past week. Sustained outflows often signal coins being moved into self-custody or long-term storage, a leading indicator for upside breakouts. Persistent inflows tend to precede distribution and short-term tops.",
+      "Crypto ipsum bitcoin ethereum dogecoin litecoin. Ox flow decentraland solana quant. Kava zcash gala secret amp terraUSD. TRON celo stellar filecoin THETA bitcoin crypto. EOS quant aave arweave holo telcoin celo kusama celsius maker.",
     source: "Glassnode",
     unit: "BTC",
     status: "healthy",
@@ -204,7 +204,7 @@ const signals = [
     name: "BTC Funding Rate",
     category: "sentiment",
     description:
-      "Funding rate paid between long and short Bitcoin perpetual traders every eight hours. Positive readings mean longs are paying shorts (bullish positioning); negative readings mean shorts are paying longs (bearish positioning). Extremes in either direction are often contrarian signals.",
+      "Crypto ipsum bitcoin ethereum dogecoin litecoin. Ox flow decentraland solana quant. Kava zcash gala secret amp terraUSD. TRON celo stellar filecoin THETA bitcoin crypto. EOS quant aave arweave holo telcoin celo kusama celsius maker.",
     source: "Coinglass",
     unit: "%",
     min_val: -0.05,
@@ -234,7 +234,7 @@ const signals = [
     name: "Global Liquidity",
     category: "macro",
     description:
-      "Aggregated M2 money supply across the United States, Eurozone, Japan, and China expressed in US dollars. Expanding global liquidity historically correlates with risk-on cycles in crypto and equities, while contractions tighten financial conditions.",
+      "Crypto ipsum bitcoin ethereum dogecoin litecoin. Ox flow decentraland solana quant. Kava zcash gala secret amp terraUSD. TRON celo stellar filecoin THETA bitcoin crypto. EOS quant aave arweave holo telcoin celo kusama celsius maker.",
     source: "FRED, ECB, BOJ, PBoC",
     unit: "USD",
     status: "healthy",

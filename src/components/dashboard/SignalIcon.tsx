@@ -1,12 +1,13 @@
 import {
   Activity,
   ArrowDownUp,
+  ArrowLeftRight,
   BarChart2,
+  BatteryCharging,
+  Bitcoin,
   Coins,
-  Compass,
   Droplet,
   DollarSign,
-  Flame,
   Gauge,
   Globe2,
   LineChart as LineChartIcon,
@@ -14,9 +15,9 @@ import {
   Scale,
   Shuffle,
   Wallet,
-  Zap,
 } from "lucide-react";
 import type { JSX } from "react";
+import { cn } from "@/lib/utils";
 
 interface IconConfig {
   bg: string;
@@ -24,141 +25,142 @@ interface IconConfig {
   glyph: JSX.Element;
 }
 
-function bitcoinGlyph() {
+const GLYPH = "h-[18px] w-[18px] shrink-0";
+const STROKE = 2.25;
+
+function ethGlyph() {
   return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
-      <circle cx="12" cy="12" r="11" fill="currentColor" />
+    <svg viewBox="0 0 24 24" className={GLYPH} aria-hidden>
+      <circle cx="12" cy="12" r="10" className="fill-current" />
       <path
-        d="M14.4 11.4c.7-.5 1-1.2 1-2.1 0-1.5-1.1-2.6-3.2-2.7V5h-1.2v1.6h-.8V5H9v1.6H7v1.4h.9c.4 0 .5.1.5.4v6.2c0 .3-.1.4-.5.4H7v1.4h2v1.6h1.2v-1.6h.8V18h1.2v-1.6c2.2-.1 3.5-1 3.5-2.7 0-1.2-.7-2-2.3-2.3Zm-3.5-3.7c.9 0 2.6.1 2.6 1.3 0 .9-.7 1.3-1.6 1.4h-1V7.7Zm0 7c.9 0 2.7.1 2.7 1.4 0 1.1-1.4 1.3-2.3 1.3h-.4v-2.7Z"
-        fill="#FFFFFF"
+        d="M12 4 6.5 12.4l5.5 3 5.5-3L12 4Z"
+        className="fill-white opacity-90"
+      />
+      <path
+        d="M12 16.4 6.5 13l5.5 7 5.5-7-5.5 3.4Z"
+        className="fill-white opacity-70"
       />
     </svg>
   );
 }
 
-function ethGlyph() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
-      <circle cx="12" cy="12" r="11" fill="currentColor" />
-      <path d="M12 4 6.5 12.4l5.5 3 5.5-3L12 4Z" fill="#FFFFFF" opacity="0.9" />
-      <path d="M12 16.4 6.5 13l5.5 7 5.5-7-5.5 3.4Z" fill="#FFFFFF" opacity="0.7" />
-    </svg>
-  );
+function lucideIcon(Icon: typeof Gauge) {
+  return <Icon className={GLYPH} strokeWidth={STROKE} />;
 }
 
 const ICONS: Record<string, IconConfig> = {
   btc_price: {
-    bg: "bg-[#FBE6D8]",
-    ink: "text-[#F08F47]",
-    glyph: bitcoinGlyph(),
+    bg: "bg-coral-100",
+    ink: "text-coral-500",
+    glyph: lucideIcon(Bitcoin),
   },
   eth_price: {
-    bg: "bg-[#E2E5F4]",
-    ink: "text-[#5A6BB8]",
+    bg: "bg-indigo-100",
+    ink: "text-indigo-600",
     glyph: ethGlyph(),
   },
   buying_power: {
-    bg: "bg-[#DDECFB]",
-    ink: "text-blue-600",
-    glyph: <Zap className="h-4 w-4" fill="currentColor" />,
+    bg: "bg-blue-25",
+    ink: "text-blue-700",
+    glyph: lucideIcon(BatteryCharging),
   },
   btc_netflow: {
-    bg: "bg-[#DDECFB]",
-    ink: "text-blue-600",
-    glyph: <ArrowDownUp className="h-4 w-4" />,
+    bg: "bg-blue-25",
+    ink: "text-blue-700",
+    glyph: lucideIcon(ArrowLeftRight),
   },
   btc_funding_rate: {
-    bg: "bg-[#E2E5F4]",
-    ink: "text-[#5A6BB8]",
-    glyph: <Percent className="h-4 w-4" />,
+    bg: "bg-blue-25",
+    ink: "text-blue-700",
+    glyph: lucideIcon(Percent),
   },
   global_liquidity: {
-    bg: "bg-[#DDECFB]",
-    ink: "text-blue-600",
-    glyph: <Droplet className="h-4 w-4" />,
+    bg: "bg-blue-25",
+    ink: "text-blue-700",
+    glyph: lucideIcon(Droplet),
   },
   crypto_market_sentiment: {
-    bg: "bg-[#FFF1DA]",
-    ink: "text-[#C9882B]",
-    glyph: <Compass className="h-4 w-4" />,
+    bg: "bg-blue-25",
+    ink: "text-blue-700",
+    glyph: lucideIcon(Gauge),
   },
   vix: {
-    bg: "bg-[#E2F3D6]",
-    ink: "text-green-800",
-    glyph: <Flame className="h-4 w-4" />,
+    bg: "bg-blue-25",
+    ink: "text-blue-700",
+    glyph: lucideIcon(ArrowDownUp),
   },
   stablecoin_supply: {
-    bg: "bg-[#E2F3D6]",
-    ink: "text-green-800",
-    glyph: <DollarSign className="h-4 w-4" />,
+    bg: "bg-green-100",
+    ink: "text-green-900",
+    glyph: lucideIcon(DollarSign),
   },
   market_cap: {
-    bg: "bg-[#DDECFB]",
-    ink: "text-blue-600",
-    glyph: <Coins className="h-4 w-4" />,
+    bg: "bg-blue-25",
+    ink: "text-blue-700",
+    glyph: lucideIcon(Coins),
   },
   fear_greed: {
-    bg: "bg-[#FFF1DA]",
-    ink: "text-[#C9882B]",
-    glyph: <Gauge className="h-4 w-4" />,
+    bg: "bg-warning-100",
+    ink: "text-warning-700",
+    glyph: lucideIcon(Gauge),
   },
   long_short_ratio: {
-    bg: "bg-[#EAE0F5]",
-    ink: "text-[#7B5BB6]",
-    glyph: <Shuffle className="h-4 w-4" />,
+    bg: "bg-purple-100",
+    ink: "text-purple-600",
+    glyph: lucideIcon(Shuffle),
   },
   btc_dominance: {
-    bg: "bg-[#FBE6D8]",
-    ink: "text-[#F08F47]",
-    glyph: <Scale className="h-4 w-4" />,
+    bg: "bg-coral-100",
+    ink: "text-coral-500",
+    glyph: lucideIcon(Scale),
   },
   btc_rsi_14d: {
-    bg: "bg-[#E2E5F4]",
-    ink: "text-[#5A6BB8]",
-    glyph: <BarChart2 className="h-4 w-4" />,
+    bg: "bg-indigo-100",
+    ink: "text-indigo-600",
+    glyph: lucideIcon(BarChart2),
   },
   us_dxy: {
-    bg: "bg-[#E5EBF2]",
+    bg: "bg-slate-100",
     ink: "text-blue-700",
-    glyph: <Globe2 className="h-4 w-4" />,
+    glyph: lucideIcon(Globe2),
   },
   m2_supply: {
-    bg: "bg-[#E5EBF2]",
+    bg: "bg-slate-100",
     ink: "text-blue-700",
-    glyph: <Wallet className="h-4 w-4" />,
+    glyph: lucideIcon(Wallet),
   },
   mvrv_zscore: {
-    bg: "bg-[#E2F3D6]",
-    ink: "text-green-800",
-    glyph: <Activity className="h-4 w-4" />,
+    bg: "bg-green-100",
+    ink: "text-green-900",
+    glyph: lucideIcon(Activity),
   },
 };
 
 const CATEGORY_FALLBACK: Record<string, IconConfig> = {
   technical: {
-    bg: "bg-[#E2E5F4]",
-    ink: "text-[#5A6BB8]",
-    glyph: <LineChartIcon className="h-4 w-4" />,
+    bg: "bg-indigo-100",
+    ink: "text-indigo-600",
+    glyph: lucideIcon(LineChartIcon),
   },
   sentiment: {
-    bg: "bg-[#FFF1DA]",
-    ink: "text-[#C9882B]",
-    glyph: <Gauge className="h-4 w-4" />,
+    bg: "bg-warning-100",
+    ink: "text-warning-700",
+    glyph: lucideIcon(Gauge),
   },
   macro: {
-    bg: "bg-[#E5EBF2]",
+    bg: "bg-slate-100",
     ink: "text-blue-700",
-    glyph: <Globe2 className="h-4 w-4" />,
+    glyph: lucideIcon(Globe2),
   },
   on_chain: {
-    bg: "bg-[#DDECFB]",
-    ink: "text-blue-600",
-    glyph: <Wallet className="h-4 w-4" />,
+    bg: "bg-blue-25",
+    ink: "text-blue-700",
+    glyph: lucideIcon(Wallet),
   },
   market: {
-    bg: "bg-[#E2F3D6]",
-    ink: "text-green-800",
-    glyph: <Coins className="h-4 w-4" />,
+    bg: "bg-green-100",
+    ink: "text-green-900",
+    glyph: lucideIcon(Coins),
   },
 };
 
@@ -172,11 +174,11 @@ export default function SignalIcon({
   size?: "sm" | "md";
 }) {
   const cfg = ICONS[id] ?? CATEGORY_FALLBACK[category] ?? CATEGORY_FALLBACK.technical;
-  const dim = size === "sm" ? "h-8 w-8" : "h-9 w-9";
+  const dim = size === "sm" ? "h-9 w-9" : "h-10 w-10";
   return (
     <span
       aria-hidden
-      className={`grid ${dim} place-items-center rounded-full ${cfg.bg} ${cfg.ink}`}
+      className={cn("grid shrink-0 place-items-center rounded-lg", dim, cfg.bg, cfg.ink)}
     >
       {cfg.glyph}
     </span>

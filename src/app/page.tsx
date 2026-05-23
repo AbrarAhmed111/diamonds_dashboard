@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import AppShell from "@/components/layout/AppShell";
 import MarketSummary from "@/components/dashboard/MarketSummary";
 import SignalCard from "@/components/dashboard/SignalCard";
@@ -10,7 +10,6 @@ import FundingRateCard from "@/components/dashboard/FundingRateCard";
 import LiquidityCard from "@/components/dashboard/LiquidityCard";
 import MarketSentimentCard from "@/components/dashboard/MarketSentimentCard";
 import VolatilityCard from "@/components/dashboard/VolatilityCard";
-import SignalDetailPanel from "@/components/dashboard/SignalDetailPanel";
 import ErrorState from "@/components/dashboard/ErrorState";
 import { SkeletonCard, SkeletonHero } from "@/components/dashboard/LoadingState";
 import { useSignals } from "@/lib/data";
@@ -18,7 +17,6 @@ import type { Signal } from "@/lib/types";
 
 export default function SentimentPage() {
   const { signals, status, error, lastFetchedAt, refresh } = useSignals();
-  const [active, setActive] = useState<Signal | null>(null);
 
   const byId = useMemo(() => {
     const map = new Map<string, Signal>();
@@ -47,43 +45,33 @@ export default function SentimentPage() {
           <MarketSummary signals={signals} lastFetchedAt={lastFetchedAt} />
 
           {get("btc_price") ? (
-            <SignalCard signal={get("btc_price")!} onSelect={setActive} />
+            <SignalCard signal={get("btc_price")!} />
           ) : null}
 
           {get("buying_power") ? (
             <SignalSplitCard
               signal={get("buying_power")!}
               metricLabel="Stablecoin Supply / Total Crypto Market Cap"
-              onSelect={setActive}
             />
           ) : null}
 
-          {get("btc_netflow") ? (
-            <NetflowCard signal={get("btc_netflow")!} onSelect={setActive} />
-          ) : null}
+          {get("btc_netflow") ? <NetflowCard signal={get("btc_netflow")!} /> : null}
 
           {get("btc_funding_rate") ? (
-            <FundingRateCard signal={get("btc_funding_rate")!} onSelect={setActive} />
+            <FundingRateCard signal={get("btc_funding_rate")!} />
           ) : null}
 
           {get("global_liquidity") ? (
-            <LiquidityCard signal={get("global_liquidity")!} onSelect={setActive} />
+            <LiquidityCard signal={get("global_liquidity")!} />
           ) : null}
 
           {get("crypto_market_sentiment") ? (
-            <MarketSentimentCard
-              signal={get("crypto_market_sentiment")!}
-              onSelect={setActive}
-            />
+            <MarketSentimentCard signal={get("crypto_market_sentiment")!} />
           ) : null}
 
-          {get("vix") ? (
-            <VolatilityCard signal={get("vix")!} onSelect={setActive} />
-          ) : null}
+          {get("vix") ? <VolatilityCard signal={get("vix")!} /> : null}
         </div>
       )}
-
-      <SignalDetailPanel signal={active} onClose={() => setActive(null)} />
     </AppShell>
   );
 }

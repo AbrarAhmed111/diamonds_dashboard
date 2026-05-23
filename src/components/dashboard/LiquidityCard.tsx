@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-import Badge from "@/components/ui/Badge";
 import SignalLineChart from "@/components/charts/SignalLineChart";
 import SplitFrame from "./SplitFrame";
 import { formatValue, getLatestValue } from "@/lib/format";
@@ -9,13 +8,11 @@ import type { Signal } from "@/lib/types";
 
 interface Props {
   signal: Signal;
-  onSelect?: (signal: Signal) => void;
   metricLabel?: string;
 }
 
 export default function LiquidityCard({
   signal,
-  onSelect,
   metricLabel = "Global M2 money supply",
 }: Props) {
   const latest = getLatestValue(signal);
@@ -37,15 +34,12 @@ export default function LiquidityCard({
         tone,
       }}
       description={signal.description}
-      onSelect={onSelect}
     >
-      <div className="mt-1 flex flex-wrap items-baseline gap-3">
-        <p className="text-[28px] md:text-[32px] font-medium leading-none text-ink">
+      <div>
+        <p className="text-[28px] font-medium leading-none text-ink md:text-[32px]">
           {formatValue(latest?.value, signal.unit)}
         </p>
-        <Badge tone="muted" className="text-ink-muted">
-          {metricLabel}
-        </Badge>
+        <p className="mt-2 text-small text-ink-muted">{metricLabel}</p>
       </div>
 
       <div className="mt-5">

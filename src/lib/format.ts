@@ -70,10 +70,18 @@ export function formatValue(value: number | null | undefined, unit?: string): st
   return standardNumber.format(value);
 }
 
-export function formatChange(value: number | null | undefined, suffix: "%" | "" = ""): string {
+export function formatChange(
+  value: number | null | undefined,
+  suffix: "%" | "" = "",
+  fractionDigits = 2,
+): string {
   if (value === null || value === undefined || Number.isNaN(value)) return "–";
   const sign = value > 0 ? "+" : "";
-  return `${sign}${standardNumber.format(value)}${suffix}`;
+  const formatted = new Intl.NumberFormat("en-US", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: fractionDigits,
+  }).format(value);
+  return `${sign}${formatted}${suffix}`;
 }
 
 export function formatDate(timestamp: string | Date | null | undefined): string {

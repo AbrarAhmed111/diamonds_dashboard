@@ -14,6 +14,7 @@ const config: Config = {
       colors: {
         // Primary blue scale
         blue: {
+          25: "#DDECFB",
           50: "#EDF6FF",
           100: "#B6D6F7",
           200: "#92C2F3",
@@ -72,6 +73,7 @@ const config: Config = {
         },
         surface: {
           DEFAULT: "#FFFFFF",
+          canvas: "#FAFBFF",
           muted: "#F6F6F8",
           sunken: "#F2F4F8",
         },
@@ -89,9 +91,24 @@ const config: Config = {
         },
         warning: {
           50: "#FFF8E6",
-          100: "#FCEBB6",
+          100: "#FFF1DA",
           500: "#D89B14",
-          700: "#7A5300",
+          700: "#B8741F",
+        },
+        indigo: {
+          100: "#E2E5F4",
+          600: "#5A6BB8",
+        },
+        purple: {
+          100: "#EAE0F5",
+          600: "#7B5BB6",
+        },
+        slate: {
+          100: "#E5EBF2",
+        },
+        coral: {
+          100: "#FBE6D8",
+          500: "#F08F47",
         },
       },
       backgroundImage: {

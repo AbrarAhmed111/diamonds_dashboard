@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { chartColors } from "@/lib/theme";
 import type { SignalValue } from "@/lib/types";
 import { formatDate, formatValue } from "@/lib/format";
 
@@ -23,6 +24,8 @@ interface Props {
   showAxes?: boolean;
   xAxisMode?: AxisMode;
 }
+
+const DAY_TICK_DAYS = new Set([1, 9, 15, 29]);
 
 const ChartTooltip = ({
   active,
@@ -52,6 +55,50 @@ function detectMode(values: SignalValue[], requested: AxisMode): "day" | "year" 
   return days > 730 ? "year" : "day";
 }
 
+function buildDayTicks(data: Array<{ x: string; y: number }>) {
+  return data
+    .map((d, i) => {
+      const day = new Date(d.x).getUTCDate();
+      return i === 0 || DAY_TICK_DAYS.has(day) ? d.x : null;
+    })
+    .filter((v): v is string => Boolean(v));
+}
+
+function buildPercentTicks(values: number[]) {
+  const maxVal = Math.max(...values, 0);
+  const top = Math.max(12, Math.ceil(maxVal / 2) * 2);
+  return Array.from({ length: top / 2 + 1 }, (_, i) => i * 2);
+}
+
+function DayAxisTick({
+  x = 0,
+  y = 0,
+  payload,
+}: {
+  x?: number;
+  y?: number;
+  payload?: { value: string };
+}) {
+  if (!payload?.value) return null;
+
+  const dt = new Date(payload.value);
+  const day = dt.getUTCDate();
+  const month = dt.toLocaleDateString("en-US", { month: "short" }).toUpperCase();
+
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text textAnchor="middle" fill={chartColors.tick} fontSize={11} dy={8}>
+        {day}
+      </text>
+      {day === 1 ? (
+        <text textAnchor="middle" fill={chartColors.tick} fontSize={10} dy={22}>
+          {month}
+        </text>
+      ) : null}
+    </g>
+  );
+}
+
 export default function SignalLineChart({
   values,
   unit,
@@ -74,33 +121,14 @@ export default function SignalLineChart({
 
   const data = values.map((v) => ({ x: v.timestamp, y: v.value }));
   const mode = detectMode(values, xAxisMode);
+  const isPercent = (unit || "").toLowerCase() === "%";
+  const percentTicks = isPercent ? buildPercentTicks(data.map((d) => d.y)) : null;
 
   let dayTicks: string[] = [];
-  let monthAnchors: { x: string; label: string }[] = [];
   let yearTicks: string[] = [];
 
   if (mode === "day") {
-    dayTicks = data
-      .map((d, i) => {
-        const day = new Date(d.x).getUTCDate();
-        return i === 0 || day === 1 || day === 9 || day === 15 || day === 22 || day === 29
-          ? d.x
-          : null;
-      })
-      .filter((v): v is string => Boolean(v));
-
-    const seen = new Set<string>();
-    for (const d of data) {
-      const dt = new Date(d.x);
-      const key = `${dt.getUTCFullYear()}-${dt.getUTCMonth()}`;
-      if (!seen.has(key)) {
-        seen.add(key);
-        monthAnchors.push({
-          x: d.x,
-          label: dt.toLocaleDateString("en-US", { month: "short" }).toUpperCase(),
-        });
-      }
-    }
+    dayTicks = buildDayTicks(data);
   } else {
     const seenYears = new Set<number>();
     for (const d of data) {
@@ -112,10 +140,20 @@ export default function SignalLineChart({
     }
   }
 
+  const yDomainMax = percentTicks?.length ? percentTicks[percentTicks.length - 1] : "auto";
+
   return (
     <div className="w-full" role="img" aria-label={ariaLabel ?? "Time-series chart"}>
       <ResponsiveContainer width="100%" height={height}>
-        <ComposedChart data={data} margin={{ top: 10, right: 12, bottom: showAxes && mode === "day" ? 28 : 4, left: 0 }}>
+        <ComposedChart
+          data={data}
+          margin={{
+            top: 10,
+            right: 12,
+            bottom: showAxes && mode === "day" ? 34 : 4,
+            left: 0,
+          }}
+        >
           <defs>
             <linearGradient id="dp-area" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="rgb(var(--chart-rgb))" stopOpacity={0.18} />
@@ -123,19 +161,22 @@ export default function SignalLineChart({
             </linearGradient>
           </defs>
           {showAxes ? (
-            <CartesianGrid stroke="#E5E5E5" strokeDasharray="2 6" vertical={false} />
+            <CartesianGrid stroke={chartColors.grid} strokeDasharray="2 6" vertical={false} />
           ) : null}
           {showAxes ? (
             <XAxis
               dataKey="x"
-              stroke="#8B8B8B"
+              stroke={chartColors.tick}
               tickLine={false}
               axisLine={false}
               ticks={mode === "day" ? dayTicks : yearTicks}
-              tickMargin={8}
-              tick={{ fontSize: 11, fill: "#8B8B8B" }}
-              tickFormatter={(v) =>
-                mode === "day" ? `${new Date(v).getUTCDate()}` : `${new Date(v).getUTCFullYear()}`
+              tickMargin={0}
+              interval={0}
+              tick={mode === "day" ? <DayAxisTick /> : { fontSize: 11, fill: chartColors.tick }}
+              tickFormatter={
+                mode === "day"
+                  ? undefined
+                  : (v) => `${new Date(v).getUTCFullYear()}`
               }
             />
           ) : (
@@ -143,17 +184,19 @@ export default function SignalLineChart({
           )}
           {showAxes ? (
             <YAxis
-              stroke="#8B8B8B"
+              stroke={chartColors.tick}
               tickLine={false}
               axisLine={false}
               width={56}
-              tick={{ fontSize: 11, fill: "#8B8B8B" }}
+              domain={isPercent ? [0, yDomainMax] : ["auto", "auto"]}
+              ticks={percentTicks ?? undefined}
+              tick={{ fontSize: 11, fill: chartColors.tick }}
               tickFormatter={(v) => formatValue(v, unit)}
             />
           ) : (
             <YAxis hide />
           )}
-          <Tooltip content={<ChartTooltip unit={unit} />} cursor={{ stroke: "#B3B3B3" }} />
+          <Tooltip content={<ChartTooltip unit={unit} />} cursor={{ stroke: chartColors.cursor }} />
           <Area
             type="monotone"
             dataKey="y"
@@ -171,19 +214,12 @@ export default function SignalLineChart({
             activeDot={{
               r: 4,
               stroke: "rgb(var(--chart-rgb))",
-              fill: "#FFFFFF",
+              fill: chartColors.white,
               strokeWidth: 2,
             }}
           />
         </ComposedChart>
       </ResponsiveContainer>
-      {showAxes && mode === "day" && monthAnchors.length > 1 ? (
-        <div className="-mt-3 flex justify-between pl-14 pr-3 text-[10px] uppercase tracking-[0.16em] text-ink-muted">
-          {monthAnchors.map((m) => (
-            <span key={m.x}>{m.label}</span>
-          ))}
-        </div>
-      ) : null}
     </div>
   );
 }

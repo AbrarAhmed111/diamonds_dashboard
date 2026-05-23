@@ -4,22 +4,18 @@ import HalfGaugeChart from "@/components/charts/HalfGaugeChart";
 import GaugeAside, { GAUGE_DISPLAY_SIZE } from "./GaugeAside";
 import SplitFrame from "./SplitFrame";
 import { getLatestValue } from "@/lib/format";
+import { gaugeColors } from "@/lib/theme";
 import type { Signal } from "@/lib/types";
 
 interface Props {
   signal: Signal;
-  onSelect?: (signal: Signal) => void;
 }
 
-// Crypto Market Sentiment color rule: ≤50 → red, >50 → green.
-const COLOR_NEGATIVE = "#E26A45";
-const COLOR_POSITIVE = "#C2F28C";
-
-export default function MarketSentimentCard({ signal, onSelect }: Props) {
+export default function MarketSentimentCard({ signal }: Props) {
   const latest = getLatestValue(signal);
   const value = Math.round(latest?.value ?? 0);
   const label = (signal.state_label as string | undefined) ?? deriveLabel(value);
-  const color = value <= 50 ? COLOR_NEGATIVE : COLOR_POSITIVE;
+  const color = value <= 50 ? gaugeColors.negative : gaugeColors.positive;
 
   const subStats: Array<[string, number | undefined]> = [
     ["Social Sentiment", signal.social_sentiment as number | undefined],
@@ -32,7 +28,6 @@ export default function MarketSentimentCard({ signal, onSelect }: Props) {
     <SplitFrame
       signal={signal}
       description={signal.description}
-      onSelect={onSelect}
       asideExtra={
         <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-3">
           {subStats.map(([label, val]) => (

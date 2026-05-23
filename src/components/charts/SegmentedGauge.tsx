@@ -1,5 +1,7 @@
 "use client";
 
+import { chartColors, gaugeColors } from "@/lib/theme";
+
 interface Props {
   value: number;
   min?: number;
@@ -23,7 +25,7 @@ export default function SegmentedGauge({
   segments = 22,
   ticks = [0, 25, 50],
   label,
-  color = "#C2F28C",
+  color = gaugeColors.positive,
   ariaLabel,
   size = 320,
 }: Props) {
@@ -37,6 +39,7 @@ export default function SegmentedGauge({
   const outerR = 100;
   const strokeWidth = 10;
   const tickR = outerR + 13;
+  const trackColor = chartColors.grid;
 
   return (
     <svg
@@ -64,12 +67,12 @@ export default function SegmentedGauge({
             x2={x2}
             y2={y2}
             strokeWidth={strokeWidth}
-            stroke={filled ? color : "#E5E5E5"}
+            stroke={filled ? color : trackColor}
           >
             <animate
               attributeName="stroke"
-              from="#E5E5E5"
-              to={filled ? color : "#E5E5E5"}
+              from={trackColor}
+              to={filled ? color : trackColor}
               dur="450ms"
               fill="freeze"
               begin={`${i * 14}ms`}
@@ -92,7 +95,7 @@ export default function SegmentedGauge({
             x={x}
             y={y}
             fontSize={8}
-            fill="#8B8B8B"
+            fill={chartColors.tick}
             textAnchor={anchor}
             dominantBaseline={baseline}
           >
@@ -105,7 +108,7 @@ export default function SegmentedGauge({
         x={cx}
         y={cy - 5}
         fontSize={23}
-        fill="#0D0D0D"
+        fill={chartColors.ink}
         textAnchor="middle"
         dominantBaseline="middle"
         fontWeight={500}
@@ -117,7 +120,7 @@ export default function SegmentedGauge({
           x={cx}
           y={cy + 11}
           fontSize={9}
-          fill="#8B8B8B"
+          fill={chartColors.tick}
           textAnchor="middle"
           dominantBaseline="middle"
         >

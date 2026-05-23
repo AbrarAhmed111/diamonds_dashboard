@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function NotFound() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-neutral-400 px-6">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-surface-canvas px-6">
       <div className="surface-card max-w-md p-8 text-center">
         <span className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-blue-50 text-blue-700">
           <Compass className="h-5 w-5" />

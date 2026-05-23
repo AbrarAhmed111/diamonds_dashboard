@@ -1,7 +1,6 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { ChevronRight } from "lucide-react";
 import Badge from "@/components/ui/Badge";
 import SignalIcon from "./SignalIcon";
 import type { Signal } from "@/lib/types";
@@ -15,9 +14,6 @@ interface Props {
   children: ReactNode;
   /** Extra content rendered under the description (e.g. sub-stats grid). */
   asideExtra?: ReactNode;
-  onSelect?: (signal: Signal) => void;
-  /** Width fraction of the description column on md+ screens. */
-  asideWidth?: "narrow" | "wide";
 }
 
 export default function SplitFrame({
@@ -26,8 +22,6 @@ export default function SplitFrame({
   description,
   children,
   asideExtra,
-  onSelect,
-  asideWidth = "narrow",
 }: Props) {
   return (
     <article className="surface-card overflow-hidden p-6 md:p-7">
@@ -52,37 +46,8 @@ export default function SplitFrame({
           ) : null}
         </aside>
 
-        <div className="flex min-h-[160px] min-w-0 flex-col md:min-h-0">
-          {/*
-            MVP: progressive disclosure is intentionally disabled.
-            Re-enable when the detail view ships.
-          <SeeMoreButton onClick={() => onSelect?.(signal)} signalName={signal.name} />
-          */}
-          {children}
-        </div>
+        <div className="flex min-h-[160px] min-w-0 flex-col md:min-h-0">{children}</div>
       </div>
     </article>
-  );
-}
-
-function SeeMoreButton({
-  signalName,
-  onClick,
-}: {
-  signalName: string;
-  onClick?: () => void;
-}) {
-  return (
-    <div className="flex justify-end">
-      <button
-        type="button"
-        onClick={onClick}
-        className="inline-flex h-8 items-center gap-1 rounded-full border border-neutral-500/70 bg-white px-3 text-caption text-ink hover:bg-neutral-400 focus-ring"
-        aria-label={`See more about ${signalName}`}
-      >
-        See more
-        <ChevronRight className="h-3.5 w-3.5" />
-      </button>
-    </div>
   );
 }

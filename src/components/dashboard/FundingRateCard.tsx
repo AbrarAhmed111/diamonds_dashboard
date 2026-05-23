@@ -7,10 +7,9 @@ import type { Signal } from "@/lib/types";
 
 interface Props {
   signal: Signal;
-  onSelect?: (signal: Signal) => void;
 }
 
-export default function FundingRateCard({ signal, onSelect }: Props) {
+export default function FundingRateCard({ signal }: Props) {
   const latest = getLatestValue(signal);
   const value = latest?.value ?? 0;
 
@@ -28,7 +27,6 @@ export default function FundingRateCard({ signal, onSelect }: Props) {
       signal={signal}
       badge={{ label: stateLabel, tone: "muted" }}
       description={signal.description}
-      onSelect={onSelect}
     >
       <div className="mt-1 flex flex-wrap items-baseline gap-3">
         <p className="text-[28px] md:text-[32px] font-medium leading-none text-ink">

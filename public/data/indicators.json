@@ -4424,1472 +4424,1472 @@
     "id": "buying_power",
     "name": "Buying Power",
     "category": "on_chain",
-    "description": "Stablecoin supply normalised by total crypto market cap, expressed in trillions. A rising ratio means there is more dry powder parked on the sidelines relative to risk assets, which historically precedes upside breakouts. We focus on the trend, not the absolute level, because the float of stables is a slow-moving balance sheet.",
+    "description": "Crypto ipsum bitcoin ethereum dogecoin litecoin. Ox flow decentraland solana quant. Kava zcash gala secret amp terraUSD. TRON celo stellar filecoin THETA bitcoin crypto. EOS quant aave arweave holo telcoin celo kusama celsius maker.",
     "source": "Diamond Pigs",
-    "unit": "USD",
+    "unit": "%",
     "status": "healthy",
     "sentiment": "positive",
     "interpretation": "Buying power is sitting in the upper half of its 12-month range, hinting that capital remains parked and ready to redeploy.",
     "values": [
       {
         "timestamp": "2025-05-22",
-        "value": 83902924382573
+        "value": 8.49
       },
       {
         "timestamp": "2025-05-23",
-        "value": 84059947194123
+        "value": 8.51
       },
       {
         "timestamp": "2025-05-24",
-        "value": 83961800574963
+        "value": 8.5
       },
       {
         "timestamp": "2025-05-25",
-        "value": 84167567206491
+        "value": 8.52
       },
       {
         "timestamp": "2025-05-26",
-        "value": 84076361481535
+        "value": 8.52
       },
       {
         "timestamp": "2025-05-27",
-        "value": 84136668111503
+        "value": 8.53
       },
       {
         "timestamp": "2025-05-28",
-        "value": 84042687998924
+        "value": 8.52
       },
       {
         "timestamp": "2025-05-29",
-        "value": 84183602086218
+        "value": 8.54
       },
       {
         "timestamp": "2025-05-30",
-        "value": 84245664146832
+        "value": 8.54
       },
       {
         "timestamp": "2025-05-31",
-        "value": 84447871525521
+        "value": 8.56
       },
       {
         "timestamp": "2025-06-01",
-        "value": 84546899042367
+        "value": 8.58
       },
       {
         "timestamp": "2025-06-02",
-        "value": 84746282006997
+        "value": 8.6
       },
       {
         "timestamp": "2025-06-03",
-        "value": 84875127813439
+        "value": 8.61
       },
       {
         "timestamp": "2025-06-04",
-        "value": 85036837122505
+        "value": 8.63
       },
       {
         "timestamp": "2025-06-05",
-        "value": 85249592415734
+        "value": 8.65
       },
       {
         "timestamp": "2025-06-06",
-        "value": 85326109377662
+        "value": 8.66
       },
       {
         "timestamp": "2025-06-07",
-        "value": 85255942277326
+        "value": 8.65
       },
       {
         "timestamp": "2025-06-08",
-        "value": 85417736879700
+        "value": 8.67
       },
       {
         "timestamp": "2025-06-09",
-        "value": 85326762459723
+        "value": 8.66
       },
       {
         "timestamp": "2025-06-10",
-        "value": 85384812748622
+        "value": 8.67
       },
       {
         "timestamp": "2025-06-11",
-        "value": 85432621961954
+        "value": 8.68
       },
       {
         "timestamp": "2025-06-12",
-        "value": 85634350251211
+        "value": 8.7
       },
       {
         "timestamp": "2025-06-13",
-        "value": 85785882821440
+        "value": 8.72
       },
       {
         "timestamp": "2025-06-14",
-        "value": 85935583533453
+        "value": 8.73
       },
       {
         "timestamp": "2025-06-15",
-        "value": 85890084224372
+        "value": 8.73
       },
       {
         "timestamp": "2025-06-16",
-        "value": 86000869070699
+        "value": 8.74
       },
       {
         "timestamp": "2025-06-17",
-        "value": 86027183465211
+        "value": 8.75
       },
       {
         "timestamp": "2025-06-18",
-        "value": 85951934136864
+        "value": 8.74
       },
       {
         "timestamp": "2025-06-19",
-        "value": 85853902240284
+        "value": 8.74
       },
       {
         "timestamp": "2025-06-20",
-        "value": 85950831915375
+        "value": 8.75
       },
       {
         "timestamp": "2025-06-21",
-        "value": 85888724193821
+        "value": 8.74
       },
       {
         "timestamp": "2025-06-22",
-        "value": 85814245378593
+        "value": 8.74
       },
       {
         "timestamp": "2025-06-23",
-        "value": 85971002980776
+        "value": 8.76
       },
       {
         "timestamp": "2025-06-24",
-        "value": 85950231012096
+        "value": 8.76
       },
       {
         "timestamp": "2025-06-25",
-        "value": 86103901871920
+        "value": 8.77
       },
       {
         "timestamp": "2025-06-26",
-        "value": 86276662513863
+        "value": 8.79
       },
       {
         "timestamp": "2025-06-27",
-        "value": 86190682007565
+        "value": 8.79
       },
       {
         "timestamp": "2025-06-28",
-        "value": 86396046735356
+        "value": 8.81
       },
       {
         "timestamp": "2025-06-29",
-        "value": 86596918811890
+        "value": 8.83
       },
       {
         "timestamp": "2025-06-30",
-        "value": 86639623527501
+        "value": 8.83
       },
       {
         "timestamp": "2025-07-01",
-        "value": 86552200289545
+        "value": 8.83
       },
       {
         "timestamp": "2025-07-02",
-        "value": 86504493244104
+        "value": 8.83
       },
       {
         "timestamp": "2025-07-03",
-        "value": 86469128651716
+        "value": 8.83
       },
       {
         "timestamp": "2025-07-04",
-        "value": 86652610386541
+        "value": 8.84
       },
       {
         "timestamp": "2025-07-05",
-        "value": 86551837628562
+        "value": 8.84
       },
       {
         "timestamp": "2025-07-06",
-        "value": 86709876516748
+        "value": 8.85
       },
       {
         "timestamp": "2025-07-07",
-        "value": 86775656160563
+        "value": 8.86
       },
       {
         "timestamp": "2025-07-08",
-        "value": 86953071813514
+        "value": 8.88
       },
       {
         "timestamp": "2025-07-09",
-        "value": 87101355494409
+        "value": 8.9
       },
       {
         "timestamp": "2025-07-10",
-        "value": 87010076334284
+        "value": 8.89
       },
       {
         "timestamp": "2025-07-11",
-        "value": 87217853371096
+        "value": 8.91
       },
       {
         "timestamp": "2025-07-12",
-        "value": 87410162856721
+        "value": 8.93
       },
       {
         "timestamp": "2025-07-13",
-        "value": 87582557218472
+        "value": 8.95
       },
       {
         "timestamp": "2025-07-14",
-        "value": 87757593844664
+        "value": 8.97
       },
       {
         "timestamp": "2025-07-15",
-        "value": 87746224144649
+        "value": 8.97
       },
       {
         "timestamp": "2025-07-16",
-        "value": 87846336086032
+        "value": 8.98
       },
       {
         "timestamp": "2025-07-17",
-        "value": 88002845595023
+        "value": 9
       },
       {
         "timestamp": "2025-07-18",
-        "value": 88081459577489
+        "value": 9.01
       },
       {
         "timestamp": "2025-07-19",
-        "value": 88129726865996
+        "value": 9.01
       },
       {
         "timestamp": "2025-07-20",
-        "value": 88013872508399
+        "value": 9.01
       },
       {
         "timestamp": "2025-07-21",
-        "value": 88109597330981
+        "value": 9.02
       },
       {
         "timestamp": "2025-07-22",
-        "value": 87993281886640
+        "value": 9.01
       },
       {
         "timestamp": "2025-07-23",
-        "value": 88183136938081
+        "value": 9.03
       },
       {
         "timestamp": "2025-07-24",
-        "value": 88212775962027
+        "value": 9.03
       },
       {
         "timestamp": "2025-07-25",
-        "value": 88396772725580
+        "value": 9.05
       },
       {
         "timestamp": "2025-07-26",
-        "value": 88336010133771
+        "value": 9.05
       },
       {
         "timestamp": "2025-07-27",
-        "value": 88281319057190
+        "value": 9.05
       },
       {
         "timestamp": "2025-07-28",
-        "value": 88318320409494
+        "value": 9.05
       },
       {
         "timestamp": "2025-07-29",
-        "value": 88430175219243
+        "value": 9.06
       },
       {
         "timestamp": "2025-07-30",
-        "value": 88355725012792
+        "value": 9.06
       },
       {
         "timestamp": "2025-07-31",
-        "value": 88332103524278
+        "value": 9.06
       },
       {
         "timestamp": "2025-08-01",
-        "value": 88279727863747
+        "value": 9.06
       },
       {
         "timestamp": "2025-08-02",
-        "value": 88325301346038
+        "value": 9.06
       },
       {
         "timestamp": "2025-08-03",
-        "value": 88206370378557
+        "value": 9.06
       },
       {
         "timestamp": "2025-08-04",
-        "value": 88327002348118
+        "value": 9.07
       },
       {
         "timestamp": "2025-08-05",
-        "value": 88267442216459
+        "value": 9.07
       },
       {
         "timestamp": "2025-08-06",
-        "value": 88225875750737
+        "value": 9.07
       },
       {
         "timestamp": "2025-08-07",
-        "value": 88358709964417
+        "value": 9.08
       },
       {
         "timestamp": "2025-08-08",
-        "value": 88375803258852
+        "value": 9.08
       },
       {
         "timestamp": "2025-08-09",
-        "value": 88390787945196
+        "value": 9.09
       },
       {
         "timestamp": "2025-08-10",
-        "value": 88363242652402
+        "value": 9.09
       },
       {
         "timestamp": "2025-08-11",
-        "value": 88443820778324
+        "value": 9.1
       },
       {
         "timestamp": "2025-08-12",
-        "value": 88669289976401
+        "value": 9.12
       },
       {
         "timestamp": "2025-08-13",
-        "value": 88715729782354
+        "value": 9.13
       },
       {
         "timestamp": "2025-08-14",
-        "value": 88653983964605
+        "value": 9.12
       },
       {
         "timestamp": "2025-08-15",
-        "value": 88810629569060
+        "value": 9.14
       },
       {
         "timestamp": "2025-08-16",
-        "value": 89035850819816
+        "value": 9.16
       },
       {
         "timestamp": "2025-08-17",
-        "value": 89218885918023
+        "value": 9.18
       },
       {
         "timestamp": "2025-08-18",
-        "value": 89127420799733
+        "value": 9.18
       },
       {
         "timestamp": "2025-08-19",
-        "value": 89243265743052
+        "value": 9.19
       },
       {
         "timestamp": "2025-08-20",
-        "value": 89289229872158
+        "value": 9.19
       },
       {
         "timestamp": "2025-08-21",
-        "value": 89421225187693
+        "value": 9.21
       },
       {
         "timestamp": "2025-08-22",
-        "value": 89312063299850
+        "value": 9.2
       },
       {
         "timestamp": "2025-08-23",
-        "value": 89201205262954
+        "value": 9.19
       },
       {
         "timestamp": "2025-08-24",
-        "value": 89117228000272
+        "value": 9.19
       },
       {
         "timestamp": "2025-08-25",
-        "value": 89316074750860
+        "value": 9.21
       },
       {
         "timestamp": "2025-08-26",
-        "value": 89365350155810
+        "value": 9.22
       },
       {
         "timestamp": "2025-08-27",
-        "value": 89344242970392
+        "value": 9.22
       },
       {
         "timestamp": "2025-08-28",
-        "value": 89346146236768
+        "value": 9.22
       },
       {
         "timestamp": "2025-08-29",
-        "value": 89298975674662
+        "value": 9.22
       },
       {
         "timestamp": "2025-08-30",
-        "value": 89244911431324
+        "value": 9.21
       },
       {
         "timestamp": "2025-08-31",
-        "value": 89254074251402
+        "value": 9.22
       },
       {
         "timestamp": "2025-09-01",
-        "value": 89235635424932
+        "value": 9.22
       },
       {
         "timestamp": "2025-09-02",
-        "value": 89114249494620
+        "value": 9.21
       },
       {
         "timestamp": "2025-09-03",
-        "value": 89015652024815
+        "value": 9.2
       },
       {
         "timestamp": "2025-09-04",
-        "value": 89223546418226
+        "value": 9.22
       },
       {
         "timestamp": "2025-09-05",
-        "value": 89300204516085
+        "value": 9.23
       },
       {
         "timestamp": "2025-09-06",
-        "value": 89391312885382
+        "value": 9.24
       },
       {
         "timestamp": "2025-09-07",
-        "value": 89387351947385
+        "value": 9.25
       },
       {
         "timestamp": "2025-09-08",
-        "value": 89369463351754
+        "value": 9.25
       },
       {
         "timestamp": "2025-09-09",
-        "value": 89452159777848
+        "value": 9.26
       },
       {
         "timestamp": "2025-09-10",
-        "value": 89511215409050
+        "value": 9.27
       },
       {
         "timestamp": "2025-09-11",
-        "value": 89427727353720
+        "value": 9.26
       },
       {
         "timestamp": "2025-09-12",
-        "value": 89415387596916
+        "value": 9.26
       },
       {
         "timestamp": "2025-09-13",
-        "value": 89435606552739
+        "value": 9.27
       },
       {
         "timestamp": "2025-09-14",
-        "value": 89502538152457
+        "value": 9.27
       },
       {
         "timestamp": "2025-09-15",
-        "value": 89509296423448
+        "value": 9.28
       },
       {
         "timestamp": "2025-09-16",
-        "value": 89534335909246
+        "value": 9.28
       },
       {
         "timestamp": "2025-09-17",
-        "value": 89499654413567
+        "value": 9.28
       },
       {
         "timestamp": "2025-09-18",
-        "value": 89670520964761
+        "value": 9.3
       },
       {
         "timestamp": "2025-09-19",
-        "value": 89707057137865
+        "value": 9.3
       },
       {
         "timestamp": "2025-09-20",
-        "value": 89675345443103
+        "value": 9.3
       },
       {
         "timestamp": "2025-09-21",
-        "value": 89578064986100
+        "value": 9.3
       },
       {
         "timestamp": "2025-09-22",
-        "value": 89513384992482
+        "value": 9.29
       },
       {
         "timestamp": "2025-09-23",
-        "value": 89676024257458
+        "value": 9.31
       },
       {
         "timestamp": "2025-09-24",
-        "value": 89653935062095
+        "value": 9.31
       },
       {
         "timestamp": "2025-09-25",
-        "value": 89658495488011
+        "value": 9.31
       },
       {
         "timestamp": "2025-09-26",
-        "value": 89533031604942
+        "value": 9.31
       },
       {
         "timestamp": "2025-09-27",
-        "value": 89556406870444
+        "value": 9.31
       },
       {
         "timestamp": "2025-09-28",
-        "value": 89648921613337
+        "value": 9.32
       },
       {
         "timestamp": "2025-09-29",
-        "value": 89642329058407
+        "value": 9.32
       },
       {
         "timestamp": "2025-09-30",
-        "value": 89741867529116
+        "value": 9.33
       },
       {
         "timestamp": "2025-10-01",
-        "value": 89736291027080
+        "value": 9.34
       },
       {
         "timestamp": "2025-10-02",
-        "value": 89915550937863
+        "value": 9.35
       },
       {
         "timestamp": "2025-10-03",
-        "value": 90000057362268
+        "value": 9.36
       },
       {
         "timestamp": "2025-10-04",
-        "value": 90154825675905
+        "value": 9.38
       },
       {
         "timestamp": "2025-10-05",
-        "value": 90064544351975
+        "value": 9.37
       },
       {
         "timestamp": "2025-10-06",
-        "value": 90005478845787
+        "value": 9.37
       },
       {
         "timestamp": "2025-10-07",
-        "value": 89972829117818
+        "value": 9.37
       },
       {
         "timestamp": "2025-10-08",
-        "value": 90046114008237
+        "value": 9.38
       },
       {
         "timestamp": "2025-10-09",
-        "value": 89989542551730
+        "value": 9.38
       },
       {
         "timestamp": "2025-10-10",
-        "value": 90007895436291
+        "value": 9.38
       },
       {
         "timestamp": "2025-10-11",
-        "value": 89942361683112
+        "value": 9.38
       },
       {
         "timestamp": "2025-10-12",
-        "value": 89988341545246
+        "value": 9.38
       },
       {
         "timestamp": "2025-10-13",
-        "value": 89969718349588
+        "value": 9.38
       },
       {
         "timestamp": "2025-10-14",
-        "value": 89960282498552
+        "value": 9.39
       },
       {
         "timestamp": "2025-10-15",
-        "value": 89935906481671
+        "value": 9.39
       },
       {
         "timestamp": "2025-10-16",
-        "value": 89822564341543
+        "value": 9.38
       },
       {
         "timestamp": "2025-10-17",
-        "value": 89978108701176
+        "value": 9.4
       },
       {
         "timestamp": "2025-10-18",
-        "value": 90161382583053
+        "value": 9.41
       },
       {
         "timestamp": "2025-10-19",
-        "value": 90083002399383
+        "value": 9.41
       },
       {
         "timestamp": "2025-10-20",
-        "value": 90259779019453
+        "value": 9.43
       },
       {
         "timestamp": "2025-10-21",
-        "value": 90488478460506
+        "value": 9.45
       },
       {
         "timestamp": "2025-10-22",
-        "value": 90626453678444
+        "value": 9.47
       },
       {
         "timestamp": "2025-10-23",
-        "value": 90542111717505
+        "value": 9.46
       },
       {
         "timestamp": "2025-10-24",
-        "value": 90691436528591
+        "value": 9.48
       },
       {
         "timestamp": "2025-10-25",
-        "value": 90883284655488
+        "value": 9.5
       },
       {
         "timestamp": "2025-10-26",
-        "value": 90862500164362
+        "value": 9.5
       },
       {
         "timestamp": "2025-10-27",
-        "value": 90797725822520
+        "value": 9.49
       },
       {
         "timestamp": "2025-10-28",
-        "value": 90994042593291
+        "value": 9.51
       },
       {
         "timestamp": "2025-10-29",
-        "value": 91175488078546
+        "value": 9.53
       },
       {
         "timestamp": "2025-10-30",
-        "value": 91163063958929
+        "value": 9.53
       },
       {
         "timestamp": "2025-10-31",
-        "value": 91192138918190
+        "value": 9.54
       },
       {
         "timestamp": "2025-11-01",
-        "value": 91060412167825
+        "value": 9.53
       },
       {
         "timestamp": "2025-11-02",
-        "value": 91147278684023
+        "value": 9.54
       },
       {
         "timestamp": "2025-11-03",
-        "value": 91062272798514
+        "value": 9.53
       },
       {
         "timestamp": "2025-11-04",
-        "value": 91289856888371
+        "value": 9.56
       },
       {
         "timestamp": "2025-11-05",
-        "value": 91448570294371
+        "value": 9.57
       },
       {
         "timestamp": "2025-11-06",
-        "value": 91434171101760
+        "value": 9.57
       },
       {
         "timestamp": "2025-11-07",
-        "value": 91456490813995
+        "value": 9.58
       },
       {
         "timestamp": "2025-11-08",
-        "value": 91386289964302
+        "value": 9.58
       },
       {
         "timestamp": "2025-11-09",
-        "value": 91291256513925
+        "value": 9.57
       },
       {
         "timestamp": "2025-11-10",
-        "value": 91474250373021
+        "value": 9.59
       },
       {
         "timestamp": "2025-11-11",
-        "value": 91702527932290
+        "value": 9.61
       },
       {
         "timestamp": "2025-11-12",
-        "value": 91687159337414
+        "value": 9.61
       },
       {
         "timestamp": "2025-11-13",
-        "value": 91603570982672
+        "value": 9.61
       },
       {
         "timestamp": "2025-11-14",
-        "value": 91555376465020
+        "value": 9.6
       },
       {
         "timestamp": "2025-11-15",
-        "value": 91663509354339
+        "value": 9.62
       },
       {
         "timestamp": "2025-11-16",
-        "value": 91532715980004
+        "value": 9.61
       },
       {
         "timestamp": "2025-11-17",
-        "value": 91560462654423
+        "value": 9.61
       },
       {
         "timestamp": "2025-11-18",
-        "value": 91610762439464
+        "value": 9.62
       },
       {
         "timestamp": "2025-11-19",
-        "value": 91740231978286
+        "value": 9.63
       },
       {
         "timestamp": "2025-11-20",
-        "value": 91936646838480
+        "value": 9.65
       },
       {
         "timestamp": "2025-11-21",
-        "value": 91967459502940
+        "value": 9.66
       },
       {
         "timestamp": "2025-11-22",
-        "value": 92022589547687
+        "value": 9.67
       },
       {
         "timestamp": "2025-11-23",
-        "value": 91898548538953
+        "value": 9.66
       },
       {
         "timestamp": "2025-11-24",
-        "value": 91834892532258
+        "value": 9.65
       },
       {
         "timestamp": "2025-11-25",
-        "value": 92043658050931
+        "value": 9.68
       },
       {
         "timestamp": "2025-11-26",
-        "value": 92240599426748
+        "value": 9.7
       },
       {
         "timestamp": "2025-11-27",
-        "value": 92160209650352
+        "value": 9.69
       },
       {
         "timestamp": "2025-11-28",
-        "value": 92124958445900
+        "value": 9.69
       },
       {
         "timestamp": "2025-11-29",
-        "value": 92034477631083
+        "value": 9.68
       },
       {
         "timestamp": "2025-11-30",
-        "value": 92195021410795
+        "value": 9.7
       },
       {
         "timestamp": "2025-12-01",
-        "value": 92368719146597
+        "value": 9.72
       },
       {
         "timestamp": "2025-12-02",
-        "value": 92354122739971
+        "value": 9.72
       },
       {
         "timestamp": "2025-12-03",
-        "value": 92220366927736
+        "value": 9.71
       },
       {
         "timestamp": "2025-12-04",
-        "value": 92402562339150
+        "value": 9.73
       },
       {
         "timestamp": "2025-12-05",
-        "value": 92336503406301
+        "value": 9.73
       },
       {
         "timestamp": "2025-12-06",
-        "value": 92413077633436
+        "value": 9.73
       },
       {
         "timestamp": "2025-12-07",
-        "value": 92475761599442
+        "value": 9.74
       },
       {
         "timestamp": "2025-12-08",
-        "value": 92412499856915
+        "value": 9.74
       },
       {
         "timestamp": "2025-12-09",
-        "value": 92293642002460
+        "value": 9.73
       },
       {
         "timestamp": "2025-12-10",
-        "value": 92178201959136
+        "value": 9.72
       },
       {
         "timestamp": "2025-12-11",
-        "value": 92078453196726
+        "value": 9.72
       },
       {
         "timestamp": "2025-12-12",
-        "value": 92291045024218
+        "value": 9.74
       },
       {
         "timestamp": "2025-12-13",
-        "value": 92475404912602
+        "value": 9.76
       },
       {
         "timestamp": "2025-12-14",
-        "value": 92607454609980
+        "value": 9.77
       },
       {
         "timestamp": "2025-12-15",
-        "value": 92609296154736
+        "value": 9.77
       },
       {
         "timestamp": "2025-12-16",
-        "value": 92490228146352
+        "value": 9.76
       },
       {
         "timestamp": "2025-12-17",
-        "value": 92407438024496
+        "value": 9.76
       },
       {
         "timestamp": "2025-12-18",
-        "value": 92356498159958
+        "value": 9.76
       },
       {
         "timestamp": "2025-12-19",
-        "value": 92439528909623
+        "value": 9.77
       },
       {
         "timestamp": "2025-12-20",
-        "value": 92598590696782
+        "value": 9.78
       },
       {
         "timestamp": "2025-12-21",
-        "value": 92736033853681
+        "value": 9.8
       },
       {
         "timestamp": "2025-12-22",
-        "value": 92714906053711
+        "value": 9.8
       },
       {
         "timestamp": "2025-12-23",
-        "value": 92666123168699
+        "value": 9.8
       },
       {
         "timestamp": "2025-12-24",
-        "value": 92806639844133
+        "value": 9.81
       },
       {
         "timestamp": "2025-12-25",
-        "value": 92695576567415
+        "value": 9.8
       },
       {
         "timestamp": "2025-12-26",
-        "value": 92721142386063
+        "value": 9.81
       },
       {
         "timestamp": "2025-12-27",
-        "value": 92649643309755
+        "value": 9.8
       },
       {
         "timestamp": "2025-12-28",
-        "value": 92787321181340
+        "value": 9.82
       },
       {
         "timestamp": "2025-12-29",
-        "value": 92807393244066
+        "value": 9.82
       },
       {
         "timestamp": "2025-12-30",
-        "value": 92951175846290
+        "value": 9.84
       },
       {
         "timestamp": "2025-12-31",
-        "value": 93118549762423
+        "value": 9.86
       },
       {
         "timestamp": "2026-01-01",
-        "value": 93109179091081
+        "value": 9.86
       },
       {
         "timestamp": "2026-01-02",
-        "value": 93090024429778
+        "value": 9.86
       },
       {
         "timestamp": "2026-01-03",
-        "value": 93307495254161
+        "value": 9.88
       },
       {
         "timestamp": "2026-01-04",
-        "value": 93490986497448
+        "value": 9.9
       },
       {
         "timestamp": "2026-01-05",
-        "value": 93409618393927
+        "value": 9.9
       },
       {
         "timestamp": "2026-01-06",
-        "value": 93311788359934
+        "value": 9.89
       },
       {
         "timestamp": "2026-01-07",
-        "value": 93217347870145
+        "value": 9.88
       },
       {
         "timestamp": "2026-01-08",
-        "value": 93198572441599
+        "value": 9.88
       },
       {
         "timestamp": "2026-01-09",
-        "value": 93190338786393
+        "value": 9.88
       },
       {
         "timestamp": "2026-01-10",
-        "value": 93327699903383
+        "value": 9.9
       },
       {
         "timestamp": "2026-01-11",
-        "value": 93209158734623
+        "value": 9.89
       },
       {
         "timestamp": "2026-01-12",
-        "value": 93210305006943
+        "value": 9.89
       },
       {
         "timestamp": "2026-01-13",
-        "value": 93416074418032
+        "value": 9.91
       },
       {
         "timestamp": "2026-01-14",
-        "value": 93376919918478
+        "value": 9.91
       },
       {
         "timestamp": "2026-01-15",
-        "value": 93320904740294
+        "value": 9.91
       },
       {
         "timestamp": "2026-01-16",
-        "value": 93390464356696
+        "value": 9.92
       },
       {
         "timestamp": "2026-01-17",
-        "value": 93508990454369
+        "value": 9.93
       },
       {
         "timestamp": "2026-01-18",
-        "value": 93639583904487
+        "value": 9.95
       },
       {
         "timestamp": "2026-01-19",
-        "value": 93629197121616
+        "value": 9.95
       },
       {
         "timestamp": "2026-01-20",
-        "value": 93670749233333
+        "value": 9.95
       },
       {
         "timestamp": "2026-01-21",
-        "value": 93544343933187
+        "value": 9.94
       },
       {
         "timestamp": "2026-01-22",
-        "value": 93460625885476
+        "value": 9.94
       },
       {
         "timestamp": "2026-01-23",
-        "value": 93546202129318
+        "value": 9.95
       },
       {
         "timestamp": "2026-01-24",
-        "value": 93429828028138
+        "value": 9.94
       },
       {
         "timestamp": "2026-01-25",
-        "value": 93340164353538
+        "value": 9.93
       },
       {
         "timestamp": "2026-01-26",
-        "value": 93459894825537
+        "value": 9.95
       },
       {
         "timestamp": "2026-01-27",
-        "value": 93612917551341
+        "value": 9.96
       },
       {
         "timestamp": "2026-01-28",
-        "value": 93807557630514
+        "value": 9.98
       },
       {
         "timestamp": "2026-01-29",
-        "value": 94006573437137
+        "value": 10.01
       },
       {
         "timestamp": "2026-01-30",
-        "value": 93933069440290
+        "value": 10
       },
       {
         "timestamp": "2026-01-31",
-        "value": 94108343368638
+        "value": 10.02
       },
       {
         "timestamp": "2026-02-01",
-        "value": 94031457784212
+        "value": 10.01
       },
       {
         "timestamp": "2026-02-02",
-        "value": 94230695630170
+        "value": 10.04
       },
       {
         "timestamp": "2026-02-03",
-        "value": 94157244354174
+        "value": 10.03
       },
       {
         "timestamp": "2026-02-04",
-        "value": 94326142848585
+        "value": 10.05
       },
       {
         "timestamp": "2026-02-05",
-        "value": 94433677681665
+        "value": 10.06
       },
       {
         "timestamp": "2026-02-06",
-        "value": 94664588539033
+        "value": 10.08
       },
       {
         "timestamp": "2026-02-07",
-        "value": 94683184634763
+        "value": 10.09
       },
       {
         "timestamp": "2026-02-08",
-        "value": 94565711819486
+        "value": 10.08
       },
       {
         "timestamp": "2026-02-09",
-        "value": 94760963416493
+        "value": 10.1
       },
       {
         "timestamp": "2026-02-10",
-        "value": 94829193297766
+        "value": 10.11
       },
       {
         "timestamp": "2026-02-11",
-        "value": 94782082843744
+        "value": 10.11
       },
       {
         "timestamp": "2026-02-12",
-        "value": 94666762505288
+        "value": 10.1
       },
       {
         "timestamp": "2026-02-13",
-        "value": 94760448792067
+        "value": 10.11
       },
       {
         "timestamp": "2026-02-14",
-        "value": 94766515731702
+        "value": 10.11
       },
       {
         "timestamp": "2026-02-15",
-        "value": 94647507656113
+        "value": 10.1
       },
       {
         "timestamp": "2026-02-16",
-        "value": 94782055527724
+        "value": 10.12
       },
       {
         "timestamp": "2026-02-17",
-        "value": 94760720456988
+        "value": 10.12
       },
       {
         "timestamp": "2026-02-18",
-        "value": 94912565329767
+        "value": 10.13
       },
       {
         "timestamp": "2026-02-19",
-        "value": 95055805204648
+        "value": 10.15
       },
       {
         "timestamp": "2026-02-20",
-        "value": 95028096092422
+        "value": 10.15
       },
       {
         "timestamp": "2026-02-21",
-        "value": 94890503752543
+        "value": 10.14
       },
       {
         "timestamp": "2026-02-22",
-        "value": 95001971907745
+        "value": 10.15
       },
       {
         "timestamp": "2026-02-23",
-        "value": 95107128998704
+        "value": 10.16
       },
       {
         "timestamp": "2026-02-24",
-        "value": 95107082427163
+        "value": 10.17
       },
       {
         "timestamp": "2026-02-25",
-        "value": 94991390954537
+        "value": 10.16
       },
       {
         "timestamp": "2026-02-26",
-        "value": 95101484736070
+        "value": 10.17
       },
       {
         "timestamp": "2026-02-27",
-        "value": 95149583041793
+        "value": 10.18
       },
       {
         "timestamp": "2026-02-28",
-        "value": 95254601550711
+        "value": 10.19
       },
       {
         "timestamp": "2026-03-01",
-        "value": 95403669357731
+        "value": 10.21
       },
       {
         "timestamp": "2026-03-02",
-        "value": 95402191314350
+        "value": 10.21
       },
       {
         "timestamp": "2026-03-03",
-        "value": 95456872004645
+        "value": 10.21
       },
       {
         "timestamp": "2026-03-04",
-        "value": 95686974957233
+        "value": 10.24
       },
       {
         "timestamp": "2026-03-05",
-        "value": 95837250432948
+        "value": 10.26
       },
       {
         "timestamp": "2026-03-06",
-        "value": 95752871690007
+        "value": 10.25
       },
       {
         "timestamp": "2026-03-07",
-        "value": 95674193144591
+        "value": 10.24
       },
       {
         "timestamp": "2026-03-08",
-        "value": 95857686514658
+        "value": 10.26
       },
       {
         "timestamp": "2026-03-09",
-        "value": 95978660083968
+        "value": 10.28
       },
       {
         "timestamp": "2026-03-10",
-        "value": 95942721773349
+        "value": 10.28
       },
       {
         "timestamp": "2026-03-11",
-        "value": 96160402612502
+        "value": 10.3
       },
       {
         "timestamp": "2026-03-12",
-        "value": 96271864737272
+        "value": 10.31
       },
       {
         "timestamp": "2026-03-13",
-        "value": 96167604687931
+        "value": 10.3
       },
       {
         "timestamp": "2026-03-14",
-        "value": 96392996790193
+        "value": 10.33
       },
       {
         "timestamp": "2026-03-15",
-        "value": 96401484901286
+        "value": 10.33
       },
       {
         "timestamp": "2026-03-16",
-        "value": 96628842221106
+        "value": 10.35
       },
       {
         "timestamp": "2026-03-17",
-        "value": 96844037999082
+        "value": 10.38
       },
       {
         "timestamp": "2026-03-18",
-        "value": 96762023922500
+        "value": 10.37
       },
       {
         "timestamp": "2026-03-19",
-        "value": 96737187966048
+        "value": 10.37
       },
       {
         "timestamp": "2026-03-20",
-        "value": 96734742837843
+        "value": 10.37
       },
       {
         "timestamp": "2026-03-21",
-        "value": 96915987711308
+        "value": 10.39
       },
       {
         "timestamp": "2026-03-22",
-        "value": 96810991985424
+        "value": 10.38
       },
       {
         "timestamp": "2026-03-23",
-        "value": 96729750695532
+        "value": 10.38
       },
       {
         "timestamp": "2026-03-24",
-        "value": 96729526022386
+        "value": 10.38
       },
       {
         "timestamp": "2026-03-25",
-        "value": 96783802387983
+        "value": 10.39
       },
       {
         "timestamp": "2026-03-26",
-        "value": 96955587863709
+        "value": 10.41
       },
       {
         "timestamp": "2026-03-27",
-        "value": 97190112603135
+        "value": 10.43
       },
       {
         "timestamp": "2026-03-28",
-        "value": 97127526042107
+        "value": 10.43
       },
       {
         "timestamp": "2026-03-29",
-        "value": 97312530526529
+        "value": 10.45
       },
       {
         "timestamp": "2026-03-30",
-        "value": 97364171392090
+        "value": 10.45
       },
       {
         "timestamp": "2026-03-31",
-        "value": 97539959877663
+        "value": 10.47
       },
       {
         "timestamp": "2026-04-01",
-        "value": 97475326407408
+        "value": 10.47
       },
       {
         "timestamp": "2026-04-02",
-        "value": 97447643998520
+        "value": 10.47
       },
       {
         "timestamp": "2026-04-03",
-        "value": 97424049009109
+        "value": 10.47
       },
       {
         "timestamp": "2026-04-04",
-        "value": 97331180541781
+        "value": 10.46
       },
       {
         "timestamp": "2026-04-05",
-        "value": 97492712357282
+        "value": 10.48
       },
       {
         "timestamp": "2026-04-06",
-        "value": 97563686664651
+        "value": 10.49
       },
       {
         "timestamp": "2026-04-07",
-        "value": 97764564784765
+        "value": 10.51
       },
       {
         "timestamp": "2026-04-08",
-        "value": 97657857601739
+        "value": 10.5
       },
       {
         "timestamp": "2026-04-09",
-        "value": 97878523006717
+        "value": 10.52
       },
       {
         "timestamp": "2026-04-10",
-        "value": 97856113169444
+        "value": 10.52
       },
       {
         "timestamp": "2026-04-11",
-        "value": 97922121716722
+        "value": 10.53
       },
       {
         "timestamp": "2026-04-12",
-        "value": 97895261858226
+        "value": 10.53
       },
       {
         "timestamp": "2026-04-13",
-        "value": 97859355810033
+        "value": 10.53
       },
       {
         "timestamp": "2026-04-14",
-        "value": 97784445015335
+        "value": 10.53
       },
       {
         "timestamp": "2026-04-15",
-        "value": 97685463941936
+        "value": 10.52
       },
       {
         "timestamp": "2026-04-16",
-        "value": 97779852422250
+        "value": 10.53
       },
       {
         "timestamp": "2026-04-17",
-        "value": 97929433403301
+        "value": 10.55
       },
       {
         "timestamp": "2026-04-18",
-        "value": 97878111262874
+        "value": 10.54
       },
       {
         "timestamp": "2026-04-19",
-        "value": 97992117410639
+        "value": 10.56
       },
       {
         "timestamp": "2026-04-20",
-        "value": 97958349188092
+        "value": 10.56
       },
       {
         "timestamp": "2026-04-21",
-        "value": 98198586507556
+        "value": 10.58
       },
       {
         "timestamp": "2026-04-22",
-        "value": 98088006006733
+        "value": 10.57
       },
       {
         "timestamp": "2026-04-23",
-        "value": 98161097214601
+        "value": 10.58
       },
       {
         "timestamp": "2026-04-24",
-        "value": 98359719305963
+        "value": 10.6
       },
       {
         "timestamp": "2026-04-25",
-        "value": 98593543622191
+        "value": 10.63
       },
       {
         "timestamp": "2026-04-26",
-        "value": 98529662725397
+        "value": 10.62
       },
       {
         "timestamp": "2026-04-27",
-        "value": 98728917473501
+        "value": 10.64
       },
       {
         "timestamp": "2026-04-28",
-        "value": 98900682385792
+        "value": 10.66
       },
       {
         "timestamp": "2026-04-29",
-        "value": 98908205887816
+        "value": 10.67
       },
       {
         "timestamp": "2026-04-30",
-        "value": 99079809245718
+        "value": 10.68
       },
       {
         "timestamp": "2026-05-01",
-        "value": 99193395663761
+        "value": 10.7
       },
       {
         "timestamp": "2026-05-02",
-        "value": 99198570083359
+        "value": 10.7
       },
       {
         "timestamp": "2026-05-03",
-        "value": 99259715537019
+        "value": 10.71
       },
       {
         "timestamp": "2026-05-04",
-        "value": 99194364197107
+        "value": 10.7
       },
       {
         "timestamp": "2026-05-05",
-        "value": 99398031367328
+        "value": 10.73
       },
       {
         "timestamp": "2026-05-06",
-        "value": 99448761364033
+        "value": 10.73
       },
       {
         "timestamp": "2026-05-07",
-        "value": 99376401614103
+        "value": 10.73
       },
       {
         "timestamp": "2026-05-08",
-        "value": 99597121065760
+        "value": 10.75
       },
       {
         "timestamp": "2026-05-09",
-        "value": 99807088121360
+        "value": 10.77
       },
       {
         "timestamp": "2026-05-10",
-        "value": 99751822353753
+        "value": 10.77
       },
       {
         "timestamp": "2026-05-11",
-        "value": 99730457734465
+        "value": 10.77
       },
       {
         "timestamp": "2026-05-12",
-        "value": 99878659117188
+        "value": 10.79
       },
       {
         "timestamp": "2026-05-13",
-        "value": 99878241473085
+        "value": 10.79
       },
       {
         "timestamp": "2026-05-14",
-        "value": 99810468316845
+        "value": 10.78
       },
       {
         "timestamp": "2026-05-15",
-        "value": 100001930591674
+        "value": 10.8
       },
       {
         "timestamp": "2026-05-16",
-        "value": 100038475474719
+        "value": 10.81
       },
       {
         "timestamp": "2026-05-17",
-        "value": 100095521838944
+        "value": 10.82
       },
       {
         "timestamp": "2026-05-18",
-        "value": 100204691626836
+        "value": 10.83
       },
       {
         "timestamp": "2026-05-19",
-        "value": 100145832407397
+        "value": 10.83
       },
       {
         "timestamp": "2026-05-20",
-        "value": 100190200542537
+        "value": 10.83
       },
       {
         "timestamp": "2026-05-21",
-        "value": 100425082461338
+        "value": 10.86
       }
     ]
   },
@@ -5897,7 +5897,7 @@
     "id": "btc_netflow",
     "name": "BTC Netflow",
     "category": "on_chain",
-    "description": "Net flow of Bitcoin moving into and out of major exchanges over the past week. Sustained outflows often signal coins being moved into self-custody or long-term storage, a leading indicator for upside breakouts. Persistent inflows tend to precede distribution and short-term tops.",
+    "description": "Crypto ipsum bitcoin ethereum dogecoin litecoin. Ox flow decentraland solana quant. Kava zcash gala secret amp terraUSD. TRON celo stellar filecoin THETA bitcoin crypto. EOS quant aave arweave holo telcoin celo kusama celsius maker.",
     "source": "Glassnode",
     "unit": "BTC",
     "status": "healthy",
@@ -6091,7 +6091,7 @@
     "id": "btc_funding_rate",
     "name": "BTC Funding Rate",
     "category": "sentiment",
-    "description": "Funding rate paid between long and short Bitcoin perpetual traders every eight hours. Positive readings mean longs are paying shorts (bullish positioning); negative readings mean shorts are paying longs (bearish positioning). Extremes in either direction are often contrarian signals.",
+    "description": "Crypto ipsum bitcoin ethereum dogecoin litecoin. Ox flow decentraland solana quant. Kava zcash gala secret amp terraUSD. TRON celo stellar filecoin THETA bitcoin crypto. EOS quant aave arweave holo telcoin celo kusama celsius maker.",
     "source": "Coinglass",
     "unit": "%",
     "min_val": -0.05,
@@ -6471,7 +6471,7 @@
     "id": "global_liquidity",
     "name": "Global Liquidity",
     "category": "macro",
-    "description": "Aggregated M2 money supply across the United States, Eurozone, Japan, and China expressed in US dollars. Expanding global liquidity historically correlates with risk-on cycles in crypto and equities, while contractions tighten financial conditions.",
+    "description": "Crypto ipsum bitcoin ethereum dogecoin litecoin. Ox flow decentraland solana quant. Kava zcash gala secret amp terraUSD. TRON celo stellar filecoin THETA bitcoin crypto. EOS quant aave arweave holo telcoin celo kusama celsius maker.",
     "source": "FRED, ECB, BOJ, PBoC",
     "unit": "USD",
     "status": "healthy",

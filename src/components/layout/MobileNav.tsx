@@ -45,8 +45,9 @@ export default function MobileNav({ open, onClose }: MobileNavProps) {
       />
       <div
         className={cn(
-          "absolute inset-y-0 left-0 w-72 max-w-[85vw] shadow-card transition-transform duration-300 ease-out",
-          open ? "translate-x-0" : "-translate-x-full",
+          "absolute inset-y-0 right-0 w-72 max-w-[85vw] shadow-card transition-transform duration-300 ease-out",
+          "[&_aside]:border-r-0 [&_aside]:border-l [&_aside]:border-neutral-500/40",
+          open ? "translate-x-0" : "translate-x-full",
         )}
       >
         <Sidebar onClose={onClose} />

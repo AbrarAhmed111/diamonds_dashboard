@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ChevronRight } from "lucide-react";
 import Badge from "@/components/ui/Badge";
 import RangeTabs from "@/components/charts/RangeTabs";
 import SignalLineChart from "@/components/charts/SignalLineChart";
@@ -14,6 +13,7 @@ import type { ChartRange, Signal } from "@/lib/types";
 interface SignalCardProps {
   signal: Signal;
   defaultRange?: ChartRange;
+  /** Opens the detail panel on the signals listing page. */
   onSelect?: (signal: Signal) => void;
   /** Override the label below the change pill (e.g. "Last 90 days"). */
   rangeCaption?: string;
@@ -51,19 +51,15 @@ export default function SignalCard({
       <header className="flex flex-wrap items-center gap-3">
         <SignalIcon id={signal.id} category={signal.category} />
         <h3 className="text-h4 font-medium text-ink">{signal.name}</h3>
-        {/*
-          MVP: progressive disclosure is intentionally disabled.
-          Re-enable this button when the detail view ships.
-        <button
-          type="button"
-          onClick={() => onSelect?.(signal)}
-          className="ml-auto inline-flex h-8 items-center gap-1 rounded-full border border-neutral-500/70 bg-white px-3 text-caption text-ink hover:bg-neutral-400 focus-ring"
-          aria-label={`See more about ${signal.name}`}
-        >
-          See more
-          <ChevronRight className="h-3.5 w-3.5" />
-        </button>
-        */}
+        {onSelect ? (
+          <button
+            type="button"
+            onClick={() => onSelect(signal)}
+            className="ml-auto text-caption font-medium text-blue-700 hover:text-blue-800 focus-ring"
+          >
+            View details
+          </button>
+        ) : null}
       </header>
 
       <div className="mt-5 flex flex-wrap items-center gap-3">
