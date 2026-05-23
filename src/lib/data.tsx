@@ -20,6 +20,8 @@ type Status = "idle" | "loading" | "ready" | "error";
 interface DataContextValue {
   signals: Signal[];
   status: Status;
+  /** True while a fetch is in flight (initial load or manual refresh). */
+  isLoading: boolean;
   error: string | null;
   lastFetchedAt: Date | null;
   refresh: () => Promise<void>;
@@ -37,7 +39,7 @@ function withBasePath(path: string): string {
 
 export function SignalsProvider({ children }: { children: ReactNode }) {
   const [signals, setSignals] = useState<Signal[]>([]);
-  const [status, setStatus] = useState<Status>("idle");
+  const [status, setStatus] = useState<Status>("loading");
   const [error, setError] = useState<string | null>(null);
   const [lastFetchedAt, setLastFetchedAt] = useState<Date | null>(null);
 
@@ -95,7 +97,14 @@ export function SignalsProvider({ children }: { children: ReactNode }) {
   }, [lastFetchedAt, load]);
 
   const value = useMemo<DataContextValue>(
-    () => ({ signals, status, error, lastFetchedAt, refresh: load }),
+    () => ({
+      signals,
+      status,
+      isLoading: status === "loading",
+      error,
+      lastFetchedAt,
+      refresh: load,
+    }),
     [signals, status, error, lastFetchedAt, load],
   );
 

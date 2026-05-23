@@ -21,7 +21,7 @@ interface TopBarProps {
 }
 
 export default function TopBar({ title, subtitle, onOpenMenu }: TopBarProps) {
-  const { refresh, status } = useSignals();
+  const { refresh, isLoading } = useSignals();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -113,7 +113,7 @@ export default function TopBar({ title, subtitle, onOpenMenu }: TopBarProps) {
                   <RefreshCcw
                     className={cn(
                       "h-4 w-4",
-                      status === "loading" && "animate-spin",
+                      isLoading && "animate-spin",
                     )}
                   />
                   Refresh data

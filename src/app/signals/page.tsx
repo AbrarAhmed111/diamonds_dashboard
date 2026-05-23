@@ -13,7 +13,7 @@ import { useSignals } from "@/lib/data";
 import { uniq } from "@/lib/utils";
 
 export default function SignalsPage() {
-  const { signals, status, error, refresh } = useSignals();
+  const { signals, status, isLoading, error, refresh } = useSignals();
   const [filters, setFilters] = useState<SignalFilters>(DEFAULT_FILTERS);
   const [active, setActive] = useState<Signal | null>(null);
 
@@ -37,7 +37,7 @@ export default function SignalsPage() {
           total={signals.length}
         />
 
-        {status === "loading" && !signals.length ? (
+        {isLoading ? (
           <SkeletonGrid count={6} />
         ) : status === "error" ? (
           <ErrorState description={error ?? "Failed to load signals."} onRetry={refresh} />

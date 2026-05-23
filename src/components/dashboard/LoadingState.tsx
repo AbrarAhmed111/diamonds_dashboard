@@ -41,12 +41,27 @@ export function SkeletonHero() {
   return (
     <div className="surface-card animate-pulse p-7" aria-hidden>
       <div className="h-3 w-40 rounded-full bg-neutral-400" />
-      <div className="mt-3 h-7 w-72 rounded bg-neutral-400" />
+      <div className="mt-3 flex items-center gap-3">
+        <div className="h-7 w-72 rounded bg-neutral-400" />
+        <div className="h-6 w-20 rounded-full bg-neutral-400" />
+      </div>
       <div className="mt-6 space-y-2">
         <div className="h-2 w-3/4 rounded bg-neutral-400" />
         <div className="h-2 w-2/3 rounded bg-neutral-400" />
         <div className="h-2 w-1/2 rounded bg-neutral-400" />
       </div>
+    </div>
+  );
+}
+
+/** Overview page placeholder while indicators.json is loading. */
+export function OverviewSkeleton({ cards = 7 }: { cards?: number }) {
+  return (
+    <div className="space-y-5" aria-busy="true" aria-label="Loading dashboard">
+      <SkeletonHero />
+      {Array.from({ length: cards }).map((_, i) => (
+        <SkeletonCard key={i} />
+      ))}
     </div>
   );
 }

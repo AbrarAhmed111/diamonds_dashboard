@@ -11,7 +11,7 @@ import { formatDateTime } from "@/lib/format";
 const APP_VERSION = "0.1.0 (POC)";
 
 export default function SettingsPage() {
-  const { lastFetchedAt, status, refresh, signals } = useSignals();
+  const { lastFetchedAt, status, isLoading, refresh, signals } = useSignals();
 
   return (
     <AppShell
@@ -31,11 +31,13 @@ export default function SettingsPage() {
                 /data/indicators.json
               </code>
             </Row>
-            <Row label="Last fetched">{formatDateTime(lastFetchedAt)}</Row>
-            <Row label="Signals loaded">{signals.length}</Row>
+            <Row label="Last fetched">
+              {isLoading ? "Refreshing…" : formatDateTime(lastFetchedAt)}
+            </Row>
+            <Row label="Signals loaded">{isLoading ? "—" : signals.length}</Row>
           </div>
           <div className="mt-5">
-            <Button onClick={refresh} loading={status === "loading"} variant="primary" size="sm">
+            <Button onClick={refresh} loading={isLoading} variant="primary" size="sm">
               <RefreshCcw className="h-3.5 w-3.5" />
               Refresh data now
             </Button>
