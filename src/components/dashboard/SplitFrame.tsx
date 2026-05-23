@@ -42,10 +42,14 @@ export default function SplitFrame({
               </Badge>
             ) : null}
           </div>
-          {description ? (
-            <p className="mt-3 text-small text-ink-muted leading-6">{description}</p>
+          {(description || asideExtra) ? (
+            <div className="mt-3 w-full md:max-w-[75%]">
+              {description ? (
+                <p className="text-small text-ink-muted leading-6">{description}</p>
+              ) : null}
+              {asideExtra}
+            </div>
           ) : null}
-          {asideExtra}
         </aside>
 
         <div className="flex min-h-[160px] min-w-0 flex-col md:min-h-0">

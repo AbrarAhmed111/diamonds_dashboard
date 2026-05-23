@@ -256,7 +256,7 @@ const signals = [
     name: "Crypto Market Sentiment",
     category: "sentiment",
     description:
-      "Composite reading combining social chatter, options skew, momentum, and dominance into a single 0-100 index. A reading of 0 reflects deep fear and capitulation; a reading of 100 reflects unchecked greed and crowded longs. The dial below shows the latest reading and label.",
+      "Crypto ipsum bitcoin ethereum dogecoin litecoin. Ox flow decentraland solana quant. Kava zcash gala secret amp terraUSD. ",
     source: "Diamond Pigs",
     unit: "index",
     min_val: 0,
