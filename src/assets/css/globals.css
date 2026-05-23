@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-inter-tight: "Inter Tight", "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  /* Sentiment surface tokens (rgb triplets so Tailwind alpha works) */
+  --sentiment-rgb: 138 172 99; /* green-700 */
+  --sentiment-soft-rgb: 227 249 202; /* green-200 */
+  --sentiment-ink-rgb: 51 92 7; /* green-900 */
+  --sentiment-glow: linear-gradient(180deg, rgba(194, 242, 140, 0.45), rgba(255, 255, 255, 0));
+
+  /* Chart accent (line + area). Defaults to brand blue regardless of sentiment;
+     only "negative" theme flips to coral so positive/neutral keep the same look as the Figma. */
+  --chart-rgb: 65 149 233; /* blue-400 */
+  --chart-soft-rgb: 182 214 247; /* blue-100 */
+
+  /* Account chip background (coral peach) */
+  --chip-rgb: 251 224 213;
+  --chip-ink-rgb: 156 55 19;
+}
+
+[data-sentiment="positive"] {
+  --sentiment-rgb: 138 172 99;
+  --sentiment-soft-rgb: 227 249 202;
+  --sentiment-ink-rgb: 51 92 7;
+  --sentiment-glow: linear-gradient(180deg, rgba(194, 242, 140, 0.4), rgba(255, 255, 255, 0));
+  --chart-rgb: 65 149 233;
+  --chart-soft-rgb: 182 214 247;
+}
+
+[data-sentiment="neutral"] {
+  --sentiment-rgb: 65 149 233; /* blue-400 */
+  --sentiment-soft-rgb: 237 246 255; /* blue-50 */
+  --sentiment-ink-rgb: 13 87 162; /* blue-700 */
+  --sentiment-glow: linear-gradient(180deg, rgba(182, 214, 247, 0.5), rgba(255, 255, 255, 0));
+  --chart-rgb: 65 149 233;
+  --chart-soft-rgb: 182 214 247;
+}
+
+[data-sentiment="negative"] {
+  --sentiment-rgb: 226 106 69; /* warm coral */
+  --sentiment-soft-rgb: 255 230 220;
+  --sentiment-ink-rgb: 156 55 19;
+  --sentiment-glow: linear-gradient(180deg, rgba(249, 184, 162, 0.45), rgba(255, 255, 255, 0));
+  --chart-rgb: 226 106 69;
+  --chart-soft-rgb: 255 200 184;
+}
+
+html,
+body {
+  background: #eef0f4;
+  color: #0d0d0d;
+  font-family: var(--font-inter-tight);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.no-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Reusable utility classes */
+@layer components {
+  .surface-card {
+    @apply rounded-2xl border border-neutral-500/40 bg-white shadow-card;
+  }
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white;
+  }
+  .sentiment-glow {
+    background-image: var(--sentiment-glow);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
