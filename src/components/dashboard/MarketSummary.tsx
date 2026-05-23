@@ -48,7 +48,7 @@ export default function MarketSummary({ signals, lastFetchedAt, bullets }: Props
         >
           {formatDateTime(lastFetchedAt)}
         </h2>
-        <Badge tone="positive" size="md" className="px-3 py-0.5">
+        <Badge tone="sentiment" size="md" className="px-3 py-0.5">
           {SENTIMENT_LABEL[sentiment]}
         </Badge>
       </div>

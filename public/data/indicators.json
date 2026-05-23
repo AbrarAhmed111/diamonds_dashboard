@@ -7088,7 +7088,7 @@
     "max_val": 100,
     "status": "healthy",
     "sentiment": "positive",
-    "interpretation": "The composite reads 78 (Greed); positioning is stretched but momentum and dominance components remain orderly.",
+    "interpretation": "The composite reads 76 (Greed); positioning is stretched but momentum and dominance components remain orderly.",
     "values": [
       {
         "timestamp": "2025-05-22",
@@ -8500,51 +8500,51 @@
       },
       {
         "timestamp": "2026-05-09",
-        "value": 49
+        "value": 55.7
       },
       {
         "timestamp": "2026-05-10",
-        "value": 56
+        "value": 57.4
       },
       {
         "timestamp": "2026-05-11",
-        "value": 54
+        "value": 59.1
       },
       {
         "timestamp": "2026-05-12",
-        "value": 57
+        "value": 60.8
       },
       {
         "timestamp": "2026-05-13",
-        "value": 58
+        "value": 62.5
       },
       {
         "timestamp": "2026-05-14",
-        "value": 63
+        "value": 64.2
       },
       {
         "timestamp": "2026-05-15",
-        "value": 60
+        "value": 65.8
       },
       {
         "timestamp": "2026-05-16",
-        "value": 66
+        "value": 67.5
       },
       {
         "timestamp": "2026-05-17",
-        "value": 65
+        "value": 69.2
       },
       {
         "timestamp": "2026-05-18",
-        "value": 64
+        "value": 70.9
       },
       {
         "timestamp": "2026-05-19",
-        "value": 69
+        "value": 72.6
       },
       {
         "timestamp": "2026-05-20",
-        "value": 71
+        "value": 74.3
       },
       {
         "timestamp": "2026-05-21",
@@ -9980,51 +9980,51 @@
       },
       {
         "timestamp": "2026-05-09",
-        "value": 17.1
+        "value": 17.2
       },
       {
         "timestamp": "2026-05-10",
-        "value": 18.1
-      },
-      {
-        "timestamp": "2026-05-11",
-        "value": 15.8
-      },
-      {
-        "timestamp": "2026-05-12",
         "value": 16.8
       },
       {
-        "timestamp": "2026-05-13",
+        "timestamp": "2026-05-11",
+        "value": 16.4
+      },
+      {
+        "timestamp": "2026-05-12",
         "value": 16
       },
       {
+        "timestamp": "2026-05-13",
+        "value": 15.6
+      },
+      {
         "timestamp": "2026-05-14",
-        "value": 16.1
+        "value": 15.2
       },
       {
         "timestamp": "2026-05-15",
-        "value": 15.7
+        "value": 14.9
       },
       {
         "timestamp": "2026-05-16",
-        "value": 14.6
+        "value": 14.5
       },
       {
         "timestamp": "2026-05-17",
-        "value": 14.8
+        "value": 14.1
       },
       {
         "timestamp": "2026-05-18",
-        "value": 13.5
+        "value": 13.7
       },
       {
         "timestamp": "2026-05-19",
-        "value": 14.2
+        "value": 13.3
       },
       {
         "timestamp": "2026-05-20",
-        "value": 13.7
+        "value": 12.9
       },
       {
         "timestamp": "2026-05-21",
