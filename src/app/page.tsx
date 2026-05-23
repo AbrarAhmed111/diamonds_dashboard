@@ -36,7 +36,7 @@ export default function SentimentPage() {
           onRetry={refresh}
         />
       ) : (
-        <div className="space-y-5">
+        <div className="space-y-4 sm:space-y-5">
           <MarketSummary signals={signals} lastFetchedAt={lastFetchedAt} />
 
           {get("btc_price") ? (

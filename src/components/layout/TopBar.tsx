@@ -42,7 +42,7 @@ export default function TopBar({ title, subtitle, onOpenMenu }: TopBarProps) {
   }, [open]);
 
   return (
-    <header className="px-5 pt-5 md:px-10 md:pt-9">
+    <header className="px-4 pt-4 sm:px-5 sm:pt-5 md:px-10 md:pt-9">
       <div className="mb-4 flex items-center justify-between md:hidden">
         <Logo />
         <button
@@ -57,11 +57,11 @@ export default function TopBar({ title, subtitle, onOpenMenu }: TopBarProps) {
 
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-[28px] leading-tight font-medium tracking-tight text-ink md:text-[36px] md:leading-[44px]">
+          <h1 className="text-page-title">
             {title}
           </h1>
           {subtitle ? (
-            <p className="mt-1 text-small text-ink-muted md:text-body">
+            <p className="mt-1 text-[13px] leading-5 text-ink-muted sm:text-small md:text-body">
               {subtitle}
             </p>
           ) : null}

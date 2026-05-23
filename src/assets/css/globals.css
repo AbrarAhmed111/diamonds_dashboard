@@ -80,6 +80,33 @@ body {
   .surface-card {
     @apply rounded-2xl border border-neutral-500/40 bg-white shadow-card;
   }
+  .surface-card-pad {
+    @apply p-4 sm:p-5 md:p-7;
+  }
+  .text-page-title {
+    @apply text-[22px] font-medium leading-tight tracking-tight text-ink sm:text-[28px] md:text-[36px] md:leading-[44px];
+  }
+  .text-section-date {
+    @apply text-[18px] font-medium leading-tight text-ink sm:text-[22px] md:text-[28px];
+  }
+  .text-metric {
+    @apply text-[22px] font-medium leading-none text-ink sm:text-[26px] md:text-[32px];
+  }
+  .text-stat-value {
+    @apply text-[16px] font-medium leading-none text-ink sm:text-[18px] md:text-[22px];
+  }
+  .text-card-title {
+    @apply text-[18px] font-medium leading-snug text-ink md:text-[22px] md:leading-7;
+  }
+  .text-card-body {
+    @apply text-[13px] leading-5 text-ink-muted sm:text-small sm:leading-6;
+  }
+  .gauge-fit {
+    @apply mx-auto w-full max-w-[240px] sm:max-w-[300px] md:max-w-[420px];
+  }
+  .gauge-fit > svg {
+    @apply h-auto w-full;
+  }
   .focus-ring {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white;
   }

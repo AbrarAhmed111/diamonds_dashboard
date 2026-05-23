@@ -24,12 +24,12 @@ export default function SplitFrame({
   asideExtra,
 }: Props) {
   return (
-    <article className="surface-card overflow-hidden p-6 md:p-7">
-      <div className="grid items-stretch gap-6 md:grid-cols-2 md:gap-10">
+    <article className="surface-card surface-card-pad overflow-hidden">
+      <div className="grid items-stretch gap-4 sm:gap-5 md:grid-cols-2 md:gap-10">
         <aside className="flex min-w-0 flex-col">
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <SignalIcon id={signal.id} category={signal.category} />
-            <h3 className="text-h4 font-medium text-ink">{signal.name}</h3>
+            <h3 className="text-card-title">{signal.name}</h3>
             {badge ? (
               <Badge tone={badge.tone ?? "positive"} size="md" className="px-2.5">
                 {badge.label}
@@ -37,9 +37,9 @@ export default function SplitFrame({
             ) : null}
           </div>
           {(description || asideExtra) ? (
-            <div className="mt-3 w-full md:max-w-[75%]">
+            <div className="mt-2 w-full sm:mt-3 md:max-w-[75%]">
               {description ? (
-                <p className="text-small text-ink-muted leading-6">{description}</p>
+                <p className="text-card-body">{description}</p>
               ) : null}
               {asideExtra}
             </div>

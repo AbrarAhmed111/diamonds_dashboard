@@ -26,9 +26,9 @@ export default function FiltersBar({ filters, onChange, categories, shown, total
     onChange({ ...filters, [key]: value });
 
   return (
-    <div className="surface-card flex flex-col gap-3 p-4">
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="flex-1 min-w-[200px]">
+    <div className="surface-card flex flex-col gap-3 p-3 sm:p-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+        <div className="min-w-0 flex-1">
           <SearchInput value={filters.query} onChange={(v) => set("query", v)} />
         </div>
 

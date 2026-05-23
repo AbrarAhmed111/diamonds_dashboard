@@ -64,7 +64,7 @@ export default function AppShell({ children, title, subtitle }: AppShellProps) {
           subtitle={subtitle}
           onOpenMenu={() => setNavOpen(true)}
         />
-        <main className="flex-1 px-5 pb-14 pt-6 md:px-10 md:pt-8">{children}</main>
+        <main className="flex-1 px-4 pb-12 pt-4 sm:px-5 sm:pb-14 sm:pt-6 md:px-10 md:pt-8">{children}</main>
       </div>
     </div>
   );

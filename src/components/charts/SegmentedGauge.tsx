@@ -46,10 +46,9 @@ export default function SegmentedGauge({
       role="img"
       aria-label={ariaLabel ?? `Volatility gauge ${value} of ${max}`}
       viewBox={`0 0 ${VIEWBOX_W} ${VIEWBOX_H}`}
-      width={size}
-      height={size * (VIEWBOX_H / VIEWBOX_W)}
+      className="block h-auto w-full"
+      style={{ maxWidth: size }}
       preserveAspectRatio="xMidYMid meet"
-      className="block"
     >
       {Array.from({ length: segments }).map((_, i) => {
         const t = segments === 1 ? 0 : i / (segments - 1);

@@ -40,12 +40,12 @@ export default function SignalSplitCard({
   const tone = changePct === null ? "muted" : changePct >= 0 ? "positive" : "negative";
 
   return (
-    <article className="surface-card overflow-hidden p-6 md:p-7">
-      <div className="grid items-stretch gap-6 md:grid-cols-2 md:gap-10">
+    <article className="surface-card surface-card-pad overflow-hidden">
+      <div className="grid items-stretch gap-4 sm:gap-5 md:grid-cols-2 md:gap-10">
         <aside className="flex min-w-0 flex-col">
-          <div className="flex flex-wrap items-center gap-3">
-            <SignalIcon id={signal.id} category={signal.category} />
-            <h3 className="text-h4 font-medium text-ink">{signal.name}</h3>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <SignalIcon id={signal.id} category={signal.category} size="sm" />
+            <h3 className="text-card-title">{signal.name}</h3>
             <Badge
               tone={tone === "positive" ? "positive" : tone === "negative" ? "negative" : "muted"}
               size="md"
@@ -54,19 +54,19 @@ export default function SignalSplitCard({
               {changePct === null ? "–" : `${changePct >= 0 ? "+" : ""}${changePct.toFixed(1)}%`}
             </Badge>
           </div>
-          <p className="mt-3 w-full text-small leading-6 text-ink-muted md:max-w-[75%]">
+          <p className="mt-2 w-full text-card-body sm:mt-3 md:max-w-[75%]">
             {signal.description ?? "No description available."}
           </p>
         </aside>
 
         <div className="flex min-w-0 flex-col md:min-h-0">
-          <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="flex flex-wrap items-start justify-between gap-2 sm:gap-3">
             <div>
-              <p className="text-[28px] md:text-[32px] font-medium leading-none text-ink">
+              <p className="text-metric">
                 {valueOverride ?? formatValue(latest?.value, signal.unit)}
               </p>
               {metricLabel ? (
-                <p className="mt-1 text-small text-ink-muted">{metricLabel}</p>
+                <p className="mt-1 text-[13px] text-ink-muted sm:text-small">{metricLabel}</p>
               ) : null}
             </div>
           </div>
@@ -79,7 +79,7 @@ export default function SignalSplitCard({
             <SignalLineChart
               values={sliced}
               unit={signal.unit}
-              height={170}
+              height={150}
               ariaLabel={`${signal.name} ${range} chart`}
             />
           </div>

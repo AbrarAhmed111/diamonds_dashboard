@@ -57,7 +57,7 @@ export function SkeletonHero() {
 /** Overview page placeholder while indicators.json is loading. */
 export function OverviewSkeleton({ cards = 7 }: { cards?: number }) {
   return (
-    <div className="space-y-5" aria-busy="true" aria-label="Loading dashboard">
+    <div className="space-y-4 sm:space-y-5" aria-busy="true" aria-label="Loading dashboard">
       <SkeletonHero />
       {Array.from({ length: cards }).map((_, i) => (
         <SkeletonCard key={i} />

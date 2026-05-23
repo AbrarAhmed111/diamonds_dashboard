@@ -29,11 +29,11 @@ export default function MarketSentimentCard({ signal }: Props) {
       signal={signal}
       description={signal.description}
       asideExtra={
-        <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-3">
+        <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 sm:mt-6 sm:gap-y-3">
           {subStats.map(([label, val]) => (
-            <div key={label} className="flex items-baseline gap-2">
-              <dt className="text-caption text-ink-muted">{label}</dt>
-              <dd className="text-[22px] leading-none font-medium text-ink">
+            <div key={label} className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-2">
+              <dt className="text-[11px] text-ink-muted sm:text-caption">{label}</dt>
+              <dd className="text-stat-value">
                 {val ?? "–"}
               </dd>
             </div>

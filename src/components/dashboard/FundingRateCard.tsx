@@ -28,11 +28,11 @@ export default function FundingRateCard({ signal }: Props) {
       badge={{ label: stateLabel, tone: "muted" }}
       description={signal.description}
     >
-      <div className="mt-1 flex flex-wrap items-baseline gap-3">
-        <p className="text-[28px] md:text-[32px] font-medium leading-none text-ink">
+      <div className="mt-1 flex flex-wrap items-baseline gap-2 sm:gap-3">
+        <p className="text-metric">
           {formatChange(value * 100, "%")}
         </p>
-        <span className="text-small text-ink-muted">
+        <span className="text-[13px] text-ink-muted sm:text-small">
           Per 8h{annualised !== null ? ` · annualised ${formatChange(annualised, "%")}` : ""}
         </span>
       </div>
@@ -47,7 +47,7 @@ export default function FundingRateCard({ signal }: Props) {
         />
       </div>
 
-      <dl className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-4">
+      <dl className="mt-4 grid grid-cols-2 gap-x-3 gap-y-2 sm:mt-5 sm:grid-cols-4 sm:gap-x-4 sm:gap-y-3">
         <Stat label="8h avg" value={eight !== null ? formatChange(eight, "%") : "–"} />
         <Stat label="7d avg" value={seven !== null ? formatChange(seven, "%") : "–"} />
         <Stat

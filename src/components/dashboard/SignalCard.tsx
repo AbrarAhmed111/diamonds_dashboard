@@ -47,10 +47,10 @@ export default function SignalCard({
   const caption = rangeCaption ?? rangeCaptionFor(range);
 
   return (
-    <article className="surface-card overflow-hidden p-5 md:p-7">
-      <header className="flex flex-wrap items-center gap-3">
-        <SignalIcon id={signal.id} category={signal.category} />
-        <h3 className="text-h4 font-medium text-ink">{signal.name}</h3>
+    <article className="surface-card surface-card-pad overflow-hidden">
+      <header className="flex flex-wrap items-center gap-2 sm:gap-3">
+        <SignalIcon id={signal.id} category={signal.category} size="sm" />
+        <h3 className="text-card-title">{signal.name}</h3>
         {onSelect ? (
           <button
             type="button"
@@ -62,8 +62,8 @@ export default function SignalCard({
         ) : null}
       </header>
 
-      <div className="mt-5 flex flex-wrap items-center gap-3">
-        <p className="text-[28px] md:text-[32px] font-medium leading-none text-ink">
+      <div className="mt-4 flex flex-wrap items-center gap-2 sm:mt-5 sm:gap-3">
+        <p className="text-metric">
           {valueOverride ?? formatValue(latest?.value, signal.unit)}
         </p>
         <Badge
@@ -73,18 +73,18 @@ export default function SignalCard({
         >
           {changePct === null ? "–" : `${changePct >= 0 ? "+" : ""}${changePct.toFixed(1)}%`}
         </Badge>
-        <span className="text-small text-ink-muted">{caption}</span>
+        <span className="text-[13px] text-ink-muted sm:text-small">{caption}</span>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-3 sm:mt-4">
         <RangeTabs value={range} onChange={setRange} />
       </div>
 
-      <div className="mt-6">
+      <div className="mt-4 sm:mt-6">
         <SignalLineChart
           values={sliced}
           unit={signal.unit}
-          height={210}
+          height={180}
           ariaLabel={`${signal.name} ${range} chart`}
         />
       </div>

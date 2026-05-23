@@ -53,9 +53,9 @@ export default function SignalDetailPanel({ signal, onClose }: Props) {
         className="absolute inset-0 bg-neutral-900/40 backdrop-blur-sm"
       />
       <aside className="absolute inset-y-0 right-0 flex w-full max-w-xl flex-col bg-white shadow-card">
-        <header className="flex items-start justify-between gap-3 border-b border-neutral-500/40 p-5">
+        <header className="flex items-start justify-between gap-3 border-b border-neutral-500/40 p-4 sm:p-5">
           <div className="min-w-0">
-            <h2 id="signal-detail-title" className="text-h3 font-medium text-ink truncate">
+            <h2 id="signal-detail-title" className="truncate text-[20px] font-medium leading-tight text-ink sm:text-h3-m md:text-h3">
               {signal.name}
             </h2>
             <p className="text-small text-ink-muted">
@@ -77,11 +77,11 @@ export default function SignalDetailPanel({ signal, onClose }: Props) {
           </button>
         </header>
 
-        <div className="flex-1 overflow-y-auto p-5 space-y-5">
-          <div className="flex flex-wrap items-end justify-between gap-3">
+        <div className="flex-1 space-y-4 overflow-y-auto p-4 sm:space-y-5 sm:p-5">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
             <div>
               <p className="text-caption text-ink-muted">Latest value</p>
-              <p className="text-h2-m md:text-h2 font-medium text-ink">
+              <p className="text-metric md:text-h2">
                 {formatValue(latest?.value, signal.unit)}
               </p>
               <p className="text-caption text-ink-muted">{formatDate(latest?.timestamp)}</p>
@@ -93,7 +93,7 @@ export default function SignalDetailPanel({ signal, onClose }: Props) {
             <SignalLineChart
               values={sliced}
               unit={signal.unit}
-              height={260}
+              height={200}
               ariaLabel={`${signal.name} ${range} chart`}
             />
           </div>

@@ -36,17 +36,17 @@ export default function LiquidityCard({
       description={signal.description}
     >
       <div>
-        <p className="text-[28px] font-medium leading-none text-ink md:text-[32px]">
+        <p className="text-metric">
           {formatValue(latest?.value, signal.unit)}
         </p>
-        <p className="mt-2 text-small text-ink-muted">{metricLabel}</p>
+        <p className="mt-1 text-[13px] text-ink-muted sm:mt-2 sm:text-small">{metricLabel}</p>
       </div>
 
-      <div className="mt-5">
+      <div className="mt-4 sm:mt-5">
         <SignalLineChart
           values={signal.values}
           unit={signal.unit}
-          height={200}
+          height={160}
           xAxisMode="year"
           ariaLabel={`${signal.name} long-term chart`}
         />

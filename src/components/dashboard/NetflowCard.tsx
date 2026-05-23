@@ -26,12 +26,12 @@ export default function NetflowCard({ signal }: Props) {
       badge={{ label: stateLabel, tone: "positive" }}
       description={signal.description}
     >
-      <div className="flex flex-wrap items-start gap-x-6 gap-y-3">
+      <div className="flex flex-wrap items-start gap-x-4 gap-y-2 sm:gap-x-6 sm:gap-y-3">
         <div>
-          <p className="text-[28px] font-medium leading-none text-ink md:text-[32px]">
+          <p className="text-metric">
             {formatChange(weekChange, "%", 3)}
           </p>
-          <p className="mt-2 text-small text-ink-muted">Last week</p>
+          <p className="mt-1 text-[13px] text-ink-muted sm:mt-2 sm:text-small">Last week</p>
         </div>
 
         <div className="flex flex-col gap-2 pt-0.5 text-caption text-ink-muted">
@@ -49,6 +49,7 @@ export default function NetflowCard({ signal }: Props) {
       <div className="mt-4">
         <NetflowBarChart
           data={weekData}
+          height={150}
           ariaLabel={`${signal.name} weekly inflow vs outflow`}
         />
       </div>
