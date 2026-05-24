@@ -42,7 +42,6 @@ const MONTH_LABELS = [
   "DEC",
 ] as const;
 
-/** Parse YYYY-MM-DD without timezone drift. */
 function parseDateParts(timestamp: string) {
   const [ys, ms, ds] = timestamp.slice(0, 10).split("-");
   return { year: Number(ys), month: Number(ms) - 1, day: Number(ds) };
@@ -89,7 +88,6 @@ function buildMonthTicks(data: Array<{ x: string; y: number }>) {
   let year = first.year;
   let month = first.month;
 
-  // Skip a partial leading month (e.g. range starts 22 May → begin at JUN).
   if (first.day > 1) {
     month += 1;
     if (month > 11) {

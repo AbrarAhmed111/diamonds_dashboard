@@ -6,21 +6,17 @@
   --font-inter-tight: "Inter Tight", "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
 
-  /* Sentiment surface tokens (rgb triplets so Tailwind alpha works) */
-  --sentiment-rgb: 138 172 99; /* green-700 */
-  --sentiment-soft-rgb: 227 249 202; /* green-200 */
-  --sentiment-ink-rgb: 51 92 7; /* green-900 */
+  --sentiment-rgb: 138 172 99;
+  --sentiment-soft-rgb: 227 249 202;
+  --sentiment-ink-rgb: 51 92 7;
   --sentiment-glow: linear-gradient(180deg, rgba(194, 242, 140, 0.45), rgba(255, 255, 255, 0));
 
-  /* Chart accent (line, area, bars) — overridden per sentiment on AppShell */
-  --chart-rgb: 65 149 233; /* blue-400 — neutral default */
-  --chart-soft-rgb: 182 214 247; /* blue-100 */
+  --chart-rgb: 65 149 233;
+  --chart-soft-rgb: 182 214 247;
 
-  /* Account chip background (coral peach) */
   --chip-rgb: 251 224 213;
   --chip-ink-rgb: 156 55 19;
 
-  /* App canvas (Figma page background) */
   --canvas-rgb: 250 251 255;
   --ink-rgb: 13 13 13;
 }
@@ -30,26 +26,26 @@
   --sentiment-soft-rgb: 227 249 202;
   --sentiment-ink-rgb: 51 92 7;
   --sentiment-glow: linear-gradient(180deg, rgba(194, 242, 140, 0.4), rgba(255, 255, 255, 0));
-  --chart-rgb: 194 242 140; /* green-500 */
-  --chart-soft-rgb: 227 249 202; /* green-200 */
+  --chart-rgb: 194 242 140;
+  --chart-soft-rgb: 227 249 202;
 }
 
 [data-sentiment="neutral"] {
-  --sentiment-rgb: 65 149 233; /* blue-400 */
-  --sentiment-soft-rgb: 237 246 255; /* blue-50 */
-  --sentiment-ink-rgb: 13 87 162; /* blue-700 */
+  --sentiment-rgb: 65 149 233;
+  --sentiment-soft-rgb: 237 246 255;
+  --sentiment-ink-rgb: 13 87 162;
   --sentiment-glow: linear-gradient(180deg, rgba(182, 214, 247, 0.5), rgba(255, 255, 255, 0));
   --chart-rgb: 65 149 233;
   --chart-soft-rgb: 182 214 247;
 }
 
 [data-sentiment="negative"] {
-  --sentiment-rgb: 226 106 69; /* warm coral */
+  --sentiment-rgb: 226 106 69;
   --sentiment-soft-rgb: 255 230 220;
   --sentiment-ink-rgb: 156 55 19;
   --sentiment-glow: linear-gradient(180deg, rgba(249, 184, 162, 0.45), rgba(255, 255, 255, 0));
-  --chart-rgb: 226 106 69; /* negative-500 */
-  --chart-soft-rgb: 255 217 204; /* negative-100 */
+  --chart-rgb: 226 106 69;
+  --chart-soft-rgb: 255 217 204;
 }
 
 html,
@@ -74,7 +70,6 @@ body {
   display: none;
 }
 
-/* Reusable utility classes */
 @layer components {
   .surface-card {
     @apply rounded-2xl border border-neutral-500/40 bg-white shadow-card;

@@ -9,7 +9,6 @@ interface Props {
   segments?: number;
   ticks?: number[];
   label?: string;
-  /** CSS color for the filled segments. */
   color?: string;
   ariaLabel?: string;
   size?: number;

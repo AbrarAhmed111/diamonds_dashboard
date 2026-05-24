@@ -17,7 +17,6 @@ function weekdayLabel(timestamp: string): string {
   return WEEKDAY_ORDER[weekdayIndex(timestamp)] ?? "Mon";
 }
 
-/** Last 7 daily points sorted Mon → Sun for the grouped bar chart. */
 export function buildNetflowWeek(values: SignalValue[]): NetflowSeriesPoint[] {
   const last7 = values.slice(-7);
   return [...last7]

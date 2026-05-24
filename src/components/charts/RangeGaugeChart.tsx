@@ -23,9 +23,6 @@ const DEFAULT_ZONES: [ZoneConfig, ZoneConfig, ZoneConfig] = [
   { label: "Longs crowded" },
 ];
 
-const CHART_BLUE = "rgb(var(--chart-rgb))";
-const CHART_SOFT = "rgb(var(--chart-soft-rgb))";
-
 export default function RangeGaugeChart({
   value,
   min,
@@ -43,12 +40,11 @@ export default function RangeGaugeChart({
 
   return (
     <div role="img" aria-label={ariaLabel ?? "Funding rate gauge"} className="w-full">
-      {/* Positioning gauge */}
       <div className="relative pt-1">
         <div
           className="h-[9px] w-full rounded-full"
           style={{
-            background: `linear-gradient(90deg, ${CHART_BLUE} 0%, ${CHART_SOFT} 38%, ${chartColors.white} 50%, ${CHART_SOFT} 62%, ${CHART_BLUE} 100%)`,
+            background: `linear-gradient(90deg, ${chartColors.chart} 0%, ${chartColors.chartSoft} 38%, ${chartColors.white} 50%, ${chartColors.chartSoft} 62%, ${chartColors.chart} 100%)`,
           }}
         />
         <span
@@ -73,7 +69,6 @@ export default function RangeGaugeChart({
         ))}
       </div>
 
-      {/* 14-day bidirectional history */}
       {histValues.length ? (
         <div className="mt-6 sm:mt-7">
           <div className="flex h-[56px] gap-[5px] sm:h-[68px] sm:gap-[6px]">

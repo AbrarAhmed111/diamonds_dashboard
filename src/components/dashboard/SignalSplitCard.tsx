@@ -12,9 +12,7 @@ import type { ChartRange, Signal } from "@/lib/types";
 
 interface Props {
   signal: Signal;
-  /** Optional metric label shown under the value (e.g. formula). */
   metricLabel?: string;
-  /** Override the value displayed (e.g. derived metrics). */
   valueOverride?: string;
   defaultRange?: ChartRange;
 }

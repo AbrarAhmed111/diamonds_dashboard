@@ -8,7 +8,6 @@ interface Props {
   max?: number;
   label?: string;
   ticks?: number[];
-  /** CSS color for the filled arc. */
   color?: string;
   ariaLabel?: string;
   size?: number;

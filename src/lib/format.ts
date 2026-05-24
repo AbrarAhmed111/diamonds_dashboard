@@ -32,20 +32,6 @@ export function getLatestValue(signal: Signal): SignalValue | null {
   return signal.values[signal.values.length - 1] ?? null;
 }
 
-export function getPreviousValue(signal: Signal): SignalValue | null {
-  if (!signal?.values || signal.values.length < 2) return null;
-  return signal.values[signal.values.length - 2] ?? null;
-}
-
-export function getValueChange(signal: Signal, days = 1): number | null {
-  if (!signal?.values?.length) return null;
-  const last = signal.values[signal.values.length - 1];
-  const idx = Math.max(0, signal.values.length - 1 - days);
-  const prev = signal.values[idx];
-  if (!last || !prev) return null;
-  return last.value - prev.value;
-}
-
 export function getValueChangePercent(signal: Signal, days = 1): number | null {
   if (!signal?.values?.length) return null;
   const last = signal.values[signal.values.length - 1];

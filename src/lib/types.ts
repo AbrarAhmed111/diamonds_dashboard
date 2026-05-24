@@ -5,7 +5,6 @@ export type SentimentType = "positive" | "neutral" | "negative";
 export interface SignalValue {
   timestamp: string;
   value: number;
-  /** Allow forward-compatible per-point fields (inflows, outflows, etc.) */
   [extra: string]: unknown;
 }
 
@@ -22,7 +21,6 @@ export interface Signal {
   sentiment?: SentimentType;
   interpretation?: string;
   values: SignalValue[];
-  /** Allow forward-compatible fields the backend may add later. */
   [extra: string]: unknown;
 }
 

@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 
 interface LogoProps {
   className?: string;
-  /** Pixel height; the width scales by aspect ratio. */
   height?: number;
 }
 

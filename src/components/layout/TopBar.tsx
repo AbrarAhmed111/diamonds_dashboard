@@ -1,13 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import {
   ChevronDown,
-  LineChart,
   PanelLeft,
   RefreshCcw,
-  Settings as SettingsIcon,
 } from "lucide-react";
 import { useSignals } from "@/lib/data";
 import Avatar from "@/components/ui/Avatar";
@@ -118,22 +115,6 @@ export default function TopBar({ title, subtitle, onOpenMenu }: TopBarProps) {
                   />
                   Refresh data
                 </button>
-                <Link
-                  href="/signals"
-                  onClick={() => setOpen(false)}
-                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-small text-ink hover:bg-neutral-400 focus-ring"
-                >
-                  <LineChart className="h-4 w-4" />
-                  All signals
-                </Link>
-                <Link
-                  href="/settings"
-                  onClick={() => setOpen(false)}
-                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-small text-ink hover:bg-neutral-400 focus-ring"
-                >
-                  <SettingsIcon className="h-4 w-4" />
-                  Settings
-                </Link>
               </div>
             </div>
           ) : null}

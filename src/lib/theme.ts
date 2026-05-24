@@ -1,5 +1,3 @@
-/** Shared color tokens — keep aligned with tailwind.config.ts */
-
 export const gaugeColors = {
   positive: "#C2F28C",
   negative: "#E26A45",
@@ -11,7 +9,6 @@ export const chartColors = {
   cursor: "#B3B3B3",
   ink: "#0D0D0D",
   white: "#FFFFFF",
-  /** Theme-aware — reads --chart-rgb / --chart-soft-rgb from [data-sentiment] on AppShell */
   chart: "rgb(var(--chart-rgb))",
   chartSoft: "rgb(var(--chart-soft-rgb))",
 } as const;

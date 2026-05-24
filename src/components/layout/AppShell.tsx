@@ -35,7 +35,7 @@ export default function AppShell({ children, title, subtitle }: AppShellProps) {
     try {
       localStorage.setItem(SIDEBAR_STORAGE_KEY, String(sidebarCollapsed));
     } catch {
-      // Ignore storage write errors in restricted environments.
+      /* storage unavailable */
     }
   }, [sidebarCollapsed]);
 

@@ -13,11 +13,8 @@ import type { ChartRange, Signal } from "@/lib/types";
 interface SignalCardProps {
   signal: Signal;
   defaultRange?: ChartRange;
-  /** Opens the detail panel on the signals listing page. */
   onSelect?: (signal: Signal) => void;
-  /** Override the label below the change pill (e.g. "Last 90 days"). */
   rangeCaption?: string;
-  /** Override the value displayed (e.g. derived metrics). */
   valueOverride?: string;
 }
 

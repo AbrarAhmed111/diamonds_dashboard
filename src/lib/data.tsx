@@ -12,15 +12,14 @@ import {
 import type { Signal } from "./types";
 
 const DATA_PATH = "/data/indicators.json";
-const STALE_MS = 1000 * 60 * 60 * 24; // 24h
+const STALE_MS = 1000 * 60 * 60 * 24;
 const STORAGE_KEY = "dp.lastFetchedAt";
 
-type Status = "idle" | "loading" | "ready" | "error";
+type Status = "loading" | "ready" | "error";
 
 interface DataContextValue {
   signals: Signal[];
   status: Status;
-  /** True while a fetch is in flight (initial load or manual refresh). */
   isLoading: boolean;
   error: string | null;
   lastFetchedAt: Date | null;
@@ -31,7 +30,6 @@ const DataContext = createContext<DataContextValue | null>(null);
 
 function withBasePath(path: string): string {
   if (typeof window === "undefined") return path;
-  // Next exposes basePath via __NEXT_DATA__ at runtime; fall back to env var injected at build time.
   const base = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
   if (!base) return path;
   return path.startsWith("/") ? `${base}${path}` : `${base}/${path}`;
@@ -59,7 +57,7 @@ export function SignalsProvider({ children }: { children: ReactNode }) {
       try {
         window.localStorage?.setItem(STORAGE_KEY, now.toISOString());
       } catch {
-        // ignore storage errors (private mode etc.)
+        /* storage unavailable */
       }
       setStatus("ready");
     } catch (e) {
@@ -69,7 +67,6 @@ export function SignalsProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Initial fetch + 24h staleness check.
   useEffect(() => {
     let stored: Date | null = null;
     try {
@@ -79,20 +76,19 @@ export function SignalsProvider({ children }: { children: ReactNode }) {
         if (!Number.isNaN(d.getTime())) stored = d;
       }
     } catch {
-      // ignore
+      /* storage unavailable */
     }
     if (stored) setLastFetchedAt(stored);
     load();
   }, [load]);
 
-  // Periodic staleness check while tab is open.
   useEffect(() => {
     const id = window.setInterval(() => {
       if (!lastFetchedAt) return;
       if (Date.now() - lastFetchedAt.getTime() > STALE_MS) {
         load();
       }
-    }, 1000 * 60 * 30); // every 30 minutes
+    }, 1000 * 60 * 30);
     return () => window.clearInterval(id);
   }, [lastFetchedAt, load]);
 

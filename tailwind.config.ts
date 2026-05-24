@@ -2,7 +2,6 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
@@ -12,7 +11,6 @@ const config: Config = {
         sans: ["var(--font-inter-tight)", "Inter Tight", "Inter", "system-ui", "sans-serif"],
       },
       colors: {
-        // Primary blue scale
         blue: {
           25: "#DDECFB",
           50: "#EDF6FF",
@@ -26,7 +24,6 @@ const config: Config = {
           800: "#0A437D",
           900: "#083360",
         },
-        // Secondary green scale
         green: {
           50: "#F9FEF4",
           100: "#ECFBDB",
@@ -39,7 +36,6 @@ const config: Config = {
           800: "#6B854D",
           900: "#335C07",
         },
-        // Neutral whites
         neutral: {
           50: "#FFFFFF",
           100: "#FEFEFE",
@@ -57,7 +53,6 @@ const config: Config = {
           muted: "#6A6A6A",
           subtle: "#8B8B8B",
         },
-        // Sentiment surfaces (referenced via CSS variables for theming)
         sentiment: {
           DEFAULT: "rgb(var(--sentiment-rgb) / <alpha-value>)",
           soft: "rgb(var(--sentiment-soft-rgb) / <alpha-value>)",
@@ -111,15 +106,6 @@ const config: Config = {
           500: "#F08F47",
         },
       },
-      backgroundImage: {
-        "gradient-orange": "linear-gradient(180deg, #F9B8A2 0%, #FFFFFF 100%)",
-        "gradient-green": "linear-gradient(180deg, #C2F28C 0%, rgba(194,242,140,0) 100%)",
-        "gradient-green-rev": "linear-gradient(180deg, rgba(194,242,140,0) 0%, #C2F28C 100%)",
-        "gradient-blue": "linear-gradient(180deg, #B6D6F7 0%, #FFFFFF 100%)",
-        "gradient-full": "linear-gradient(135deg, #C2F28C 0%, #84C9F4 59%, #127AE4 100%)",
-        "gradient-blue-green": "linear-gradient(135deg, #85CAE7 0%, #70BBF1 36%, #318FE9 100%)",
-        "gradient-green-blue": "linear-gradient(135deg, #B1E7A8 0%, #A5DFBE 60%, #90D1E0 100%)",
-      },
       borderRadius: {
         sm: "6px",
         md: "10px",
@@ -134,7 +120,6 @@ const config: Config = {
         focus: "0 0 0 3px rgba(18, 122, 228, 0.25)",
       },
       fontSize: {
-        // Desktop scale (Inter Tight)
         h1: ["68px", { lineHeight: "80px", letterSpacing: "0" }],
         h2: ["34px", { lineHeight: "40px", letterSpacing: "0" }],
         h3: ["28px", { lineHeight: "32px", letterSpacing: "0" }],
@@ -142,7 +127,6 @@ const config: Config = {
         body: ["17px", { lineHeight: "24px", letterSpacing: "0" }],
         small: ["14px", { lineHeight: "20px", letterSpacing: "0" }],
         caption: ["12px", { lineHeight: "16px", letterSpacing: "0" }],
-        // Mobile overrides
         "h1-m": ["34px", { lineHeight: "40px" }],
         "h2-m": ["28px", { lineHeight: "32px" }],
         "h3-m": ["22px", { lineHeight: "28px" }],

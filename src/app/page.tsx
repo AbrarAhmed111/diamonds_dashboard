@@ -11,7 +11,7 @@ import LiquidityCard from "@/components/dashboard/LiquidityCard";
 import MarketSentimentCard from "@/components/dashboard/MarketSentimentCard";
 import VolatilityCard from "@/components/dashboard/VolatilityCard";
 import ErrorState from "@/components/dashboard/ErrorState";
-import { SkeletonCard, OverviewSkeleton } from "@/components/dashboard/LoadingState";
+import { OverviewSkeleton } from "@/components/dashboard/LoadingState";
 import { useSignals } from "@/lib/data";
 import type { Signal } from "@/lib/types";
 

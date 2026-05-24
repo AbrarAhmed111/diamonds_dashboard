@@ -12,7 +12,6 @@ interface Props {
   badge?: { label: string; tone?: BadgeTone };
   description?: string;
   children: ReactNode;
-  /** Extra content rendered under the description (e.g. sub-stats grid). */
   asideExtra?: ReactNode;
 }
 

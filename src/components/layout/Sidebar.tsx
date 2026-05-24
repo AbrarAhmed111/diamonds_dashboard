@@ -19,9 +19,7 @@ interface NavItem {
   href: string;
   label: string;
   icon: LucideIcon;
-  /** When true, render as an external `<a>` opened in a new tab. */
   external?: boolean;
-  /** Treat additional pathnames as belonging to this nav item. */
   match?: (pathname: string) => boolean;
 }
 
@@ -47,10 +45,7 @@ const SECTIONS: NavSection[] = [
         href: "/",
         label: "Sentiment",
         icon: LineChart,
-        match: (pathname) =>
-          pathname === "/" ||
-          pathname.startsWith("/signals") ||
-          pathname.startsWith("/settings"),
+        match: (pathname) => pathname === "/",
       },
     ],
   },
