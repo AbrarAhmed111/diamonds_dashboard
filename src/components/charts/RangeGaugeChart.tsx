@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { chartColors } from "@/lib/theme";
 import type { SignalValue } from "@/lib/types";
 
 interface ZoneConfig {
@@ -19,8 +20,11 @@ interface Props {
 const DEFAULT_ZONES: [ZoneConfig, ZoneConfig, ZoneConfig] = [
   { label: "Shorts crowded" },
   { label: "Neutral" },
-  { label: "Long crowded" },
+  { label: "Longs crowded" },
 ];
+
+const CHART_BLUE = "rgb(var(--chart-rgb))";
+const CHART_SOFT = "rgb(var(--chart-soft-rgb))";
 
 export default function RangeGaugeChart({
   value,
@@ -34,53 +38,86 @@ export default function RangeGaugeChart({
   const pct = Math.max(0, Math.min(1, (value - min) / span));
 
   const histValues = (history ?? []).slice(-14);
-  const histMax = histValues.reduce((acc, v) => Math.max(acc, Math.abs(v.value)), 0) || 1;
+  const histMax =
+    histValues.reduce((acc, v) => Math.max(acc, Math.abs(v.value)), 0) || 1;
 
   return (
     <div role="img" aria-label={ariaLabel ?? "Funding rate gauge"} className="w-full">
-      {/* Zone bar */}
-      <div className="relative">
-        <div className="flex h-2.5 w-full overflow-hidden rounded-full">
-          <div className="flex-1 bg-chart/35" />
-          <div className="flex-1 bg-chart-soft" />
-          <div className="flex-1 bg-chart/35" />
-        </div>
-        {/* Marker */}
+      {/* Positioning gauge */}
+      <div className="relative pt-1">
+        <div
+          className="h-[9px] w-full rounded-full"
+          style={{
+            background: `linear-gradient(90deg, ${CHART_BLUE} 0%, ${CHART_SOFT} 38%, ${chartColors.white} 50%, ${CHART_SOFT} 62%, ${CHART_BLUE} 100%)`,
+          }}
+        />
         <span
           aria-hidden
-          className="absolute top-1/2 grid h-4 w-4 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-neutral-900 ring-2 ring-white shadow-card"
+          className="absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-neutral-900 ring-2 ring-white"
           style={{ left: `${pct * 100}%` }}
         />
       </div>
-      <div className="mt-2 flex justify-between text-caption text-ink-muted">
+
+      <div className="mt-2.5 flex justify-between text-[11px] text-ink-muted sm:text-caption">
         {zones.map((z, i) => (
-          <span key={z.label} className={cn(i === 1 && "text-ink")}>
+          <span
+            key={z.label}
+            className={cn(
+              i === 0 && "text-left",
+              i === 1 && "text-center text-ink",
+              i === 2 && "text-right",
+            )}
+          >
             {z.label}
           </span>
         ))}
       </div>
 
-      {/* 14-day mini histogram */}
+      {/* 14-day bidirectional history */}
       {histValues.length ? (
-        <div className="mt-5">
-          <p className="text-caption text-ink-muted">14-day history</p>
-          <div className="mt-2 flex h-12 items-end gap-1.5">
+        <div className="mt-6 sm:mt-7">
+          <div className="flex h-[56px] gap-[5px] sm:h-[68px] sm:gap-[6px]">
             {histValues.map((point, i) => {
-              const ratio = Math.abs(point.value) / histMax;
               const positive = point.value >= 0;
+              const ratio = Math.abs(point.value) / histMax;
+              const barH = `${Math.max(14, ratio * 100)}%`;
+              const isLatest = i === histValues.length - 1;
+
               return (
-                <span
-                  key={`${point.timestamp}-${i}`}
-                  className={cn(
-                    "block flex-1 rounded-sm",
-                    positive ? "bg-chart" : "bg-chart-soft",
-                  )}
-                  style={{ height: `${Math.max(10, ratio * 100)}%` }}
-                  aria-hidden
-                />
+                <div key={`${point.timestamp}-${i}`} className="flex min-w-0 flex-1 flex-col">
+                  <div className="flex h-1/2 flex-col justify-end">
+                    {positive ? (
+                      <div
+                        aria-hidden
+                        className={cn(
+                          "w-full rounded-t-[5px] border border-chart/70 border-b-0",
+                          isLatest
+                            ? "bg-chart"
+                            : "bg-gradient-to-b from-chart/90 via-chart/35 to-white",
+                        )}
+                        style={{ height: barH }}
+                      />
+                    ) : null}
+                  </div>
+                  <div className="flex h-1/2 flex-col justify-start">
+                    {!positive ? (
+                      <div
+                        aria-hidden
+                        className={cn(
+                          "w-full rounded-b-[5px] border border-chart/70 border-t-0",
+                          isLatest
+                            ? "bg-chart"
+                            : "bg-gradient-to-t from-chart/90 via-chart/35 to-white",
+                        )}
+                        style={{ height: barH }}
+                      />
+                    ) : null}
+                  </div>
+                </div>
               );
             })}
           </div>
+          <p className="mt-2.5 text-[11px] text-ink-muted sm:text-caption">14-day history</p>
         </div>
       ) : null}
     </div>

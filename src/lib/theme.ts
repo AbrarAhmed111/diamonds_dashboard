@@ -11,6 +11,7 @@ export const chartColors = {
   cursor: "#B3B3B3",
   ink: "#0D0D0D",
   white: "#FFFFFF",
+  /** Theme-aware — reads --chart-rgb / --chart-soft-rgb from [data-sentiment] on AppShell */
   chart: "rgb(var(--chart-rgb))",
   chartSoft: "rgb(var(--chart-soft-rgb))",
 } as const;
