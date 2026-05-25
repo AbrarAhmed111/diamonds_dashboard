@@ -32,6 +32,16 @@ export function getLatestValue(signal: Signal): SignalValue | null {
   return signal.values[signal.values.length - 1] ?? null;
 }
 
+export function getRangeEndValue(values: SignalValue[]): SignalValue | null {
+  if (!values?.length) return null;
+  return values[values.length - 1] ?? null;
+}
+
+export function getRangeStartValue(values: SignalValue[]): SignalValue | null {
+  if (!values?.length) return null;
+  return values[0] ?? null;
+}
+
 export function getValueChangePercent(signal: Signal, days = 1): number | null {
   if (!signal?.values?.length) return null;
   const last = signal.values[signal.values.length - 1];

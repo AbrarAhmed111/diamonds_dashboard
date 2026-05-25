@@ -1,13 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import Badge from "@/components/ui/Badge";
 import RangeTabs from "@/components/charts/RangeTabs";
 import SignalLineChart from "@/components/charts/SignalLineChart";
 import SignalIcon from "./SignalIcon";
 import { SPLIT_CARD_CHART_HEIGHT } from "./SplitFrame";
-import { formatValue, getLatestValue, computeRangeChange, type RangeChangeMode } from "@/lib/format";
-import { sliceByRange } from "@/lib/sentiment";
+import { type RangeChangeMode } from "@/lib/format";
+import { useSignalRange, type RangeValueMode } from "@/lib/useSignalRange";
 import { cn } from "@/lib/utils";
 import type { ChartRange, Signal } from "@/lib/types";
 
@@ -17,6 +16,7 @@ interface Props {
   valueOverride?: string;
   defaultRange?: ChartRange;
   rangeChangeMode?: RangeChangeMode;
+  valueMode?: RangeValueMode;
 }
 
 export default function SignalSplitCard({
@@ -25,15 +25,13 @@ export default function SignalSplitCard({
   valueOverride,
   defaultRange = "3M",
   rangeChangeMode = "relative",
+  valueMode = "end",
 }: Props) {
-  const [range, setRange] = useState<ChartRange>(defaultRange);
-  const sliced = useMemo(() => sliceByRange(signal.values, range), [signal.values, range]);
-  const latest = getLatestValue(signal);
-
-  const changePct = useMemo(
-    () => computeRangeChange(sliced, rangeChangeMode),
-    [sliced, rangeChangeMode],
-  );
+  const { range, setRange, sliced, changePct, displayValue } = useSignalRange(signal, {
+    defaultRange,
+    changeMode: rangeChangeMode,
+    valueMode,
+  });
 
   const tone = changePct === null ? "muted" : changePct >= 0 ? "positive" : "negative";
 
@@ -60,9 +58,7 @@ export default function SignalSplitCard({
         <div className="flex min-w-0 flex-col">
           <div className="flex flex-wrap items-start justify-between gap-2 sm:gap-3">
             <div>
-              <p className="text-stat-value">
-                {valueOverride ?? formatValue(latest?.value, signal.unit)}
-              </p>
+              <p className="text-stat-value">{valueOverride ?? displayValue}</p>
               {metricLabel ? (
                 <p className="mt-1 text-meta">{metricLabel}</p>
               ) : null}

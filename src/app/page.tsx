@@ -53,6 +53,7 @@ export default function SentimentPage() {
               signal={get("buying_power")!}
               metricLabel="Stablecoin Supply / Total Crypto Market Cap"
               rangeChangeMode="points"
+              valueMode="change"
             />
           ) : null}
 

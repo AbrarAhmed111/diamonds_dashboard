@@ -1,12 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import Badge from "@/components/ui/Badge";
 import RangeTabs from "@/components/charts/RangeTabs";
 import SignalLineChart from "@/components/charts/SignalLineChart";
 import SignalIcon from "./SignalIcon";
-import { formatValue, getLatestValue, computeRangeChange } from "@/lib/format";
-import { sliceByRange } from "@/lib/sentiment";
+import { useSignalRange } from "@/lib/useSignalRange";
 import { cn } from "@/lib/utils";
 import type { ChartRange, Signal } from "@/lib/types";
 
@@ -25,17 +23,14 @@ export default function SignalCard({
   rangeCaption,
   valueOverride,
 }: SignalCardProps) {
-  const [range, setRange] = useState<ChartRange>(defaultRange);
-  const sliced = useMemo(() => sliceByRange(signal.values, range), [signal.values, range]);
-
-  const latest = getLatestValue(signal);
-
-  const changePct = useMemo(() => computeRangeChange(sliced), [sliced]);
+  const { range, setRange, sliced, changePct, displayValue, caption } = useSignalRange(signal, {
+    defaultRange,
+  });
 
   const changeTone =
     changePct === null ? "muted" : changePct >= 0 ? "positive" : "negative";
 
-  const caption = rangeCaption ?? rangeCaptionFor(range);
+  const periodCaption = rangeCaption ?? caption;
 
   return (
     <article className="surface-card surface-card-pad overflow-hidden">
@@ -54,9 +49,7 @@ export default function SignalCard({
       </header>
 
       <div className="mt-4 flex flex-wrap items-center gap-2 sm:mt-5 sm:gap-3">
-        <p className="text-metric">
-          {valueOverride ?? formatValue(latest?.value, signal.unit)}
-        </p>
+        <p className="text-metric">{valueOverride ?? displayValue}</p>
         <Badge
           tone={changeTone === "positive" ? "positive" : changeTone === "negative" ? "negative" : "muted"}
           size="md"
@@ -64,7 +57,7 @@ export default function SignalCard({
         >
           {changePct === null ? "–" : `${changePct >= 0 ? "+" : ""}${changePct.toFixed(1)}%`}
         </Badge>
-        <span className="text-meta">{caption}</span>
+        <span className="text-meta">{periodCaption}</span>
       </div>
 
       <div className="mt-3 sm:mt-4">
@@ -81,20 +74,4 @@ export default function SignalCard({
       </div>
     </article>
   );
-}
-
-function rangeCaptionFor(range: ChartRange) {
-  switch (range) {
-    case "1D":
-      return "Last 24 hours";
-    case "1W":
-      return "Last 7 days";
-    case "1M":
-      return "Last 30 days";
-    case "3M":
-      return "Last 90 days";
-    case "12M":
-    default:
-      return "Last 12 months";
-  }
 }

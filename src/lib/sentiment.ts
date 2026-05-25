@@ -56,6 +56,22 @@ export function sliceByRange(values: Signal["values"], range: ChartRange) {
   return values.slice(-Math.min(days, values.length));
 }
 
+export function rangeCaptionFor(range: ChartRange): string {
+  switch (range) {
+    case "1D":
+      return "Last 24 hours";
+    case "1W":
+      return "Last 7 days";
+    case "1M":
+      return "Last 30 days";
+    case "3M":
+      return "Last 90 days";
+    case "12M":
+    default:
+      return "Last 12 months";
+  }
+}
+
 export function filterSignals(signals: Signal[], filters: SignalFilters): Signal[] {
   const q = filters.query.trim().toLowerCase();
   return signals.filter((s) => {
