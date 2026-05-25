@@ -59,6 +59,7 @@ export default function SignalCard({
           unit={signal.unit}
           height={180}
           ariaLabel={`${signal.name} ${range} chart`}
+          chartRange={range}
         />
       </div>
     </article>

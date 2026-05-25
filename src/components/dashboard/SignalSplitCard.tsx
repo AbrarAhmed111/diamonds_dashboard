@@ -75,6 +75,7 @@ export default function SignalSplitCard({
               unit={signal.unit}
               height={SPLIT_CARD_CHART_HEIGHT}
               ariaLabel={`${signal.name} ${range} chart`}
+              chartRange={range}
             />
           </div>
         </div>

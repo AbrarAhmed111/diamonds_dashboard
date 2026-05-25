@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { chartColors } from "@/lib/theme";
 import { typography } from "@/lib/typography";
-import type { SignalValue } from "@/lib/types";
+import type { ChartRange, SignalValue } from "@/lib/types";
 import { formatDate, formatValue } from "@/lib/format";
 
 type AxisMode = "auto" | "day" | "month" | "year";
@@ -24,9 +24,39 @@ interface Props {
   ariaLabel?: string;
   showAxes?: boolean;
   xAxisMode?: AxisMode;
+  chartRange?: ChartRange;
 }
 
-const DAY_TICK_DAYS = new Set([1, 9, 15, 29]);
+function spanDaysFromData(data: Array<{ x: string; y: number }>): number {
+  if (data.length < 2) return 1;
+  const first = new Date(`${data[0].x.slice(0, 10)}T00:00:00.000Z`).getTime();
+  const last = new Date(`${data[data.length - 1].x.slice(0, 10)}T00:00:00.000Z`).getTime();
+  return Math.max(1, Math.round((last - first) / (1000 * 60 * 60 * 24)) + 1);
+}
+
+function pickEvenlySpacedTicks(data: Array<{ x: string; y: number }>, maxTicks: number): string[] {
+  if (!data.length) return [];
+  if (maxTicks <= 1) return [data[0].x];
+  if (data.length <= maxTicks) return data.map((d) => d.x);
+
+  const ticks: string[] = [];
+  for (let i = 0; i < maxTicks; i++) {
+    const idx = Math.round((i / (maxTicks - 1)) * (data.length - 1));
+    ticks.push(data[idx].x);
+  }
+  return [...new Set(ticks)];
+}
+
+function maxDayTicks(span: number, pointCount: number, range?: ChartRange): number {
+  if (range === "1D") return Math.min(pointCount, 4);
+  if (range === "1W") return Math.min(pointCount, 7);
+  if (range === "1M") return Math.min(pointCount, 6);
+  if (range === "3M") return Math.min(pointCount, 6);
+  if (span <= 1) return Math.min(pointCount, 4);
+  if (span <= 7) return Math.min(pointCount, 7);
+  if (span <= 31) return Math.min(pointCount, 6);
+  return Math.min(pointCount, 6);
+}
 
 const MONTH_LABELS = [
   "JAN",
@@ -67,16 +97,23 @@ const ChartTooltip = ({
   );
 };
 
-function detectMode(values: SignalValue[], requested: AxisMode): "day" | "month" | "year" {
+function detectMode(
+  data: Array<{ x: string; y: number }>,
+  requested: AxisMode,
+  range?: ChartRange,
+): "day" | "month" | "year" {
   if (requested === "year") return "year";
   if (requested === "month") return "month";
   if (requested === "day") return "day";
-  if (!values?.length) return "day";
-  const first = new Date(values[0].timestamp).getTime();
-  const last = new Date(values[values.length - 1].timestamp).getTime();
-  const days = (last - first) / (1000 * 60 * 60 * 24);
+  if (!data.length) return "day";
+
+  const days = spanDaysFromData(data);
   if (days > 730) return "year";
-  if (days > 90) return "month";
+  if (range === "3M" || range === "12M") {
+    if (days > 31) return "month";
+  } else if (days > 90) {
+    return "month";
+  }
   return "day";
 }
 
@@ -120,13 +157,10 @@ function formatMonthTick(value: string | number) {
   return MONTH_LABELS[month] ?? "";
 }
 
-function buildDayTicks(data: Array<{ x: string; y: number }>) {
-  return data
-    .map((d, i) => {
-      const { day } = parseDateParts(d.x);
-      return i === 0 || DAY_TICK_DAYS.has(day) ? d.x : null;
-    })
-    .filter((v): v is string => Boolean(v));
+function buildDayTicks(data: Array<{ x: string; y: number }>, range?: ChartRange) {
+  const span = spanDaysFromData(data);
+  const maxTicks = maxDayTicks(span, data.length, range);
+  return pickEvenlySpacedTicks(data, maxTicks);
 }
 
 function buildPercentTicks(values: number[]) {
@@ -139,22 +173,29 @@ function DayAxisTick({
   x = 0,
   y = 0,
   payload,
+  index = 0,
+  visibleTicks = [],
 }: {
   x?: number;
   y?: number;
   payload?: { value: string };
+  index?: number;
+  visibleTicks?: Array<{ value: string }>;
 }) {
   if (!payload?.value) return null;
 
   const { day, month } = parseDateParts(String(payload.value));
   const monthLabel = MONTH_LABELS[month] ?? "";
+  const prev =
+    index > 0 ? parseDateParts(String(visibleTicks[index - 1]?.value ?? "")) : null;
+  const showMonth = index === 0 || !prev || prev.month !== month;
 
   return (
     <g transform={`translate(${x},${y})`}>
       <text textAnchor="middle" fill={chartColors.tick} fontSize={typography.chart.axis} dy={8}>
         {day}
       </text>
-      {day === 1 ? (
+      {showMonth ? (
         <text textAnchor="middle" fill={chartColors.tick} fontSize={typography.chart.label} dy={22}>
           {monthLabel}
         </text>
@@ -195,6 +236,7 @@ export default function SignalLineChart({
   ariaLabel,
   showAxes = true,
   xAxisMode = "auto",
+  chartRange,
 }: Props) {
   if (!values?.length) {
     return (
@@ -209,7 +251,7 @@ export default function SignalLineChart({
   }
 
   const data = values.map((v) => ({ x: v.timestamp, y: v.value }));
-  const mode = detectMode(values, xAxisMode);
+  const mode = detectMode(data, xAxisMode, chartRange);
   const isPercent = (unit || "").toLowerCase() === "%";
   const percentTicks = isPercent ? buildPercentTicks(data.map((d) => d.y)) : null;
 
@@ -218,7 +260,7 @@ export default function SignalLineChart({
   let yearTicks: string[] = [];
 
   if (mode === "day") {
-    dayTicks = buildDayTicks(data);
+    dayTicks = buildDayTicks(data, chartRange);
   } else if (mode === "month") {
     monthTicks = buildMonthTicks(data);
   } else {
