@@ -93,11 +93,8 @@ export default function HalfGaugeChart({
         );
       })}
 
-      <foreignObject x={0} y={cy - 30} width={VIEWBOX_W} height={36}>
-        <div
-          xmlns="http://www.w3.org/1999/xhtml"
-          className="flex h-full items-center justify-center text-stat-value tabular-nums"
-        >
+      <foreignObject x={0} y={cy - 30} width={VIEWBOX_W} height={36} xmlns="http://www.w3.org/1999/xhtml">
+        <div className="flex h-full items-center justify-center text-stat-value tabular-nums">
           {value}
         </div>
       </foreignObject>

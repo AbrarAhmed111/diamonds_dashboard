@@ -9,9 +9,15 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import {
+  extractConsolidationBullets,
+  fetchDashboardSnapshot,
+  HelixApiError,
+  mapHelixSnapshot,
+  type HelixSignal,
+} from "@/lib/helix";
 import type { Signal } from "./types";
 
-const DATA_PATH = "/data/indicators.json";
 const STALE_MS = 1000 * 60 * 60 * 24;
 const STORAGE_KEY = "dp.lastFetchedAt";
 
@@ -19,6 +25,7 @@ type Status = "loading" | "ready" | "error";
 
 interface DataContextValue {
   signals: Signal[];
+  consolidationBullets: string[];
   status: Status;
   isLoading: boolean;
   error: string | null;
@@ -28,15 +35,20 @@ interface DataContextValue {
 
 const DataContext = createContext<DataContextValue | null>(null);
 
-function withBasePath(path: string): string {
-  if (typeof window === "undefined") return path;
-  const base = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
-  if (!base) return path;
-  return path.startsWith("/") ? `${base}${path}` : `${base}/${path}`;
+async function loadHelixSnapshot(): Promise<HelixSignal[]> {
+  const response = await fetchDashboardSnapshot();
+  if (!response.ok) {
+    throw new HelixApiError(response.error.message, {
+      code: response.error.code,
+      status: 0,
+    });
+  }
+  return response.data;
 }
 
 export function SignalsProvider({ children }: { children: ReactNode }) {
   const [signals, setSignals] = useState<Signal[]>([]);
+  const [consolidationBullets, setConsolidationBullets] = useState<string[]>([]);
   const [status, setStatus] = useState<Status>("loading");
   const [error, setError] = useState<string | null>(null);
   const [lastFetchedAt, setLastFetchedAt] = useState<Date | null>(null);
@@ -45,13 +57,9 @@ export function SignalsProvider({ children }: { children: ReactNode }) {
     setStatus("loading");
     setError(null);
     try {
-      const res = await fetch(withBasePath(DATA_PATH), { cache: "no-store" });
-      if (!res.ok) {
-        throw new Error(`Failed to load indicators (${res.status})`);
-      }
-      const json = (await res.json()) as Signal[];
-      if (!Array.isArray(json)) throw new Error("Invalid indicators payload");
-      setSignals(json);
+      const snapshot = await loadHelixSnapshot();
+      setSignals(mapHelixSnapshot(snapshot));
+      setConsolidationBullets(extractConsolidationBullets(snapshot));
       const now = new Date();
       setLastFetchedAt(now);
       try {
@@ -61,7 +69,12 @@ export function SignalsProvider({ children }: { children: ReactNode }) {
       }
       setStatus("ready");
     } catch (e) {
-      const message = e instanceof Error ? e.message : "Unknown error";
+      const message =
+        e instanceof HelixApiError
+          ? e.message
+          : e instanceof Error
+            ? e.message
+            : "Unknown error";
       setError(message);
       setStatus("error");
     }
@@ -95,13 +108,14 @@ export function SignalsProvider({ children }: { children: ReactNode }) {
   const value = useMemo<DataContextValue>(
     () => ({
       signals,
+      consolidationBullets,
       status,
       isLoading: status === "loading",
       error,
       lastFetchedAt,
       refresh: load,
     }),
-    [signals, status, error, lastFetchedAt, load],
+    [signals, consolidationBullets, status, error, lastFetchedAt, load],
   );
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

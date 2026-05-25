@@ -6,7 +6,7 @@ import RangeTabs from "@/components/charts/RangeTabs";
 import SignalLineChart from "@/components/charts/SignalLineChart";
 import SignalIcon from "./SignalIcon";
 import { SPLIT_CARD_CHART_HEIGHT } from "./SplitFrame";
-import { formatValue, getLatestValue } from "@/lib/format";
+import { formatValue, getLatestValue, computeRangeChange, type RangeChangeMode } from "@/lib/format";
 import { sliceByRange } from "@/lib/sentiment";
 import { cn } from "@/lib/utils";
 import type { ChartRange, Signal } from "@/lib/types";
@@ -16,6 +16,7 @@ interface Props {
   metricLabel?: string;
   valueOverride?: string;
   defaultRange?: ChartRange;
+  rangeChangeMode?: RangeChangeMode;
 }
 
 export default function SignalSplitCard({
@@ -23,18 +24,16 @@ export default function SignalSplitCard({
   metricLabel,
   valueOverride,
   defaultRange = "3M",
+  rangeChangeMode = "relative",
 }: Props) {
   const [range, setRange] = useState<ChartRange>(defaultRange);
   const sliced = useMemo(() => sliceByRange(signal.values, range), [signal.values, range]);
   const latest = getLatestValue(signal);
 
-  const changePct = useMemo(() => {
-    if (!sliced.length) return null;
-    const first = sliced[0];
-    const last = sliced[sliced.length - 1];
-    if (!first || !last || first.value === 0) return null;
-    return ((last.value - first.value) / Math.abs(first.value)) * 100;
-  }, [sliced]);
+  const changePct = useMemo(
+    () => computeRangeChange(sliced, rangeChangeMode),
+    [sliced, rangeChangeMode],
+  );
 
   const tone = changePct === null ? "muted" : changePct >= 0 ? "positive" : "negative";
 

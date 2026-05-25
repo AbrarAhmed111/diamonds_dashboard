@@ -16,7 +16,8 @@ import { useSignals } from "@/lib/data";
 import type { Signal } from "@/lib/types";
 
 export default function SentimentPage() {
-  const { signals, status, isLoading, error, lastFetchedAt, refresh } = useSignals();
+  const { signals, consolidationBullets, status, isLoading, error, lastFetchedAt, refresh } =
+    useSignals();
 
   const byId = useMemo(() => {
     const map = new Map<string, Signal>();
@@ -32,12 +33,16 @@ export default function SentimentPage() {
         <OverviewSkeleton />
       ) : status === "error" ? (
         <ErrorState
-          description={error ?? "Could not load indicators.json. Check the file and try again."}
+          description={error ?? "Could not load market data from the Helix API."}
           onRetry={refresh}
         />
       ) : (
         <div className="space-y-4 sm:space-y-5">
-          <MarketSummary signals={signals} lastFetchedAt={lastFetchedAt} />
+          <MarketSummary
+            signals={signals}
+            lastFetchedAt={lastFetchedAt}
+            bullets={consolidationBullets}
+          />
 
           {get("btc_price") ? (
             <SignalCard signal={get("btc_price")!} />
@@ -47,6 +52,7 @@ export default function SentimentPage() {
             <SignalSplitCard
               signal={get("buying_power")!}
               metricLabel="Stablecoin Supply / Total Crypto Market Cap"
+              rangeChangeMode="points"
             />
           ) : null}
 

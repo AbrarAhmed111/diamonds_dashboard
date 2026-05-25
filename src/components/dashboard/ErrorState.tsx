@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 export default function ErrorState({
   title = "We couldn't load the data",
-  description = "The dashboard tried to fetch indicators.json but the request failed.",
+  description = "Could not load market data from the Helix API.",
   onRetry,
   className,
 }: {

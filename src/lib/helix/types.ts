@@ -23,6 +23,7 @@ export interface HelixSignal {
   unit: string | null;
   min_val: number | null;
   max_val: number | null;
+  interpretation?: string | null;
   values: HelixSignalValue[];
   [extra: string]: unknown;
 }

@@ -5,7 +5,7 @@ import Badge from "@/components/ui/Badge";
 import RangeTabs from "@/components/charts/RangeTabs";
 import SignalLineChart from "@/components/charts/SignalLineChart";
 import SignalIcon from "./SignalIcon";
-import { formatValue, getLatestValue } from "@/lib/format";
+import { formatValue, getLatestValue, computeRangeChange } from "@/lib/format";
 import { sliceByRange } from "@/lib/sentiment";
 import { cn } from "@/lib/utils";
 import type { ChartRange, Signal } from "@/lib/types";
@@ -30,13 +30,7 @@ export default function SignalCard({
 
   const latest = getLatestValue(signal);
 
-  const changePct = useMemo(() => {
-    if (!sliced.length) return null;
-    const first = sliced[0];
-    const last = sliced[sliced.length - 1];
-    if (!first || !last || first.value === 0) return null;
-    return ((last.value - first.value) / Math.abs(first.value)) * 100;
-  }, [sliced]);
+  const changePct = useMemo(() => computeRangeChange(sliced), [sliced]);
 
   const changeTone =
     changePct === null ? "muted" : changePct >= 0 ? "positive" : "negative";

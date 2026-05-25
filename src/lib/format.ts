@@ -41,6 +41,39 @@ export function getValueChangePercent(signal: Signal, days = 1): number | null {
   return ((last.value - prev.value) / Math.abs(prev.value)) * 100;
 }
 
+export type RangeChangeMode = "relative" | "points";
+
+/** Change over a sliced range — relative % for prices, percentage points when values are already in %. */
+export function computeRangeChange(
+  values: SignalValue[],
+  mode: RangeChangeMode = "relative",
+): number | null {
+  if (!values.length) return null;
+  const first = values[0];
+  const last = values[values.length - 1];
+  if (!first || !last) return null;
+
+  if (mode === "points") {
+    return last.value - first.value;
+  }
+
+  if (first.value === 0) {
+    return last.value === 0 ? null : last.value;
+  }
+
+  return ((last.value - first.value) / Math.abs(first.value)) * 100;
+}
+
+/** Period-over-period % change; uses ~12-month lookback when enough points exist. */
+export function computePeriodChangePercent(values: SignalValue[], minLookback = 12): number | null {
+  if (values.length < 2) return null;
+  const last = values[values.length - 1];
+  const baseIndex = values.length >= minLookback + 1 ? values.length - 1 - minLookback : 0;
+  const base = values[baseIndex];
+  if (!last || !base || base.value === 0) return null;
+  return ((last.value - base.value) / Math.abs(base.value)) * 100;
+}
+
 export function formatValue(value: number | null | undefined, unit?: string): string {
   if (value === null || value === undefined || Number.isNaN(value)) return "–";
   const u = (unit || "").toLowerCase();

@@ -1,13 +1,12 @@
 # Diamond Pigs Signals Dashboard
 
-A frontend-only proof of concept for the Diamond Pigs market signals dashboard. The app renders a polished, Figma-aligned UI from a static JSON dataset — no backend or live API required.
+A frontend proof of concept for the Diamond Pigs market signals dashboard. The app renders a Figma-aligned UI and loads live market data from the **Helix API**.
 
 ## Features
 
-- **Overview dashboard** (`/`) — market sentiment summary and curated signal cards with charts and gauges
-- **Signals explorer** (`/signals`) — search, filter, sort, and open a detail panel for any signal
-- **Settings** (`/settings`) — data source info, last fetch time, and manual refresh
-- **Sentiment theming** — positive, neutral, and negative modes driven by loaded signal data
+- **Market sentiment** (`/`) — consolidated summary, signal cards, line charts, and gauges
+- **Loading states** — skeleton UI while Helix data is fetched
+- **Sentiment theming** — positive, neutral, and negative modes driven by signal data
 - **Responsive layout** — desktop sidebar, collapsible navigation, mobile drawer
 - **Accessibility** — keyboard navigation, focus states, and chart fallbacks
 
@@ -21,16 +20,31 @@ A frontend-only proof of concept for the Diamond Pigs market signals dashboard. 
 | Charts | Recharts |
 | Icons | Lucide React |
 | Font | Inter Tight (`next/font/google`) |
+| Data | Helix API (`dashboard.snapshot`) |
 | Hosting | Static export (`output: "export"`) |
 
 ## Quick start
 
 ```bash
 npm install
+cp .env.example .env.local
+```
+
+Add your Helix API key to `.env.local`:
+
+```env
+NEXT_PUBLIC_HELIX_API_KEY=dp_your_key_here
+```
+
+Then start the dev server:
+
+```bash
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
+
+> **Note:** Because the app is a static export, Helix is called **from the browser**. `NEXT_PUBLIC_HELIX_API_KEY` is required for the Market sentiment page to load data.
 
 ### Scripts
 
@@ -41,57 +55,68 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run start` | Serve the production build locally |
 | `npm run lint` | Run ESLint |
 | `npm run format` | Format with Prettier |
+| `npm run test:helix` | Call Helix from the CLI and print the raw response |
+
+## Environment variables
+
+| Variable | Required | Description |
+| --- | --- | --- |
+| `NEXT_PUBLIC_HELIX_API_KEY` | Yes (browser) | API key used by the dashboard at runtime |
+| `NEXT_PUBLIC_HELIX_API_URL` | No | Helix endpoint (default: `https://helix.diamondpigs.com/api/v1`) |
+| `HELIX_API_KEY` | CLI only | Used by `npm run test:helix` |
+| `HELIX_API_URL` | CLI only | Override Helix URL for CLI scripts |
+| `NEXT_PUBLIC_BASE_PATH` | No | Base path when hosting under a sub-path |
+
+See [`.env.example`](./.env.example) for the full template.
 
 ## Data
 
-All signal data comes from static JSON files in `public/data/`:
+### Helix snapshot
 
-| File | Purpose |
-| --- | --- |
-| `indicators.json` | Primary dataset — signal metadata and time-series `values` |
-| `all_signals.json` | Metadata-only mirror (no `values` array) |
-
-The app fetches `/data/indicators.json` on load, stores `lastFetchedAt` in `localStorage`, refetches after 24 hours, and supports a manual **Refresh data** action from the UI.
-
-### Signal shape
-
-Each entry in `indicators.json` follows this structure:
+On load, `SignalsProvider` (`src/lib/data.tsx`) requests:
 
 ```json
 {
-  "id": "btc_fear_greed",
-  "name": "Crypto Fear & Greed Index",
-  "category": "sentiment",
-  "description": "Market sentiment from 0 extreme fear to 100 extreme greed.",
-  "source": "Alternative.me",
-  "unit": "index",
-  "min_val": 0,
-  "max_val": 100,
-  "status": "healthy",
-  "sentiment": "positive",
-  "interpretation": "The current reading suggests improving risk appetite.",
-  "values": [
-    { "timestamp": "2026-05-18", "value": 45 },
-    { "timestamp": "2026-05-19", "value": 52 }
-  ]
+  "action": "dashboard.snapshot",
+  "params": {
+    "output_prompt_id": 7,
+    "limit_days": 90
+  }
 }
 ```
 
-Interpretation text is consumed as-is from the JSON — the frontend does not generate it.
+The response is mapped to dashboard signals in `src/lib/helix/mapSnapshot.ts` and summary bullets are parsed from `consolidation_summary`.
 
-### Updating data
+| Dashboard signal | Helix source |
+| --- | --- |
+| BTC Price | `btc_price_4h` |
+| Market Buying Power | `ssr` |
+| BTC Netflow | `btc_exchange_netflow` |
+| BTC Funding Rate | `btc_funding_rate` (+ open interest extras) |
+| Global Liquidity | `m2` |
+| Crypto Market Sentiment | `fear_greed` (+ RSI / ADX / VIX sub-stats) |
+| VIX (Global Volatility) | `vix` |
 
-1. Replace `public/data/indicators.json` with the new export from your backend pipeline.
-2. Redeploy, or upload the file to your static host.
-3. Users see updated values on the next page load or after pressing **Refresh data**.
+Indicator **descriptions** shown on cards are defined in the mapper. **Values**, **charts**, and the **market summary bullets** come from the API.
+
+### Refresh behaviour
+
+- `lastFetchedAt` is stored in `localStorage`
+- Data is refetched automatically after 24 hours
+- Manual refresh is available from the UI
+
+### Testing the API
+
+- **CLI:** `npm run test:helix`
+- **Browser (dev):** open `/helix-test` to probe `dashboard.snapshot` and inspect the raw JSON
 
 ## Routes
 
 | Route | Description |
 | --- | --- |
-| `/` | Market sentiment overview with featured signal cards |
-| `/signals` | Full signal list with filters and detail panel |
-| `/settings` | POC settings, refresh controls, and deployment notes |
+| `/` | Market sentiment overview with signal cards |
+| `/dashboard` | Personal dashboard placeholder (coming soon) |
+| `/helix-test` | Dev-only Helix API probe (not linked in navigation) |
 
 ## Project structure
 
@@ -101,24 +126,28 @@ src/
   assets/css/             Global styles and sentiment CSS variables
   components/
     layout/               AppShell, Sidebar, TopBar, MobileNav
-    dashboard/            Signal cards, summary, badges, states
+    dashboard/            Signal cards, summary, badges, loading/error states
     charts/               Line charts, gauges, sparklines
-    filters/              Search and filter bar
-    ui/                   Button, Badge, Input, Card, etc.
+    ui/                   Button, Badge, Input, etc.
   lib/
-    data.tsx              Fetch, cache, and refresh logic
+    data.tsx              Helix fetch, context, and refresh logic
     types.ts              Domain types
-    format.ts             Value and date formatters
+    format.ts             Value, date, and change formatters
     sentiment.ts          Filtering, sorting, sentiment helpers
     theme.ts              Shared chart and gauge color tokens
     netflow.ts            Netflow weekly chart helpers
-public/
-  data/                   Static JSON datasets
+    helix/
+      client.ts           Helix HTTP client
+      mapSnapshot.ts      Helix → dashboard signal mapping
+      parseSummary.ts     consolidation_summary HTML parser
+      config.ts           URL, API key, default params
+scripts/
+  test-helix-api.mjs      CLI Helix smoke test
 ```
 
 ## Deployment
 
-The app is configured for static export. After building:
+The app is configured for static export:
 
 ```bash
 npm run build
@@ -126,22 +155,23 @@ npm run build
 
 Deploy the contents of `./out` to Vercel, Netlify, GitHub Pages, or any static host.
 
+Set `NEXT_PUBLIC_HELIX_API_KEY` (and optionally `NEXT_PUBLIC_HELIX_API_URL`) in your hosting provider’s environment variables before building, or inject them at build time.
+
 For sub-path hosting (e.g. GitHub Pages), set `basePath` in `next.config.mjs` and `NEXT_PUBLIC_BASE_PATH` to match your path.
 
 See [`POC_INFO.md`](./POC_INFO.md) for delivery checklist and hosting notes.
 
 ## Design system
 
-Colors, typography, and spacing follow the Diamond Pigs design tokens defined in `tailwind.config.ts` and `src/assets/css/globals.css`. Chart and gauge components pull shared values from `src/lib/theme.ts` so SVG and Recharts styling stay consistent with Tailwind classes.
+Colors, typography, and spacing follow the Diamond Pigs design tokens in `tailwind.config.ts` and `src/assets/css/globals.css`. Chart and gauge components pull shared values from `src/lib/theme.ts` so SVG and Recharts styling stay consistent with Tailwind classes.
 
 Sentiment mode is applied via a `data-sentiment` attribute on the app shell, which updates CSS custom properties for accents, badges, and summary surfaces.
 
 ## Out of scope (POC)
 
 - No backend, authentication, or database
-- No live market API calls
-- No client-side interpretation generation
-- Filtering and search run entirely in the browser
+- No static JSON fallback — Helix API only
+- Personal dashboard, watchlists, and alerts are placeholders
 
 ## License
 

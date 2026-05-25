@@ -69,16 +69,16 @@ export default function TopBar({ title, subtitle, onOpenMenu }: TopBarProps) {
             type="button"
             onClick={() => setOpen((v) => !v)}
             className={cn(
-              "inline-flex items-center gap-2 rounded-md border border-neutral-500/40 bg-white py-1 pl-1 pr-3 text-small font-medium text-ink shadow-card transition-colors duration-fast ease-standard hover:bg-neutral-400 focus-ring",
+              "inline-flex items-center gap-2 rounded-md border border-neutral-500/40 bg-white py-1 pl-1 pr-3 text-ink shadow-card transition-colors duration-fast ease-standard hover:bg-neutral-400 focus-ring",
             )}
             aria-haspopup="menu"
             aria-expanded={open}
           >
             <Avatar
               initials="OW"
-              className="bg-negative-50 text-negative-500 shadow-none"
+              className="bg-negative-50 text-caption font-medium text-negative-500 shadow-none"
             />
-            <span className="hidden sm:inline">Account</span>
+            <span className="hidden text-small font-medium sm:inline">Account</span>
             <ChevronDown
               className={cn(
                 "h-4 w-4 text-ink-muted transition-transform duration-fast ease-standard",

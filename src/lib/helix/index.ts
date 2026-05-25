@@ -1,4 +1,6 @@
 export { fetchDashboardSnapshot, helixRequest } from "./client";
+export { mapHelixSnapshot } from "./mapSnapshot";
+export { extractConsolidationBullets, parseConsolidationBullets } from "./parseSummary";
 export {
   DEFAULT_SNAPSHOT_PARAMS,
   getHelixApiKey,
