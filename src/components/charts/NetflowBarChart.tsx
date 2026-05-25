@@ -10,6 +10,7 @@ import {
   YAxis,
 } from "recharts";
 import { chartColors } from "@/lib/theme";
+import { typography } from "@/lib/typography";
 import type { NetflowSeriesPoint } from "@/lib/netflow";
 
 interface Props {
@@ -19,7 +20,7 @@ interface Props {
 }
 
 const Y_TICKS = [0, 20, 40, 60, 80, 100, 120];
-const AXIS_TICK = { fontSize: 11, fill: chartColors.tick };
+const AXIS_TICK = { fontSize: typography.chart.axis, fill: chartColors.tick };
 
 const TooltipContent = ({
   active,

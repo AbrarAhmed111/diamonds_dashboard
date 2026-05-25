@@ -1,6 +1,7 @@
 "use client";
 
 import { chartColors, gaugeColors } from "@/lib/theme";
+import { typography } from "@/lib/typography";
 
 interface Props {
   value: number;
@@ -82,7 +83,7 @@ export default function HalfGaugeChart({
             key={t}
             x={x}
             y={y}
-            fontSize={8}
+            fontSize={typography.gauge.tick}
             fill={chartColors.tick}
             textAnchor={anchor}
             dominantBaseline={baseline}
@@ -92,22 +93,19 @@ export default function HalfGaugeChart({
         );
       })}
 
-      <text
-        x={cx}
-        y={cy - 5}
-        fontSize={23}
-        fill={chartColors.ink}
-        textAnchor="middle"
-        dominantBaseline="middle"
-        fontWeight={500}
-      >
-        {value}
-      </text>
+      <foreignObject x={0} y={cy - 30} width={VIEWBOX_W} height={36}>
+        <div
+          xmlns="http://www.w3.org/1999/xhtml"
+          className="flex h-full items-center justify-center text-stat-value tabular-nums"
+        >
+          {value}
+        </div>
+      </foreignObject>
       {label ? (
         <text
           x={cx}
           y={cy + 11}
-          fontSize={9}
+          fontSize={typography.gauge.label}
           fill={chartColors.tick}
           textAnchor="middle"
           dominantBaseline="middle"

@@ -36,7 +36,7 @@ export default function RangeTabs({
             onClick={() => onChange(r)}
             className={cn(
               "rounded-full font-medium transition-colors duration-fast ease-standard focus-ring",
-              size === "sm" ? "h-7 px-3 text-caption" : "h-8 px-4 text-small",
+              size === "sm" ? "h-7 px-3 text-caption" : "h-8 px-4 text-caption",
               active
                 ? "bg-neutral-900 text-white"
                 : "text-ink-muted hover:bg-neutral-400 hover:text-ink",

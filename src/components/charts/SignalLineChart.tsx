@@ -11,6 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import { chartColors } from "@/lib/theme";
+import { typography } from "@/lib/typography";
 import type { SignalValue } from "@/lib/types";
 import { formatDate, formatValue } from "@/lib/format";
 
@@ -150,15 +151,40 @@ function DayAxisTick({
 
   return (
     <g transform={`translate(${x},${y})`}>
-      <text textAnchor="middle" fill={chartColors.tick} fontSize={11} dy={8}>
+      <text textAnchor="middle" fill={chartColors.tick} fontSize={typography.chart.axis} dy={8}>
         {day}
       </text>
       {day === 1 ? (
-        <text textAnchor="middle" fill={chartColors.tick} fontSize={10} dy={22}>
+        <text textAnchor="middle" fill={chartColors.tick} fontSize={typography.chart.label} dy={22}>
           {monthLabel}
         </text>
       ) : null}
     </g>
+  );
+}
+
+function YAxisTickLeft({
+  y = 0,
+  payload,
+  unit,
+}: {
+  y?: number;
+  payload?: { value: number };
+  unit?: string;
+}) {
+  if (payload == null) return null;
+
+  return (
+    <text
+      x={0}
+      y={y}
+      dy={4}
+      textAnchor="start"
+      fill={chartColors.tick}
+      fontSize={typography.chart.axis}
+    >
+      {formatValue(payload.value, unit)}
+    </text>
   );
 }
 
@@ -212,6 +238,7 @@ export default function SignalLineChart({
     mode === "day" ? dayTicks : mode === "month" ? monthTicks : yearTicks;
   const bottomMargin =
     showAxes && mode === "day" ? 34 : showAxes && mode === "month" ? 22 : 4;
+  const yAxisWidth = isPercent ? 34 : 44;
 
   return (
     <div className="w-full" role="img" aria-label={ariaLabel ?? "Time-series chart"}>
@@ -248,7 +275,7 @@ export default function SignalLineChart({
                 mode === "day" ? (
                   <DayAxisTick />
                 ) : (
-                  { fontSize: 11, fill: chartColors.tick }
+                  { fontSize: typography.chart.axis, fill: chartColors.tick }
                 )
               }
               tickFormatter={
@@ -267,11 +294,10 @@ export default function SignalLineChart({
               stroke={chartColors.tick}
               tickLine={false}
               axisLine={false}
-              width={56}
+              width={yAxisWidth}
               domain={isPercent ? [0, yDomainMax] : ["auto", "auto"]}
               ticks={percentTicks ?? undefined}
-              tick={{ fontSize: 11, fill: chartColors.tick }}
-              tickFormatter={(v) => formatValue(v, unit)}
+              tick={<YAxisTickLeft unit={unit} />}
             />
           ) : (
             <YAxis hide />

@@ -14,7 +14,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   return (
     <div
       className={cn(
-        "group flex h-10 items-center gap-2 rounded-md border border-neutral-500/70 bg-white px-2 text-small text-ink transition-colors",
+        "group flex h-10 items-center gap-2 rounded-[4px] border border-neutral-500/70 bg-white px-2 text-small text-ink transition-colors",
         "focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/30",
         containerClassName,
       )}

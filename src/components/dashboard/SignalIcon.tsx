@@ -178,7 +178,7 @@ export default function SignalIcon({
   return (
     <span
       aria-hidden
-      className={cn("grid shrink-0 place-items-center rounded-lg", dim, cfg.bg, cfg.ink)}
+      className={cn("grid shrink-0 place-items-center rounded-[8px]", dim, cfg.bg, cfg.ink)}
     >
       {cfg.glyph}
     </span>

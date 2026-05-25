@@ -13,7 +13,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
   return (
     <label
       className={cn(
-        "relative inline-flex h-9 w-full items-center gap-2 rounded-full border border-neutral-500/70 bg-white px-2.5 text-[13px] text-ink sm:h-10 sm:w-auto sm:px-3 sm:text-small",
+        "relative inline-flex h-9 w-full items-center gap-2 rounded-full border border-neutral-500/70 bg-white px-2.5 text-body-m text-ink sm:h-10 sm:w-auto sm:px-3 sm:text-body",
         "focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-500/30",
       )}
     >

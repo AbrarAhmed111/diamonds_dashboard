@@ -10,7 +10,7 @@ export function SkeletonCard({ className }: { className?: string }) {
       aria-hidden
     >
       <div className="flex items-center gap-3">
-        <div className="h-9 w-9 rounded-xl bg-neutral-400" />
+        <div className="h-9 w-9 rounded-[8px] bg-neutral-400" />
         <div className="space-y-2">
           <div className="h-3 w-40 rounded-full bg-neutral-400" />
           <div className="h-2 w-24 rounded-full bg-neutral-400" />

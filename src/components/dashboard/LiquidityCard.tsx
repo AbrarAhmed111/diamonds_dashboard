@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import SignalLineChart from "@/components/charts/SignalLineChart";
-import SplitFrame from "./SplitFrame";
+import SplitFrame, { SPLIT_CARD_CHART_HEIGHT } from "./SplitFrame";
 import { formatValue, getLatestValue } from "@/lib/format";
 import type { Signal } from "@/lib/types";
 
@@ -36,17 +36,17 @@ export default function LiquidityCard({
       description={signal.description}
     >
       <div>
-        <p className="text-metric">
+        <p className="text-stat-value">
           {formatValue(latest?.value, signal.unit)}
         </p>
-        <p className="mt-1 text-[13px] text-ink-muted sm:mt-2 sm:text-small">{metricLabel}</p>
+        <p className="mt-1 text-meta sm:mt-2">{metricLabel}</p>
       </div>
 
       <div className="mt-4 sm:mt-5">
         <SignalLineChart
           values={signal.values}
           unit={signal.unit}
-          height={160}
+          height={SPLIT_CARD_CHART_HEIGHT}
           xAxisMode="year"
           ariaLabel={`${signal.name} long-term chart`}
         />

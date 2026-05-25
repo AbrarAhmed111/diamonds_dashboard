@@ -40,7 +40,7 @@ export default function MarketSummary({ signals, lastFetchedAt, bullets }: Props
       aria-labelledby="market-sentiment-heading"
       className="surface-card surface-card-pad"
     >
-      <p className="text-[13px] text-ink-muted sm:text-small">Market data updated:</p>
+      <p className="text-meta">Market data updated:</p>
       <div className="mt-1 flex flex-wrap items-center gap-2 sm:gap-3">
         <h2
           id="market-sentiment-heading"
@@ -55,7 +55,7 @@ export default function MarketSummary({ signals, lastFetchedAt, bullets }: Props
 
       <ul className="mt-4 max-w-3xl space-y-2 sm:mt-5">
         {bulletList.map((line, i) => (
-          <li key={i} className="flex gap-2.5 text-[13px] leading-5 text-ink/85 sm:gap-3 sm:text-small md:text-body md:leading-6">
+          <li key={i} className="flex gap-2.5 text-small text-ink/85 sm:gap-3 md:text-body">
             <span
               aria-hidden
               className="mt-[10px] h-2 w-2 shrink-0 rounded-full bg-sentiment"

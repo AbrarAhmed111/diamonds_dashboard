@@ -54,7 +54,7 @@ export default function RangeGaugeChart({
         />
       </div>
 
-      <div className="mt-2.5 flex justify-between text-[11px] text-ink-muted sm:text-caption">
+      <div className="mt-2.5 flex justify-between text-caption text-ink-muted">
         {zones.map((z, i) => (
           <span
             key={z.label}
@@ -112,7 +112,7 @@ export default function RangeGaugeChart({
               );
             })}
           </div>
-          <p className="mt-2.5 text-[11px] text-ink-muted sm:text-caption">14-day history</p>
+          <p className="mt-2.5 text-caption text-ink-muted">14-day history</p>
         </div>
       ) : null}
     </div>

@@ -38,7 +38,7 @@ export function CardHeader({
     <header className={cn("flex flex-wrap items-start justify-between gap-3", className)}>
       <div className="flex items-start gap-3">
         {icon ? (
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-neutral-400 text-neutral-800">
+          <span className="grid h-9 w-9 place-items-center rounded-[8px] bg-neutral-400 text-neutral-800">
             {icon}
           </span>
         ) : null}

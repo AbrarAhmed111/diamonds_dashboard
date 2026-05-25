@@ -29,10 +29,10 @@ export default function FundingRateCard({ signal }: Props) {
       description={signal.description}
     >
       <div className="mt-1 flex flex-wrap items-baseline gap-2 sm:gap-3">
-        <p className="text-metric">
+        <p className="text-stat-value">
           {formatChange(value * 100, "%")}
         </p>
-        <span className="text-[13px] text-ink-muted sm:text-small">
+        <span className="text-meta">
           Per 8h{annualised !== null ? ` · annualised ${formatChange(annualised, "%")}` : ""}
         </span>
       </div>

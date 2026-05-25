@@ -78,7 +78,7 @@ export default function Sidebar({
           collapsed ? "justify-center px-2" : "justify-between gap-3",
         )}
       >
-        {!collapsed ? <Logo /> : null}
+        {!collapsed ? <Logo src="/dp logo.svg" /> : null}
 
         {onClose ? (
           <button
@@ -110,7 +110,7 @@ export default function Sidebar({
             aria-label="Search"
             leadingIcon={<Search className="h-4 w-4" />}
             trailingIcon={
-              <kbd className="grid h-7 min-w-[24px] place-items-center rounded-sm border border-neutral-500/70 bg-neutral-500/50 px-1 text-[12px] font-medium text-ink-muted">
+              <kbd className="grid h-7 min-w-[24px] place-items-center rounded-[4px] border border-neutral-500/70 bg-neutral-500/50 px-1 text-caption font-medium text-ink-muted">
                 /
               </kbd>
             }
@@ -121,10 +121,10 @@ export default function Sidebar({
           <button
             type="button"
             onClick={onToggleCollapse}
-            className="grid h-10 w-10 place-items-center rounded-md border border-neutral-500/70 text-ink-muted transition-colors hover:bg-neutral-400 focus-ring"
+            className="grid h-10 w-10 place-items-center rounded-[4px] border border-neutral-500/70 text-caption text-ink-muted transition-colors hover:bg-neutral-400 focus-ring"
             aria-label="Search"
           >
-            <Search className="h-4 w-4" />
+            <Search className="h-3 w-3" />
           </button>
         </div>
       )}
@@ -151,7 +151,7 @@ export default function Sidebar({
                       : pathname.startsWith(item.href);
                 const Icon = item.icon;
                 const className = cn(
-                  "flex items-center rounded-lg text-small transition-colors duration-fast ease-standard focus-ring",
+                  "flex items-center rounded text-small transition-colors duration-fast ease-standard focus-ring",
                   collapsed ? "justify-center px-2 py-2.5" : "px-3 py-2",
                   active
                     ? "bg-neutral-900 font-medium text-white"
@@ -200,10 +200,10 @@ export default function Sidebar({
           type="button"
           title={collapsed ? "Log out" : undefined}
           className={cn(
-            "flex w-full items-center justify-center border border-negative-500 bg-white font-medium text-negative-500 transition-colors duration-fast ease-standard hover:bg-negative-50 focus-ring",
+            "flex w-full items-center justify-center border border-negative-500 bg-white text-btn-sm font-medium text-negative-500 transition-colors duration-fast ease-standard hover:bg-negative-50 focus-ring",
             collapsed
-              ? "rounded-md px-2 py-3"
-              : "gap-2.5 rounded-md px-5 py-3 text-[16px]",
+              ? "rounded px-2 py-3"
+              : "gap-2.5 rounded px-5 py-3",
           )}
         >
           <LogOut className="h-5 w-5 shrink-0" strokeWidth={2.25} />

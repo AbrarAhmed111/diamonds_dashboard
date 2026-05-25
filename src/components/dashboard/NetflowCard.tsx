@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import NetflowBarChart from "@/components/charts/NetflowBarChart";
-import SplitFrame from "./SplitFrame";
+import SplitFrame, { SPLIT_CARD_CHART_HEIGHT } from "./SplitFrame";
 import { formatChange, getValueChangePercent } from "@/lib/format";
 import { buildNetflowWeek } from "@/lib/netflow";
 import type { Signal } from "@/lib/types";
@@ -28,10 +28,10 @@ export default function NetflowCard({ signal }: Props) {
     >
       <div className="flex flex-wrap items-start gap-x-4 gap-y-2 sm:gap-x-6 sm:gap-y-3">
         <div>
-          <p className="text-metric">
+          <p className="text-stat-value">
             {formatChange(weekChange, "%", 3)}
           </p>
-          <p className="mt-1 text-[13px] text-ink-muted sm:mt-2 sm:text-small">Last week</p>
+          <p className="mt-1 text-meta sm:mt-2">Last week</p>
         </div>
 
         <div className="flex flex-col gap-2 pt-0.5 text-caption text-ink-muted">
@@ -49,7 +49,7 @@ export default function NetflowCard({ signal }: Props) {
       <div className="mt-4">
         <NetflowBarChart
           data={weekData}
-          height={150}
+          height={SPLIT_CARD_CHART_HEIGHT}
           ariaLabel={`${signal.name} weekly inflow vs outflow`}
         />
       </div>

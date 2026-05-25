@@ -58,7 +58,7 @@ export default function TopBar({ title, subtitle, onOpenMenu }: TopBarProps) {
             {title}
           </h1>
           {subtitle ? (
-            <p className="mt-1 text-[13px] leading-5 text-ink-muted sm:text-small md:text-body">
+            <p className="mt-1 text-body-responsive text-ink-muted">
               {subtitle}
             </p>
           ) : null}
@@ -69,7 +69,7 @@ export default function TopBar({ title, subtitle, onOpenMenu }: TopBarProps) {
             type="button"
             onClick={() => setOpen((v) => !v)}
             className={cn(
-              "inline-flex items-center gap-2 rounded-md border border-neutral-500/10 bg-white py-1 pl-1 pr-3 text-small font-medium text-ink transition-colors duration-fast ease-standard hover:bg-neutral-400 focus-ring",
+              "inline-flex items-center gap-2 rounded-md border border-neutral-500/40 bg-white py-1 pl-1 pr-3 text-small font-medium text-ink shadow-card transition-colors duration-fast ease-standard hover:bg-neutral-400 focus-ring",
             )}
             aria-haspopup="menu"
             aria-expanded={open}

@@ -55,7 +55,7 @@ export default function SignalDetailPanel({ signal, onClose }: Props) {
       <aside className="absolute inset-y-0 right-0 flex w-full max-w-xl flex-col bg-white shadow-card">
         <header className="flex items-start justify-between gap-3 border-b border-neutral-500/40 p-4 sm:p-5">
           <div className="min-w-0">
-            <h2 id="signal-detail-title" className="truncate text-[20px] font-medium leading-tight text-ink sm:text-h3-m md:text-h3">
+            <h2 id="signal-detail-title" className="truncate text-h4-m font-medium text-ink md:text-h3">
               {signal.name}
             </h2>
             <p className="text-small text-ink-muted">

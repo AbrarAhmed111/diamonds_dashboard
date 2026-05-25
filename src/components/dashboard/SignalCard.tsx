@@ -47,7 +47,7 @@ export default function SignalCard({
     <article className="surface-card surface-card-pad overflow-hidden">
       <header className="flex flex-wrap items-center gap-2 sm:gap-3">
         <SignalIcon id={signal.id} category={signal.category} size="sm" />
-        <h3 className="text-card-title">{signal.name}</h3>
+        <h3 className="text-body-bold">{signal.name}</h3>
         {onSelect ? (
           <button
             type="button"
@@ -70,7 +70,7 @@ export default function SignalCard({
         >
           {changePct === null ? "–" : `${changePct >= 0 ? "+" : ""}${changePct.toFixed(1)}%`}
         </Badge>
-        <span className="text-[13px] text-ink-muted sm:text-small">{caption}</span>
+        <span className="text-meta">{caption}</span>
       </div>
 
       <div className="mt-3 sm:mt-4">

@@ -53,9 +53,19 @@ body {
   background: rgb(var(--canvas-rgb));
   color: rgb(var(--ink-rgb));
   font-family: var(--font-inter-tight);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+@media (min-width: 768px) {
+  html,
+  body {
+    font-size: 17px;
+  }
 }
 
 * {
@@ -71,35 +81,50 @@ body {
 }
 
 @layer components {
+  .text-display {
+    @apply text-h1-m font-medium text-ink md:text-h1;
+  }
+  .text-page-title {
+    @apply text-h2-m font-normal text-ink md:text-h2;
+  }
+  .text-section-date {
+    @apply text-h4-m font-medium text-ink md:text-h4;
+  }
+  .text-metric {
+    @apply text-h3-m font-medium text-ink md:text-h2;
+  }
+  .text-stat-value {
+    @apply text-h4-m font-medium text-ink md:text-h4;
+  }
+  .text-body-bold {
+    @apply text-body-m font-medium text-ink md:text-body;
+  }
+  .text-card-title {
+    @apply text-h3-m font-medium text-ink md:text-h4;
+  }
+  .text-card-body {
+    @apply text-small text-ink-muted;
+  }
+  .text-meta {
+    @apply text-small text-ink-muted;
+  }
+  .text-body-responsive {
+    @apply text-body-m md:text-body;
+  }
   .surface-card {
-    @apply rounded-2xl border border-neutral-500/40 bg-white shadow-card;
+    @apply rounded-md border border-neutral-500/40 bg-white shadow-card;
   }
   .surface-card-pad {
     @apply p-4 sm:p-5 md:p-7;
   }
-  .text-page-title {
-    @apply text-[22px] font-medium leading-tight tracking-tight text-ink sm:text-[28px] md:text-[36px] md:leading-[44px];
-  }
-  .text-section-date {
-    @apply text-[18px] font-medium leading-tight text-ink sm:text-[22px] md:text-[28px];
-  }
-  .text-metric {
-    @apply text-[22px] font-medium leading-none text-ink sm:text-[26px] md:text-[32px];
-  }
-  .text-stat-value {
-    @apply text-[16px] font-medium leading-none text-ink sm:text-[18px] md:text-[22px];
-  }
-  .text-card-title {
-    @apply text-[18px] font-medium leading-snug text-ink md:text-[22px] md:leading-7;
-  }
-  .text-card-body {
-    @apply text-[13px] leading-5 text-ink-muted sm:text-small sm:leading-6;
-  }
   .gauge-fit {
-    @apply mx-auto w-full max-w-[240px] sm:max-w-[300px] md:max-w-[420px];
+    @apply mx-auto w-full max-w-[280px] sm:max-w-[360px] md:max-w-[420px];
   }
   .gauge-fit > svg {
     @apply h-auto w-full;
+  }
+  .rounded-icon {
+    border-radius: 8px;
   }
   .focus-ring {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white;
