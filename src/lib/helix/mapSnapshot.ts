@@ -31,8 +31,7 @@ const DASHBOARD_MAPPINGS: DashboardMapping[] = [
     description:
       "Measures how much stablecoin capital is available to enter the crypto market.",
     category: "on_chain",
-    unit: "%",
-    transform: "pctFromStart",
+    unit: "ratio",
   },
   {
     helixId: "btc_exchange_netflow",

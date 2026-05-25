@@ -36,10 +36,35 @@ export function rangeToDays(range: ChartRange): number {
   }
 }
 
+function dayKey(timestamp: string): string {
+  return timestamp.slice(0, 10);
+}
+
+function parseUtcDay(timestamp: string): Date | null {
+  const key = dayKey(timestamp);
+  const d = new Date(`${key}T00:00:00.000Z`);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+/** Filter values to the last N calendar days ending on the latest data point. */
 export function sliceByRange(values: Signal["values"], range: ChartRange) {
   if (!values?.length) return [];
+
   const days = rangeToDays(range);
-  return values.slice(-Math.min(days, values.length));
+  const sorted = [...values].sort((a, b) => dayKey(a.timestamp).localeCompare(dayKey(b.timestamp)));
+  const lastPoint = sorted[sorted.length - 1];
+  const endDay = lastPoint ? parseUtcDay(lastPoint.timestamp) : null;
+
+  if (!endDay) {
+    return sorted.slice(-Math.min(days, sorted.length));
+  }
+
+  const cutoff = new Date(endDay);
+  cutoff.setUTCDate(cutoff.getUTCDate() - (days - 1));
+  const cutoffKey = cutoff.toISOString().slice(0, 10);
+
+  const filtered = sorted.filter((point) => dayKey(point.timestamp) >= cutoffKey);
+  return filtered.length ? filtered : [lastPoint];
 }
 
 export function rangeCaptionFor(range: ChartRange): string {
