@@ -1,4 +1,4 @@
-export { fetchDashboardSnapshot, helixRequest } from "./client";
+export { fetchDashboardSnapshot } from "./client";
 export { mapHelixSnapshot } from "./mapSnapshot";
 export { extractConsolidationBullets, parseConsolidationBullets } from "./parseSummary";
 export {

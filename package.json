@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write .",
-    "test:helix": "node scripts/test-helix-api.mjs"
+    "format": "prettier --write ."
   },
   "dependencies": {
     "clsx": "^2.1.1",

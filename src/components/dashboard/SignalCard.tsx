@@ -11,7 +11,6 @@ import type { ChartRange, Signal } from "@/lib/types";
 interface SignalCardProps {
   signal: Signal;
   defaultRange?: ChartRange;
-  onSelect?: (signal: Signal) => void;
   rangeCaption?: string;
   valueOverride?: string;
 }
@@ -19,7 +18,6 @@ interface SignalCardProps {
 export default function SignalCard({
   signal,
   defaultRange = "3M",
-  onSelect,
   rangeCaption,
   valueOverride,
 }: SignalCardProps) {
@@ -37,15 +35,6 @@ export default function SignalCard({
       <header className="flex flex-wrap items-center gap-2 sm:gap-3">
         <SignalIcon id={signal.id} category={signal.category} size="sm" />
         <h3 className="text-body-bold">{signal.name}</h3>
-        {onSelect ? (
-          <button
-            type="button"
-            onClick={() => onSelect(signal)}
-            className="ml-auto text-caption font-medium text-blue-700 hover:text-blue-800 focus-ring"
-          >
-            View details
-          </button>
-        ) : null}
       </header>
 
       <div className="mt-4 flex flex-wrap items-center gap-2 sm:mt-5 sm:gap-3">

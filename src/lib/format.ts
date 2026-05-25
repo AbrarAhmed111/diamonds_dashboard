@@ -127,13 +127,3 @@ export function formatDateTime(timestamp: string | Date | null | undefined): str
   return `${dateFmt.format(d)}, ${timeFmt.format(d)} GMT`;
 }
 
-export function categoryLabel(category: string): string {
-  const map: Record<string, string> = {
-    sentiment: "Sentiment",
-    technical: "Technical",
-    macro: "Macro",
-    on_chain: "On-chain",
-    market: "Market",
-  };
-  return map[category] ?? category.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-}

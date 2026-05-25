@@ -58,16 +58,6 @@ function SkeletonSplitCard() {
   );
 }
 
-export function SkeletonGrid({ count = 4 }: { count?: number }) {
-  return (
-    <div className="grid grid-cols-1 gap-4 md:gap-5 lg:grid-cols-2" aria-busy>
-      {Array.from({ length: count }).map((_, i) => (
-        <SkeletonCard key={i} />
-      ))}
-    </div>
-  );
-}
-
 export function SkeletonHero() {
   return (
     <div className="surface-card animate-pulse p-5 md:p-7" aria-hidden>

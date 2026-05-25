@@ -1,5 +1,4 @@
-import type { ChartRange, Signal, SentimentType, SignalFilters, SortKey } from "./types";
-import { getLatestValue } from "./format";
+import type { ChartRange, Signal, SentimentType } from "./types";
 
 export function getSignalSentiment(signal: Signal): SentimentType {
   return signal.sentiment ?? "neutral";
@@ -19,19 +18,6 @@ export function getOverallSentiment(signals: Signal[]): SentimentType {
   if (pos > neg && pos >= neu) return "positive";
   if (neg > pos && neg >= neu) return "negative";
   return "neutral";
-}
-
-export function getStatusLabel(status: Signal["status"]): string {
-  switch (status) {
-    case "healthy":
-      return "Live";
-    case "stale":
-      return "Delayed";
-    case "error":
-      return "Error";
-    default:
-      return "Unknown";
-  }
 }
 
 export function rangeToDays(range: ChartRange): number {
@@ -69,45 +55,6 @@ export function rangeCaptionFor(range: ChartRange): string {
     case "12M":
     default:
       return "Last 12 months";
-  }
-}
-
-export function filterSignals(signals: Signal[], filters: SignalFilters): Signal[] {
-  const q = filters.query.trim().toLowerCase();
-  return signals.filter((s) => {
-    if (filters.category !== "all" && s.category !== filters.category) return false;
-    if (filters.status !== "all" && (s.status ?? "unknown") !== filters.status) return false;
-    if (filters.sentiment !== "all" && (s.sentiment ?? "neutral") !== filters.sentiment)
-      return false;
-    if (!q) return true;
-    const haystack = [
-      s.name,
-      s.category,
-      s.description ?? "",
-      s.source ?? "",
-      s.interpretation ?? "",
-    ]
-      .join(" ")
-      .toLowerCase();
-    return haystack.includes(q);
-  });
-}
-
-export function sortSignals(signals: Signal[], key: SortKey): Signal[] {
-  const list = [...signals];
-  switch (key) {
-    case "name_asc":
-      return list.sort((a, b) => a.name.localeCompare(b.name));
-    case "value_desc":
-      return list.sort((a, b) => (getLatestValue(b)?.value ?? 0) - (getLatestValue(a)?.value ?? 0));
-    case "value_asc":
-      return list.sort((a, b) => (getLatestValue(a)?.value ?? 0) - (getLatestValue(b)?.value ?? 0));
-    case "category_asc":
-      return list.sort((a, b) => a.category.localeCompare(b.category));
-    case "status_asc":
-      return list.sort((a, b) => (a.status ?? "unknown").localeCompare(b.status ?? "unknown"));
-    default:
-      return list;
   }
 }
 

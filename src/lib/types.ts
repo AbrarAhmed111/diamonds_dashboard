@@ -24,27 +24,4 @@ export interface Signal {
   [extra: string]: unknown;
 }
 
-export type SortKey =
-  | "name_asc"
-  | "value_desc"
-  | "value_asc"
-  | "category_asc"
-  | "status_asc";
-
-export interface SignalFilters {
-  query: string;
-  category: string | "all";
-  status: SignalStatus | "all";
-  sentiment: SentimentType | "all";
-  sort: SortKey;
-}
-
-export const DEFAULT_FILTERS: SignalFilters = {
-  query: "",
-  category: "all",
-  status: "all",
-  sentiment: "all",
-  sort: "name_asc",
-};
-
 export type ChartRange = "1D" | "1W" | "1M" | "3M" | "12M";
