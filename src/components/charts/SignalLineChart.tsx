@@ -192,11 +192,11 @@ function DayAxisTick({
 
   return (
     <g transform={`translate(${x},${y})`}>
-      <text textAnchor="middle" fill={chartColors.tick} fontSize={typography.chart.axis} dy={8}>
+      <text textAnchor="middle" fill={chartColors.tick} fontSize={typography.chart.axis} dy={12}>
         {day}
       </text>
       {showMonth ? (
-        <text textAnchor="middle" fill={chartColors.tick} fontSize={typography.chart.label} dy={22}>
+        <text textAnchor="middle" fill={chartColors.tick} fontSize={typography.chart.label} dy={26}>
           {monthLabel}
         </text>
       ) : null}
@@ -279,7 +279,7 @@ export default function SignalLineChart({
   const xAxisTicks =
     mode === "day" ? dayTicks : mode === "month" ? monthTicks : yearTicks;
   const bottomMargin =
-    showAxes && mode === "day" ? 34 : showAxes && mode === "month" ? 22 : 4;
+    showAxes && mode === "day" ? 38 : showAxes && mode === "month" ? 26 : 4;
   const yAxisWidth = isPercent ? 34 : 44;
 
   return (
@@ -310,7 +310,7 @@ export default function SignalLineChart({
               tickLine={false}
               axisLine={false}
               ticks={xAxisTicks}
-              tickMargin={mode === "month" ? 8 : 0}
+              tickMargin={mode === "day" || mode === "month" ? 10 : 0}
               minTickGap={mode === "month" ? 16 : 0}
               interval={0}
               tick={
