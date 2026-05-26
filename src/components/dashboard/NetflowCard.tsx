@@ -38,7 +38,7 @@ export default function NetflowCard({ signal }: Props) {
     { label: "Net Outflow", value: formatBtcVolume(metrics.grossOutflow) },
     {
       label: "Exchange Balance Change",
-      value: `${exchangeBalanceLabel} WoW`,
+      value: `${exchangeBalanceLabel} Week over Week`,
     },
   ];
 
@@ -65,7 +65,7 @@ export default function NetflowCard({ signal }: Props) {
       <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-3 sm:gap-x-6">
         <div className="min-w-[7rem]">
           <p className="text-stat-value">{exchangeBalanceLabel}</p>
-          <p className="mt-1 text-meta sm:mt-2">Exchange balance change · WoW</p>
+          <p className="mt-1 text-meta sm:mt-2">Exchange balance change · Week over Week</p>
         </div>
 
         <div className="flex flex-col gap-2.5 pt-0.5 text-caption text-ink-muted">

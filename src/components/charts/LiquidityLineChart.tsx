@@ -11,11 +11,14 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { formatDate, formatGlobalM2Axis, formatGlobalM2Supply } from "@/lib/format";
+import { formatGlobalM2Axis, formatGlobalM2Supply } from "@/lib/format";
 import {
-  buildLiquidityYearTicks,
+  buildLiquidityXAxisTicks,
   buildLiquidityYAxis,
+  formatGlobalLiquidityTooltipDate,
+  formatGlobalLiquidityXAxisTick,
   toLiquidityChartPoints,
+  type LiquidityDateRangeType,
 } from "@/lib/liquidity";
 import { chartColors } from "@/lib/theme";
 import { typography } from "@/lib/typography";
@@ -50,22 +53,24 @@ function YAxisTickLeft({
   );
 }
 
-const TooltipContent = ({
+function TooltipContent({
   active,
   payload,
+  rangeType,
 }: {
   active?: boolean;
   payload?: Array<{ payload: { x: string; y: number; billions: number } }>;
-}) => {
+  rangeType: LiquidityDateRangeType;
+}) {
   if (!active || !payload?.length) return null;
   const point = payload[0].payload;
   return (
     <div className="rounded-lg border border-neutral-500/60 bg-white/95 px-3 py-2 text-caption shadow-card backdrop-blur">
       <p className="font-medium text-ink">{formatGlobalM2Supply(point.billions)}</p>
-      <p className="text-ink-muted">{formatDate(point.x)}</p>
+      <p className="text-ink-muted">{formatGlobalLiquidityTooltipDate(point.x, rangeType)}</p>
     </div>
   );
-};
+}
 
 function yAxisWidthForTicks(ticks: number[]): number {
   const longest = ticks.reduce(
@@ -73,6 +78,45 @@ function yAxisWidthForTicks(ticks: number[]): number {
     1,
   );
   return Math.min(40, Math.max(28, longest * 7 + 8));
+}
+
+function LiquidityXAxisTick({
+  x = 0,
+  y = 0,
+  payload,
+  xTicks,
+  rangeType,
+}: {
+  x?: number;
+  y?: number;
+  payload?: { value: string };
+  xTicks: string[];
+  rangeType: LiquidityDateRangeType;
+}) {
+  if (!payload?.value) return null;
+
+  const timestamp = String(payload.value);
+  const tickIndex = xTicks.indexOf(timestamp);
+  const label = formatGlobalLiquidityXAxisTick(timestamp, rangeType, {
+    previousTimestamp: tickIndex > 0 ? xTicks[tickIndex - 1] : undefined,
+  });
+  const fontSize =
+    rangeType === "monthly" && xTicks.length > 12
+      ? typography.chart.axis - 1
+      : typography.chart.axis;
+
+  return (
+    <text
+      x={x}
+      y={y}
+      dy={12}
+      textAnchor="middle"
+      fill={chartColors.tick}
+      fontSize={fontSize}
+    >
+      {label}
+    </text>
+  );
 }
 
 export default function LiquidityLineChart({
@@ -88,8 +132,9 @@ export default function LiquidityLineChart({
   }, [values]);
 
   const yAxis = useMemo(() => buildLiquidityYAxis(data), [data]);
-  const yearTicks = useMemo(() => buildLiquidityYearTicks(data), [data]);
+  const { rangeType, ticks: xTicks } = useMemo(() => buildLiquidityXAxisTicks(data), [data]);
   const yAxisWidth = useMemo(() => yAxisWidthForTicks(yAxis.ticks), [yAxis.ticks]);
+  const xAxisTicks = rangeType === "monthly" ? data.map((point) => point.x) : xTicks;
 
   if (!data.length) {
     return (
@@ -108,7 +153,7 @@ export default function LiquidityLineChart({
       <ResponsiveContainer width="100%" height={height}>
         <ComposedChart
           data={data}
-          margin={{ top: 10, right: 12, bottom: 4, left: 0 }}
+          margin={{ top: 10, right: 12, bottom: rangeType === "monthly" ? 8 : 4, left: 0 }}
         >
           <defs>
             <linearGradient id="dp-liquidity-area" x1="0" y1="0" x2="0" y2="1">
@@ -122,11 +167,10 @@ export default function LiquidityLineChart({
             stroke={chartColors.tick}
             tickLine={false}
             axisLine={false}
-            ticks={yearTicks}
+            ticks={xAxisTicks}
             interval={0}
             tickMargin={8}
-            tick={{ fontSize: typography.chart.axis, fill: chartColors.tick }}
-            tickFormatter={(value) => `${parseYear(String(value))}`}
+            tick={<LiquidityXAxisTick xTicks={xAxisTicks} rangeType={rangeType} />}
           />
           <YAxis
             stroke={chartColors.tick}
@@ -137,7 +181,10 @@ export default function LiquidityLineChart({
             ticks={yAxis.ticks}
             tick={<YAxisTickLeft />}
           />
-          <Tooltip content={<TooltipContent />} cursor={{ stroke: chartColors.cursor }} />
+          <Tooltip
+            content={<TooltipContent rangeType={rangeType} />}
+            cursor={{ stroke: chartColors.cursor }}
+          />
           <Area
             type="monotone"
             dataKey="y"
@@ -163,8 +210,4 @@ export default function LiquidityLineChart({
       </ResponsiveContainer>
     </div>
   );
-}
-
-function parseYear(timestamp: string): number {
-  return Number(timestamp.slice(0, 4));
 }
