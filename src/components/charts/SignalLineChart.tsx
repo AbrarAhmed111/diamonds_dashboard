@@ -296,8 +296,8 @@ export default function SignalLineChart({
         >
           <defs>
             <linearGradient id="dp-area" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="rgb(var(--chart-rgb))" stopOpacity={0.18} />
-              <stop offset="100%" stopColor="rgb(var(--chart-rgb))" stopOpacity={0} />
+              <stop offset="0%" stopColor={chartColors.chart} stopOpacity={0.18} />
+              <stop offset="100%" stopColor={chartColors.chart} stopOpacity={0} />
             </linearGradient>
           </defs>
           {showAxes ? (
@@ -355,13 +355,13 @@ export default function SignalLineChart({
           <Line
             type="monotone"
             dataKey="y"
-            stroke="rgb(var(--chart-rgb))"
+            stroke={chartColors.chart}
             strokeWidth={2}
             dot={false}
             isAnimationActive={false}
             activeDot={{
               r: 4,
-              stroke: "rgb(var(--chart-rgb))",
+              stroke: chartColors.chart,
               fill: chartColors.white,
               strokeWidth: 2,
             }}

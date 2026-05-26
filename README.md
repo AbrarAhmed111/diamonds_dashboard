@@ -68,7 +68,7 @@ See [`.env.example`](./.env.example) for the full template.
 
 ## Data
 
-On load, `SignalsProvider` (`src/lib/data.tsx`) requests a Helix `dashboard.snapshot` with `output_prompt_id: 7` and `limit_days: 90`.
+On load, `SignalsProvider` (`src/lib/data.tsx`) requests a Helix `dashboard.snapshot` with `output_prompt_id: 7` and `limit_days: 730`.
 
 The response is mapped to dashboard signals in `src/lib/helix/mapSnapshot.ts` and summary bullets are parsed from `consolidation_summary`.
 
@@ -78,7 +78,7 @@ The response is mapped to dashboard signals in `src/lib/helix/mapSnapshot.ts` an
 | Market Buying Power | `ssr` |
 | BTC Netflow | `btc_exchange_netflow` |
 | BTC Funding Rate | `btc_funding_rate` (+ open interest extras) |
-| Global Liquidity | `m2` |
+| Global Liquidity | `global_m2` (fallback: `m2`) — values in USD billions, displayed as trillions |
 | Crypto Market Sentiment | `fear_greed` (+ RSI / ADX / VIX sub-stats) |
 | VIX (Global Volatility) | `vix` |
 
@@ -115,6 +115,7 @@ src/
     sentiment.ts          Sentiment and range helpers
     theme.ts              Shared chart and gauge color tokens
     netflow.ts            Netflow weekly chart helpers
+    liquidity.ts          Global M2 trillion scaling and chart axis helpers
     helix/                Helix API client, types, and snapshot mapper
 ```
 

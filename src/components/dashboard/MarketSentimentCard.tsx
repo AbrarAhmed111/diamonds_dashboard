@@ -4,7 +4,7 @@ import HalfGaugeChart from "@/components/charts/HalfGaugeChart";
 import GaugeAside, { GAUGE_DISPLAY_SIZE } from "./GaugeAside";
 import SplitFrame from "./SplitFrame";
 import { getLatestValue } from "@/lib/format";
-import { gaugeColors } from "@/lib/theme";
+import { gaugeColorForSentiment } from "@/lib/theme";
 import type { Signal } from "@/lib/types";
 
 interface Props {
@@ -15,32 +15,10 @@ export default function MarketSentimentCard({ signal }: Props) {
   const latest = getLatestValue(signal);
   const value = Math.round(latest?.value ?? 0);
   const label = (signal.state_label as string | undefined) ?? deriveLabel(value);
-  const color = value <= 50 ? gaugeColors.negative : gaugeColors.positive;
-
-  const subStats: Array<[string, number | undefined]> = [
-    ["Social Sentiment", signal.social_sentiment as number | undefined],
-    ["Volatility", signal.volatility_score as number | undefined],
-    ["Market Momentum", signal.market_momentum as number | undefined],
-    ["BTC Dominance", signal.btc_dominance_score as number | undefined],
-  ];
+  const color = gaugeColorForSentiment(signal.sentiment);
 
   return (
-    <SplitFrame
-      signal={signal}
-      description={signal.description}
-      asideExtra={
-        <dl className="grid grid-cols-2 gap-x-4 gap-y-2 sm:gap-y-3">
-          {subStats.map(([label, val]) => (
-            <div key={label} className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:gap-2">
-              <dt className="text-caption text-ink-muted">{label}</dt>
-              <dd className="text-stat-value">
-                {val ?? "–"}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      }
-    >
+    <SplitFrame signal={signal} description={signal.description}>
       <GaugeAside>
         <HalfGaugeChart
           value={value}

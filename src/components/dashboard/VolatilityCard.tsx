@@ -4,7 +4,7 @@ import SegmentedGauge from "@/components/charts/SegmentedGauge";
 import GaugeAside, { GAUGE_DISPLAY_SIZE } from "./GaugeAside";
 import SplitFrame from "./SplitFrame";
 import { getLatestValue } from "@/lib/format";
-import { gaugeColors } from "@/lib/theme";
+import { badgeToneForSentiment, gaugeColorForSentiment } from "@/lib/theme";
 import type { Signal } from "@/lib/types";
 
 interface Props {
@@ -16,8 +16,8 @@ export default function VolatilityCard({ signal }: Props) {
   const value = Math.round(latest?.value ?? 0);
   const stateLabel =
     (signal.state_label as string | undefined) ?? deriveLabel(value);
-  const color = value <= 25 ? gaugeColors.positive : gaugeColors.negative;
-  const tone = value <= 25 ? "positive" : "negative";
+  const color = gaugeColorForSentiment(signal.sentiment);
+  const tone = badgeToneForSentiment(signal.sentiment);
 
   return (
     <SplitFrame

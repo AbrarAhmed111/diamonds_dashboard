@@ -14,6 +14,7 @@ interface Props {
   signal: Signal;
   badge?: { label: string; tone?: BadgeTone };
   description?: string;
+  descriptionExtra?: ReactNode;
   children: ReactNode;
   asideExtra?: ReactNode;
 }
@@ -22,6 +23,7 @@ export default function SplitFrame({
   signal,
   badge,
   description,
+  descriptionExtra,
   children,
   asideExtra,
 }: Props) {
@@ -51,6 +53,9 @@ export default function SplitFrame({
             </div>
             {description ? (
               <p className="mt-5 text-card-body sm:mt-6">{description}</p>
+            ) : null}
+            {descriptionExtra ? (
+              <div className="mt-4 sm:mt-5">{descriptionExtra}</div>
             ) : null}
           </div>
           {asideExtra ? <div className="md:max-w-[75%]">{asideExtra}</div> : null}

@@ -4,7 +4,7 @@ import type { HelixSignal, HelixSignalValue } from "./types";
 type Transform = "none" | "dailyLast" | "pctFromStart";
 
 interface DashboardMapping {
-  helixId: string;
+  helixIds: string[];
   dashboardId: string;
   name: string;
   description?: string;
@@ -17,7 +17,7 @@ interface DashboardMapping {
 
 const DASHBOARD_MAPPINGS: DashboardMapping[] = [
   {
-    helixId: "btc_price_4h",
+    helixIds: ["btc_price_4h"],
     dashboardId: "btc_price",
     name: "BTC Price",
     category: "technical",
@@ -25,7 +25,7 @@ const DASHBOARD_MAPPINGS: DashboardMapping[] = [
     transform: "dailyLast",
   },
   {
-    helixId: "ssr",
+    helixIds: ["ssr"],
     dashboardId: "buying_power",
     name: "Market Buying Power",
     description:
@@ -34,7 +34,7 @@ const DASHBOARD_MAPPINGS: DashboardMapping[] = [
     unit: "ratio",
   },
   {
-    helixId: "btc_exchange_netflow",
+    helixIds: ["btc_exchange_netflow"],
     dashboardId: "btc_netflow",
     name: "BTC Netflow",
     description:
@@ -43,7 +43,7 @@ const DASHBOARD_MAPPINGS: DashboardMapping[] = [
     unit: "BTC",
   },
   {
-    helixId: "btc_funding_rate",
+    helixIds: ["btc_funding_rate"],
     dashboardId: "btc_funding_rate",
     name: "BTC Funding Rate",
     description:
@@ -54,16 +54,16 @@ const DASHBOARD_MAPPINGS: DashboardMapping[] = [
     max_val: 0.05,
   },
   {
-    helixId: "m2",
+    helixIds: ["global_m2", "m2"],
     dashboardId: "global_liquidity",
     name: "Global Liquidity",
     description:
       "Shows whether global financial conditions are supporting or limiting risk assets.",
     category: "macro",
-    unit: "USD",
+    unit: "usd_billions",
   },
   {
-    helixId: "fear_greed",
+    helixIds: ["fear_greed"],
     dashboardId: "crypto_market_sentiment",
     name: "Crypto Market Sentiment",
     description:
@@ -74,7 +74,7 @@ const DASHBOARD_MAPPINGS: DashboardMapping[] = [
     max_val: 100,
   },
   {
-    helixId: "vix",
+    helixIds: ["vix"],
     dashboardId: "vix",
     name: "VIX (Global Volatility)",
     description:
@@ -288,7 +288,9 @@ export function mapHelixSnapshot(signals: HelixSignal[]): Signal[] {
   const mapped: Signal[] = [];
 
   for (const mapping of DASHBOARD_MAPPINGS) {
-    const helix = lookup.get(mapping.helixId);
+    const helix = mapping.helixIds
+      .map((id) => lookup.get(id))
+      .find((signal) => signal?.values?.length);
     if (!helix) continue;
     const signal = mapOne(helix, mapping, lookup);
     if (signal) mapped.push(signal);

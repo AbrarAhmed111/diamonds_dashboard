@@ -32,7 +32,7 @@ export default function SegmentedGauge({
   segments = 22,
   ticks = [0, 25, 50],
   label,
-  color = gaugeColors.positive,
+  color = gaugeColors.neutral,
   ariaLabel,
   size = 320,
 }: Props) {

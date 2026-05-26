@@ -31,7 +31,7 @@ export default function HalfGaugeChart({
   max = 100,
   label,
   ticks = [0, 20, 40, 60, 80, 100],
-  color = gaugeColors.positive,
+  color = gaugeColors.neutral,
   ariaLabel,
   size = 260,
 }: Props) {

@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo } from "react";
-import SignalLineChart from "@/components/charts/SignalLineChart";
+import LiquidityLineChart from "@/components/charts/LiquidityLineChart";
 import SplitFrame, { SPLIT_CARD_CHART_HEIGHT } from "./SplitFrame";
-import { formatValue, getLatestValue, computePeriodChangePercent } from "@/lib/format";
+import { formatGlobalM2Supply, getLatestValue, computePeriodChangePercent } from "@/lib/format";
 import type { Signal } from "@/lib/types";
 
 interface Props {
@@ -33,18 +33,14 @@ export default function LiquidityCard({
       description={signal.description}
     >
       <div>
-        <p className="text-stat-value">
-          {formatValue(latest?.value, signal.unit)}
-        </p>
+        <p className="text-stat-value">{formatGlobalM2Supply(latest?.value)}</p>
         <p className="mt-1 text-meta sm:mt-2">{metricLabel}</p>
       </div>
 
       <div className="mt-4 sm:mt-5">
-        <SignalLineChart
+        <LiquidityLineChart
           values={signal.values}
-          unit={signal.unit}
           height={SPLIT_CARD_CHART_HEIGHT}
-          xAxisMode="year"
           ariaLabel={`${signal.name} long-term chart`}
         />
       </div>

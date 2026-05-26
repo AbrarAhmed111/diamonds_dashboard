@@ -18,5 +18,5 @@ export function getHelixApiKey(): string | undefined {
 
 export const DEFAULT_SNAPSHOT_PARAMS: DashboardSnapshotParams = {
   output_prompt_id: 7,
-  limit_days: 365,
+  limit_days: 730,
 };
