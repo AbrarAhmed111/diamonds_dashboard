@@ -79,7 +79,7 @@ The response is mapped to dashboard signals in `src/lib/helix/mapSnapshot.ts` an
 | BTC Netflow | `btc_exchange_netflow` |
 | BTC Funding Rate | `btc_funding_rate` (+ open interest extras) |
 | Global Liquidity | `global_m2` (fallback: `m2`) — values in USD billions, displayed as trillions |
-| Crypto Market Sentiment | `fear_greed` (+ RSI / ADX / VIX sub-stats) |
+| Crypto Market Sentiment | `fear_greed` |
 | VIX (Global Volatility) | `vix` |
 
 Indicator **descriptions** shown on cards are defined in the mapper. **Values**, **charts**, and the **market summary bullets** come from the API.

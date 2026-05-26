@@ -206,28 +206,6 @@ function mapFundingExtras(
   };
 }
 
-function enrichMarketSentiment(
-  signal: Signal,
-  lookup: Map<string, HelixSignal>,
-): Signal {
-  const rsi = lookup.get("rsi_4h");
-  const adx = lookup.get("adx_4h");
-
-  const rsiValues = rsi?.values?.length ? toNumericValues(rsi.values) : [];
-  const adxValues = adx?.values?.length ? toNumericValues(adx.values) : [];
-  const vixValues = lookup.get("vix")?.values?.length
-    ? toNumericValues(lookup.get("vix")!.values)
-    : [];
-
-  return {
-    ...signal,
-    social_sentiment: latestNumeric(signal.values),
-    volatility_score: latestNumeric(vixValues),
-    market_momentum: latestNumeric(rsiValues),
-    btc_dominance_score: latestNumeric(adxValues),
-  };
-}
-
 function mapOne(
   helix: HelixSignal,
   mapping: DashboardMapping,
@@ -274,10 +252,6 @@ function mapOne(
       ? toNumericValues(openInterest.values)
       : [];
     Object.assign(signal, mapFundingExtras(values, oiValues));
-  }
-
-  if (mapping.dashboardId === "crypto_market_sentiment") {
-    return enrichMarketSentiment(signal, lookup);
   }
 
   return signal;

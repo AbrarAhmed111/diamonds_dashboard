@@ -134,7 +134,6 @@ export default function LiquidityLineChart({
   const yAxis = useMemo(() => buildLiquidityYAxis(data), [data]);
   const { rangeType, ticks: xTicks } = useMemo(() => buildLiquidityXAxisTicks(data), [data]);
   const yAxisWidth = useMemo(() => yAxisWidthForTicks(yAxis.ticks), [yAxis.ticks]);
-  const xAxisTicks = rangeType === "monthly" ? data.map((point) => point.x) : xTicks;
 
   if (!data.length) {
     return (
@@ -167,10 +166,10 @@ export default function LiquidityLineChart({
             stroke={chartColors.tick}
             tickLine={false}
             axisLine={false}
-            ticks={xAxisTicks}
+            ticks={xTicks}
             interval={0}
             tickMargin={8}
-            tick={<LiquidityXAxisTick xTicks={xAxisTicks} rangeType={rangeType} />}
+            tick={<LiquidityXAxisTick xTicks={xTicks} rangeType={rangeType} />}
           />
           <YAxis
             stroke={chartColors.tick}

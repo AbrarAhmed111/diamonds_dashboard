@@ -42,15 +42,6 @@ export function getRangeStartValue(values: SignalValue[]): SignalValue | null {
   return values[0] ?? null;
 }
 
-export function getValueChangePercent(signal: Signal, days = 1): number | null {
-  if (!signal?.values?.length) return null;
-  const last = signal.values[signal.values.length - 1];
-  const idx = Math.max(0, signal.values.length - 1 - days);
-  const prev = signal.values[idx];
-  if (!last || !prev || prev.value === 0) return null;
-  return ((last.value - prev.value) / Math.abs(prev.value)) * 100;
-}
-
 export type RangeChangeMode = "relative" | "points";
 
 /** Change over a sliced range — relative % for prices, percentage points when values are already in %. */

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   computeRangeChange,
   formatChange,
@@ -13,8 +13,6 @@ import { rangeCaptionFor, sliceByRange } from "@/lib/sentiment";
 import type { ChartRange, Signal } from "@/lib/types";
 
 export type RangeValueMode = "end" | "change";
-
-const DEBUG_RANGE_SIGNALS = new Set(["btc_price", "buying_power"]);
 
 interface UseSignalRangeOptions {
   defaultRange?: ChartRange;
@@ -52,39 +50,6 @@ export function useSignalRange(
     }
     return formatValue(rangeEnd?.value, signal.unit);
   }, [valueMode, changePct, rangeEnd, signal.unit]);
-
-  const displayedChangePct =
-    changePct === null ? null : `${changePct >= 0 ? "+" : ""}${changePct.toFixed(1)}%`;
-
-  useEffect(() => {
-    if (process.env.NODE_ENV === "production") return;
-    if (!DEBUG_RANGE_SIGNALS.has(signal.id)) return;
-
-    console.log(`[range-sync:${signal.id}]`, {
-      selectedRange: range,
-      originalValuesLength: signal.values.length,
-      filteredValuesLength: sliced.length,
-      firstFilteredValue: rangeStart,
-      lastFilteredValue: rangeEnd,
-      calculatedPercentageChange: changePct,
-      calculatedPercentageChangeFull:
-        changePct === null ? null : Number(changePct.toFixed(4)),
-      displayedPercentageChange: displayedChangePct,
-      changeMode,
-      valueMode,
-    });
-  }, [
-    signal.id,
-    signal.values.length,
-    range,
-    sliced.length,
-    rangeStart,
-    rangeEnd,
-    changePct,
-    displayedChangePct,
-    changeMode,
-    valueMode,
-  ]);
 
   return {
     range,
