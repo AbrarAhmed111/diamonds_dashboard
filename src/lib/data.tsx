@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -16,12 +17,16 @@ import {
   mapHelixSnapshot,
   type HelixSignal,
 } from "@/lib/helix";
+import { isSnapshotStale, msUntilNextRefresh } from "@/lib/refreshSchedule";
 import type { Signal } from "./types";
 
-const STALE_MS = 1000 * 60 * 60 * 24;
 const STORAGE_KEY = "dp.lastFetchedAt";
 
 type Status = "loading" | "ready" | "error";
+
+interface LoadOptions {
+  silent?: boolean;
+}
 
 interface DataContextValue {
   signals: Signal[];
@@ -34,6 +39,17 @@ interface DataContextValue {
 }
 
 const DataContext = createContext<DataContextValue | null>(null);
+
+function readStoredLastFetched(): Date | null {
+  try {
+    const raw = window.localStorage?.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const d = new Date(raw);
+    return Number.isNaN(d.getTime()) ? null : d;
+  } catch {
+    return null;
+  }
+}
 
 async function loadHelixSnapshot(): Promise<HelixSignal[]> {
   const response = await fetchDashboardSnapshot();
@@ -52,21 +68,30 @@ export function SignalsProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<Status>("loading");
   const [error, setError] = useState<string | null>(null);
   const [lastFetchedAt, setLastFetchedAt] = useState<Date | null>(null);
+  const lastFetchedAtRef = useRef<Date | null>(null);
 
-  const load = useCallback(async () => {
-    setStatus("loading");
-    setError(null);
+  const persistLastFetched = useCallback((fetchedAt: Date) => {
+    lastFetchedAtRef.current = fetchedAt;
+    setLastFetchedAt(fetchedAt);
+    try {
+      window.localStorage?.setItem(STORAGE_KEY, fetchedAt.toISOString());
+    } catch {
+      /* storage unavailable */
+    }
+  }, []);
+
+  const load = useCallback(async (options?: LoadOptions) => {
+    const silent = options?.silent ?? false;
+    if (!silent) {
+      setStatus("loading");
+      setError(null);
+    }
+
     try {
       const snapshot = await loadHelixSnapshot();
       setSignals(mapHelixSnapshot(snapshot));
       setConsolidationBullets(extractConsolidationBullets(snapshot));
-      const now = new Date();
-      setLastFetchedAt(now);
-      try {
-        window.localStorage?.setItem(STORAGE_KEY, now.toISOString());
-      } catch {
-        /* storage unavailable */
-      }
+      persistLastFetched(new Date());
       setStatus("ready");
     } catch (e) {
       const message =
@@ -75,35 +100,50 @@ export function SignalsProvider({ children }: { children: ReactNode }) {
           : e instanceof Error
             ? e.message
             : "Unknown error";
-      setError(message);
-      setStatus("error");
+      if (!silent) {
+        setError(message);
+        setStatus("error");
+      }
     }
-  }, []);
+  }, [persistLastFetched]);
 
   useEffect(() => {
-    let stored: Date | null = null;
-    try {
-      const raw = window.localStorage?.getItem(STORAGE_KEY);
-      if (raw) {
-        const d = new Date(raw);
-        if (!Number.isNaN(d.getTime())) stored = d;
-      }
-    } catch {
-      /* storage unavailable */
+    const stored = readStoredLastFetched();
+    if (stored) {
+      lastFetchedAtRef.current = stored;
+      setLastFetchedAt(stored);
     }
-    if (stored) setLastFetchedAt(stored);
     load();
   }, [load]);
 
   useEffect(() => {
-    const id = window.setInterval(() => {
-      if (!lastFetchedAt) return;
-      if (Date.now() - lastFetchedAt.getTime() > STALE_MS) {
-        load();
+    let timeoutId = 0;
+
+    const scheduleNextRefresh = () => {
+      window.clearTimeout(timeoutId);
+      timeoutId = window.setTimeout(async () => {
+        await load({ silent: true });
+        scheduleNextRefresh();
+      }, msUntilNextRefresh());
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState !== "visible") return;
+      if (isSnapshotStale(lastFetchedAtRef.current)) {
+        void load({ silent: true }).finally(scheduleNextRefresh);
+        return;
       }
-    }, 1000 * 60 * 30);
-    return () => window.clearInterval(id);
-  }, [lastFetchedAt, load]);
+      scheduleNextRefresh();
+    };
+
+    scheduleNextRefresh();
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [load]);
 
   const value = useMemo<DataContextValue>(
     () => ({
@@ -113,7 +153,7 @@ export function SignalsProvider({ children }: { children: ReactNode }) {
       isLoading: status === "loading",
       error,
       lastFetchedAt,
-      refresh: load,
+      refresh: () => load(),
     }),
     [signals, consolidationBullets, status, error, lastFetchedAt, load],
   );

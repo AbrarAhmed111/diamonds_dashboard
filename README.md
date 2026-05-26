@@ -87,7 +87,8 @@ Indicator **descriptions** shown on cards are defined in the mapper. **Values**,
 ### Refresh behaviour
 
 - `lastFetchedAt` is stored in `localStorage`
-- Data is refetched automatically after 24 hours
+- Data is refetched automatically every **4 hours**, aligned to **00:00 GMT** (then 04:00, 08:00, 12:00, 16:00, 20:00)
+- While the tab is open, the next refresh is scheduled at the upcoming GMT boundary; returning to a backgrounded tab triggers a catch-up fetch if the current window was missed
 - Manual refresh is available from the UI
 
 ## Routes
@@ -109,6 +110,7 @@ src/
     ui/                   Button, Badge, Input, Avatar
   lib/
     data.tsx              Helix fetch, context, and refresh logic
+    refreshSchedule.ts    GMT-aligned 4-hour auto-refresh windows
     useSignalRange.ts     Shared range selection and stat sync
     types.ts              Domain types
     format.ts             Value, date, and change formatters

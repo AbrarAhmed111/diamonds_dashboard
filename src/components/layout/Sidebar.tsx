@@ -35,7 +35,7 @@ const SECTIONS: NavSection[] = [
     label: "Overview",
     items: [
       { href: MEMBERS_URL, label: "Dashboard", icon: LayoutDashboard, external: true },
-      { href: MEMBERS_URL, label: "Portfolio", icon: Briefcase, external: true },
+      { href: MEMBERS_URL, label: "Connect Your Exchange Wallet", icon: Briefcase, external: true },
     ],
   },
   {
