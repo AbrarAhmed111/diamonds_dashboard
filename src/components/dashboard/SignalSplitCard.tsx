@@ -4,6 +4,7 @@ import Badge from "@/components/ui/Badge";
 import RangeTabs from "@/components/charts/RangeTabs";
 import SignalLineChart from "@/components/charts/SignalLineChart";
 import SignalIcon from "./SignalIcon";
+import SignalDescription from "./SignalDescription";
 import { SPLIT_CARD_CHART_HEIGHT } from "./SplitFrame";
 import { type RangeChangeMode } from "@/lib/format";
 import { useSignalRange, type RangeValueMode } from "@/lib/useSignalRange";
@@ -15,6 +16,7 @@ interface Props {
   metricLabel?: string;
   valueOverride?: string;
   defaultRange?: ChartRange;
+  ranges?: ChartRange[];
   rangeChangeMode?: RangeChangeMode;
   valueMode?: RangeValueMode;
 }
@@ -24,11 +26,13 @@ export default function SignalSplitCard({
   metricLabel,
   valueOverride,
   defaultRange = "3M",
+  ranges,
   rangeChangeMode = "relative",
   valueMode = "end",
 }: Props) {
   const { range, setRange, sliced, changePct, displayValue } = useSignalRange(signal, {
     defaultRange,
+    allowedRanges: ranges,
     changeMode: rangeChangeMode,
     valueMode,
   });
@@ -36,9 +40,9 @@ export default function SignalSplitCard({
   const tone = changePct === null ? "muted" : changePct >= 0 ? "positive" : "negative";
 
   return (
-    <article className="surface-card surface-card-pad overflow-hidden">
-      <div className="grid items-start gap-4 sm:gap-5 md:grid-cols-2 md:gap-10">
-        <aside className="flex min-w-0 flex-col">
+    <article className="signal-split-card surface-card surface-card-pad overflow-hidden">
+      <div className="grid items-start gap-5 sm:gap-6 md:grid-cols-2 md:items-stretch md:gap-10">
+        <aside className="signal-split-card__aside">
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <SignalIcon id={signal.id} category={signal.category} size="sm" />
             <h3 className="text-body-bold">{signal.name}</h3>
@@ -50,12 +54,13 @@ export default function SignalSplitCard({
               {changePct === null ? "–" : `${changePct >= 0 ? "+" : ""}${changePct.toFixed(1)}%`}
             </Badge>
           </div>
-          <p className="mt-5 w-full text-card-body sm:mt-6 md:max-w-[75%]">
-            {signal.description ?? "No description available."}
-          </p>
+          <SignalDescription
+            html={signal.description ?? "No description available."}
+            className="mt-5 flex-1 w-full sm:mt-6 md:max-w-[90%]"
+          />
         </aside>
 
-        <div className="flex min-w-0 flex-col">
+        <div className="signal-split-card__chart">
           <div className="flex flex-wrap items-start justify-between gap-2 sm:gap-3">
             <div>
               <p className="text-stat-value">{valueOverride ?? displayValue}</p>
@@ -66,10 +71,10 @@ export default function SignalSplitCard({
           </div>
 
           <div className="mt-3">
-            <RangeTabs value={range} onChange={setRange} />
+            <RangeTabs value={range} onChange={setRange} ranges={ranges} />
           </div>
 
-          <div className="mt-4">
+          <div className="mt-4 flex flex-1 flex-col justify-center">
             <SignalLineChart
               values={sliced}
               unit={signal.unit}

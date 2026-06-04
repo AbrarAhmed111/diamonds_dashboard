@@ -28,6 +28,9 @@ export async function helixRequest<T = HelixSignal[]>(
     },
     body: JSON.stringify(body),
     signal: options?.signal,
+    // The server cache (serverCache.ts) is the single source of truth, so the
+    // outbound Helix request is never separately cached by Next.js fetch.
+    cache: "no-store",
   });
 
   let payload: HelixResponse<T>;

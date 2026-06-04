@@ -150,17 +150,33 @@ export function formatGlobalLiquidityTooltipDate(
   return `${MONTH_SHORT[month] ?? ""} ${year}`;
 }
 
+/** Y-axis domain from data min/max (not zero) so M2 moves are easier to read. */
 export function buildLiquidityYAxis(data: Array<{ x: string; y: number }>) {
-  const peak = Math.max(1, ...data.map((point) => point.y));
-  let step = 20;
-  if (peak <= 30) step = 5;
-  else if (peak <= 60) step = 10;
-
-  const top = Math.max(step, Math.ceil(peak / step) * step);
-  const ticks: number[] = [];
-  for (let value = 0; value <= top; value += step) {
-    ticks.push(value);
+  if (!data.length) {
+    return { min: 0, max: 1, ticks: [0, 1] };
   }
 
-  return { max: top, ticks };
+  const values = data.map((point) => point.y);
+  const dataMin = Math.min(...values);
+  const dataMax = Math.max(...values);
+  const span = Math.max(dataMax - dataMin, 0.001);
+  const pad = Math.max(span * 0.06, 0.05);
+
+  let step = 0.5;
+  if (span <= 0.5) step = 0.1;
+  else if (span <= 1.5) step = 0.2;
+  else if (span <= 4) step = 0.5;
+  else if (span <= 10) step = 1;
+  else if (span <= 25) step = 2;
+  else step = 5;
+
+  const min = Math.floor((dataMin - pad) / step) * step;
+  const max = Math.ceil((dataMax + pad) / step) * step;
+
+  const ticks: number[] = [];
+  for (let value = min; value <= max + step * 0.0001; value += step) {
+    ticks.push(Number(value.toFixed(2)));
+  }
+
+  return { min, max, ticks };
 }

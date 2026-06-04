@@ -13,7 +13,7 @@ interface Props {
 
 export default function LiquidityCard({
   signal,
-  metricLabel = "Global M2 money supply",
+  metricLabel = "US M2 money supply",
 }: Props) {
   const latest = getLatestValue(signal);
   const change = useMemo(
@@ -37,7 +37,7 @@ export default function LiquidityCard({
         <p className="mt-1 text-meta sm:mt-2">{metricLabel}</p>
       </div>
 
-      <div className="mt-4 sm:mt-5">
+      <div className="mt-4 flex flex-1 flex-col justify-center sm:mt-5">
         <LiquidityLineChart
           values={signal.values}
           height={SPLIT_CARD_CHART_HEIGHT}

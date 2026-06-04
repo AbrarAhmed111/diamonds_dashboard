@@ -148,7 +148,7 @@ export default function LiquidityLineChart({
   }
 
   return (
-    <div className="w-full" role="img" aria-label={ariaLabel ?? "Global M2 money supply chart"}>
+    <div className="w-full" role="img" aria-label={ariaLabel ?? "US M2 money supply chart"}>
       <ResponsiveContainer width="100%" height={height}>
         <ComposedChart
           data={data}
@@ -176,7 +176,7 @@ export default function LiquidityLineChart({
             tickLine={false}
             axisLine={false}
             width={yAxisWidth}
-            domain={[0, yAxis.max]}
+            domain={[yAxis.min, yAxis.max]}
             ticks={yAxis.ticks}
             tick={<YAxisTickLeft />}
           />

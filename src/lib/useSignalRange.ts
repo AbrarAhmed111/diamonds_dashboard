@@ -14,8 +14,11 @@ import type { ChartRange, Signal } from "@/lib/types";
 
 export type RangeValueMode = "end" | "change";
 
+const ALL_CHART_RANGES: ChartRange[] = ["1D", "1W", "1M", "3M", "12M"];
+
 interface UseSignalRangeOptions {
   defaultRange?: ChartRange;
+  allowedRanges?: ChartRange[];
   changeMode?: RangeChangeMode;
   valueMode?: RangeValueMode;
 }
@@ -24,11 +27,15 @@ export function useSignalRange(
   signal: Signal,
   {
     defaultRange = "3M",
+    allowedRanges = ALL_CHART_RANGES,
     changeMode = "relative",
     valueMode = "end",
   }: UseSignalRangeOptions = {},
 ) {
-  const [range, setRange] = useState<ChartRange>(defaultRange);
+  const initialRange = allowedRanges.includes(defaultRange)
+    ? defaultRange
+    : allowedRanges[0];
+  const [range, setRange] = useState<ChartRange>(initialRange);
 
   const sliced = useMemo(
     () => sliceByRange(signal.values, range),

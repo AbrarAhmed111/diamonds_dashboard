@@ -7,7 +7,6 @@ interface DashboardMapping {
   helixIds: string[];
   dashboardId: string;
   name: string;
-  description?: string;
   category?: string;
   unit?: string;
   transform?: Transform;
@@ -27,9 +26,7 @@ const DASHBOARD_MAPPINGS: DashboardMapping[] = [
   {
     helixIds: ["ssr"],
     dashboardId: "buying_power",
-    name: "Market Buying Power",
-    description:
-      "Measures how much stablecoin capital is available to enter the crypto market.",
+    name: "Stablecoin Buying Power",
     category: "on_chain",
     unit: "ratio",
   },
@@ -37,8 +34,6 @@ const DASHBOARD_MAPPINGS: DashboardMapping[] = [
     helixIds: ["btc_exchange_netflow"],
     dashboardId: "btc_netflow",
     name: "BTC Netflow",
-    description:
-      "Tracks Bitcoin moving in and out of exchanges to identify accumulation or selling pressure.",
     category: "on_chain",
     unit: "BTC",
   },
@@ -46,8 +41,6 @@ const DASHBOARD_MAPPINGS: DashboardMapping[] = [
     helixIds: ["btc_funding_rate"],
     dashboardId: "btc_funding_rate",
     name: "BTC Funding Rate",
-    description:
-      "Indicates whether traders are overly positioned long or short in the market.",
     category: "sentiment",
     unit: "%",
     min_val: -0.05,
@@ -56,9 +49,7 @@ const DASHBOARD_MAPPINGS: DashboardMapping[] = [
   {
     helixIds: ["global_m2", "m2"],
     dashboardId: "global_liquidity",
-    name: "Global Liquidity",
-    description:
-      "Shows whether global financial conditions are supporting or limiting risk assets.",
+    name: "US Money Supply",
     category: "macro",
     unit: "usd_billions",
   },
@@ -66,8 +57,6 @@ const DASHBOARD_MAPPINGS: DashboardMapping[] = [
     helixIds: ["fear_greed"],
     dashboardId: "crypto_market_sentiment",
     name: "Crypto Market Sentiment",
-    description:
-      "Reflects whether crypto investors are currently fearful, neutral, or optimistic.",
     category: "sentiment",
     unit: "index",
     min_val: 0,
@@ -77,8 +66,6 @@ const DASHBOARD_MAPPINGS: DashboardMapping[] = [
     helixIds: ["vix"],
     dashboardId: "vix",
     name: "VIX (Global Volatility)",
-    description:
-      "Measures overall market uncertainty and investor stress outside crypto markets.",
     category: "macro",
     unit: "index",
     min_val: 0,
@@ -166,16 +153,6 @@ function inferSentiment(dashboardId: string, latest?: number): SentimentType {
   }
 }
 
-function netflowStateLabel(values: SignalValue[]): string | undefined {
-  const recent = values.slice(-7);
-  if (!recent.length) return undefined;
-  const avg = average(recent.map((p) => p.value));
-  if (avg === undefined) return undefined;
-  return avg < 0
-    ? "Accumulation (Outflows > Inflows)"
-    : "Distribution (Inflows > Outflows)";
-}
-
 function liquidityBadge(values: SignalValue[]): string | undefined {
   if (values.length < 2) return undefined;
   const first = values[0].value;
@@ -187,22 +164,24 @@ function liquidityBadge(values: SignalValue[]): string | undefined {
 
 function mapFundingExtras(
   funding: SignalValue[],
-  openInterestValues: SignalValue[],
+  openInterest: HelixSignal | undefined,
 ): Record<string, unknown> {
   const latest = latestNumeric(funding);
-  const last3 = funding.slice(-3).map((p) => p.value);
   const last21 = funding.slice(-21).map((p) => p.value);
-  const eight = average(last3);
   const seven = average(last21);
-  const oi = latestNumeric(openInterestValues);
+  const oiValues = openInterest?.values?.length
+    ? toNumericValues(openInterest.values)
+    : [];
+  const oi = latestNumeric(oiValues);
+  const oiInterpretation = openInterest ? readInterpretation(openInterest) : undefined;
 
   return {
-    ...(eight !== undefined ? { eight_hour_avg: eight } : {}),
     ...(seven !== undefined ? { seven_day_avg: seven } : {}),
     ...(latest !== undefined
       ? { annualized_estimate: latest * 3 * 365 * 100 }
       : {}),
     ...(oi !== undefined ? { open_interest: oi } : {}),
+    ...(oiInterpretation ? { open_interest_interpretation: oiInterpretation } : {}),
   };
 }
 
@@ -225,7 +204,7 @@ function mapOne(
     id: mapping.dashboardId,
     name: mapping.name,
     category: mapping.category ?? helix.category,
-    description: mapping.description ?? helix.description ?? undefined,
+    description: helix.description ?? undefined,
     source: helix.source ?? undefined,
     unit: mapping.unit ?? helix.unit ?? undefined,
     min_val: mapping.min_val ?? helix.min_val ?? undefined,
@@ -237,21 +216,13 @@ function mapOne(
     ...(interpretation ? { state_label: interpretation } : {}),
   };
 
-  if (mapping.dashboardId === "btc_netflow") {
-    const stateLabel = netflowStateLabel(values);
-    if (stateLabel) signal.state_label = stateLabel;
-  }
-
   if (mapping.dashboardId === "global_liquidity") {
     const badge = liquidityBadge(values);
     if (badge) signal.state_label = badge;
   }
 
   if (mapping.dashboardId === "btc_funding_rate") {
-    const oiValues = openInterest?.values?.length
-      ? toNumericValues(openInterest.values)
-      : [];
-    Object.assign(signal, mapFundingExtras(values, oiValues));
+    Object.assign(signal, mapFundingExtras(values, openInterest));
   }
 
   return signal;

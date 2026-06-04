@@ -13,11 +13,12 @@ import VolatilityCard from "@/components/dashboard/VolatilityCard";
 import ErrorState from "@/components/dashboard/ErrorState";
 import { OverviewSkeleton } from "@/components/dashboard/LoadingState";
 import { useSignals } from "@/lib/data";
-import type { Signal } from "@/lib/types";
+import type { ChartRange, Signal } from "@/lib/types";
+
+const CHART_RANGES_WITHOUT_1D: ChartRange[] = ["1W", "1M", "3M", "12M"];
 
 export default function SentimentPage() {
-  const { signals, consolidationBullets, status, isLoading, error, lastFetchedAt, refresh } =
-    useSignals();
+  const { signals, consolidation, status, isLoading, error, refresh } = useSignals();
 
   const byId = useMemo(() => {
     const map = new Map<string, Signal>();
@@ -38,14 +39,10 @@ export default function SentimentPage() {
         />
       ) : (
         <div className="space-y-4 sm:space-y-5">
-          <MarketSummary
-            signals={signals}
-            lastFetchedAt={lastFetchedAt}
-            bullets={consolidationBullets}
-          />
+          <MarketSummary signals={signals} consolidation={consolidation} />
 
           {get("btc_price") ? (
-            <SignalCard signal={get("btc_price")!} />
+            <SignalCard signal={get("btc_price")!} ranges={CHART_RANGES_WITHOUT_1D} />
           ) : null}
 
           {get("buying_power") ? (
@@ -53,6 +50,8 @@ export default function SentimentPage() {
               signal={get("buying_power")!}
               metricLabel="Stablecoin Supply / Total Crypto Market Cap"
               valueMode="change"
+              defaultRange="1W"
+              ranges={CHART_RANGES_WITHOUT_1D}
             />
           ) : null}
 

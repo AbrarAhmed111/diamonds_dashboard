@@ -17,7 +17,7 @@ interface Props {
 
 const GAUGE_PAD_SIDE = 14;
 const GAUGE_PAD_TOP = 12;
-const GAUGE_PAD_BOTTOM = 34;
+const GAUGE_PAD_BOTTOM = 42;
 /** Figma segment spec (screen px at gauge display width). */
 const FIGMA_BAR_WIDTH = 20.57;
 const FIGMA_BAR_HEIGHT = 50.57;
@@ -130,22 +130,30 @@ export default function SegmentedGauge({
         );
       })}
 
-      <foreignObject x={0} y={cy - 30} width={viewBoxW} height={36} xmlns="http://www.w3.org/1999/xhtml">
+      <foreignObject x={0} y={cy - 32} width={viewBoxW} height={36} xmlns="http://www.w3.org/1999/xhtml">
         <div className="flex h-full items-center justify-center text-stat-value tabular-nums">
           {value}
         </div>
       </foreignObject>
       {label ? (
-        <text
-          x={cx}
-          y={cy + 11}
-          fontSize={typography.gauge.label}
-          fill={chartColors.tick}
-          textAnchor="middle"
-          dominantBaseline="middle"
+        <foreignObject
+          x={12}
+          y={cy + 2}
+          width={viewBoxW - 24}
+          height={26}
+          xmlns="http://www.w3.org/1999/xhtml"
         >
-          {label}
-        </text>
+          <p
+            className="m-0 px-0.5 text-center leading-snug"
+            style={{
+              fontSize: typography.gauge.label,
+              lineHeight: 1.35,
+              color: chartColors.tick,
+            }}
+          >
+            {label}
+          </p>
+        </foreignObject>
       ) : null}
     </svg>
   );

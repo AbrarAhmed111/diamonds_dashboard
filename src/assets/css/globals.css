@@ -109,10 +109,25 @@ body {
     @apply rounded-md border border-neutral-500/40 bg-white shadow-card;
   }
   .surface-card-pad {
-    @apply p-4 sm:p-5 md:p-7;
+    @apply p-5 sm:p-6 md:p-8;
+  }
+  .signal-split-card {
+    @apply min-h-[20rem] sm:min-h-[21rem] md:min-h-[22rem];
+  }
+  .signal-split-card__aside {
+    @apply flex min-w-0 flex-col md:min-h-[13rem];
+  }
+  .signal-split-card__chart {
+    @apply flex min-h-[12rem] min-w-0 flex-1 flex-col justify-center md:min-h-[14rem];
+  }
+  .signal-description {
+    @apply leading-relaxed [&_p]:mb-3 [&_p:last-child]:mb-0 [&_ul]:mt-2 [&_ul]:list-disc [&_ul]:space-y-2 [&_ul]:pl-4 [&_li]:text-small;
   }
   .gauge-fit {
-    @apply mx-auto w-full max-w-[280px] sm:max-w-[360px] md:max-w-[420px];
+    @apply mx-auto w-full max-w-[300px] sm:max-w-[420px] md:max-w-[500px] lg:max-w-[520px];
+  }
+  .gauge-interpretation {
+    @apply block w-full text-center;
   }
   .gauge-fit > svg {
     @apply h-auto w-full;

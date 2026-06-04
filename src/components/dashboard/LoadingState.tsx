@@ -4,7 +4,7 @@ export function SkeletonCard({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "surface-card animate-pulse p-5 md:p-6",
+        "surface-card animate-pulse p-5 sm:p-6 md:p-8",
         className,
       )}
       aria-hidden
@@ -29,7 +29,7 @@ export function SkeletonCard({ className }: { className?: string }) {
 
 function SkeletonSplitCard() {
   return (
-    <div className="surface-card animate-pulse p-5 md:p-6" aria-hidden>
+    <div className="signal-split-card surface-card animate-pulse p-5 sm:p-6 md:p-8" aria-hidden>
       <div className="grid items-start gap-4 sm:gap-5 md:grid-cols-2 md:gap-10">
         <div className="min-w-0 space-y-5">
           <div className="flex flex-wrap items-center gap-3">
@@ -37,10 +37,11 @@ function SkeletonSplitCard() {
             <div className="h-4 w-36 rounded bg-neutral-400" />
             <div className="h-6 w-14 rounded-full bg-neutral-400" />
           </div>
-          <div className="space-y-2">
+          <div className="space-y-2.5">
+            <div className="h-3 w-full rounded bg-neutral-400/80" />
             <div className="h-3 w-full rounded bg-neutral-400/80" />
             <div className="h-3 w-11/12 rounded bg-neutral-400/80" />
-            <div className="h-3 w-4/5 rounded bg-neutral-400/70" />
+            <div className="h-3 w-10/12 rounded bg-neutral-400/70" />
           </div>
         </div>
         <div className="min-w-0">
@@ -51,7 +52,7 @@ function SkeletonSplitCard() {
               <div key={i} className="h-7 w-10 rounded bg-neutral-400/60" />
             ))}
           </div>
-          <div className="mt-4 h-[200px] rounded-xl bg-neutral-400/70" />
+          <div className="mt-4 h-[260px] rounded-xl bg-neutral-400/70" />
         </div>
       </div>
     </div>
@@ -60,12 +61,13 @@ function SkeletonSplitCard() {
 
 export function SkeletonHero() {
   return (
-    <div className="surface-card animate-pulse p-5 md:p-7" aria-hidden>
-      <div className="h-3 w-40 rounded-full bg-neutral-400" />
-      <div className="mt-3 flex flex-wrap items-center gap-3">
-        <div className="h-7 w-56 rounded bg-neutral-400 sm:w-72" />
+    <div className="signal-split-card surface-card animate-pulse p-5 sm:p-6 md:p-8" aria-hidden>
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="h-8 w-40 rounded bg-neutral-400 sm:h-9 sm:w-48" />
         <div className="h-6 w-20 rounded-full bg-neutral-400" />
       </div>
+      <div className="mt-3 h-3 w-64 rounded-full bg-neutral-400/80" />
+      <div className="mt-3 h-7 w-full max-w-xl rounded bg-neutral-400 sm:w-96" />
       <div className="mt-5 space-y-3 sm:mt-6">
         {Array.from({ length: 5 }).map((_, i) => (
           <div key={i} className="flex gap-3">

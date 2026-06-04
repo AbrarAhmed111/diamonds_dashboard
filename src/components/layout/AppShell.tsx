@@ -26,8 +26,8 @@ interface AppShellProps {
 }
 
 export default function AppShell({ children, title, subtitle }: AppShellProps) {
-  const { signals } = useSignals();
-  const sentiment = getOverallSentiment(signals);
+  const { signals, consolidation } = useSignals();
+  const sentiment = consolidation?.position ?? getOverallSentiment(signals);
   const [navOpen, setNavOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(readCollapsedPreference);
 

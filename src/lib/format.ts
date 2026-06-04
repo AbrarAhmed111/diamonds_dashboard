@@ -131,8 +131,10 @@ const compactBtc = new Intl.NumberFormat("en-US", {
 /** Compact Y-axis labels for netflow bar charts (no unit suffix). */
 export function formatBtcChartAxis(value: number): string {
   if (value === 0) return "0";
-  if (Math.abs(value) >= 1000) return compactBtc.format(value);
-  return integerNumber.format(value);
+  const sign = value < 0 ? "-" : "";
+  const abs = Math.abs(value);
+  if (abs >= 1000) return `${sign}${compactBtc.format(abs)}`;
+  return `${sign}${integerNumber.format(abs)}`;
 }
 
 /** Signed netflow total, e.g. "-12,450 BTC". */
@@ -161,5 +163,11 @@ export function formatDateTime(timestamp: string | Date | null | undefined): str
   const d = timestamp instanceof Date ? timestamp : new Date(timestamp);
   if (Number.isNaN(d.getTime())) return "–";
   return `${dateFmt.format(d)}, ${timeFmt.format(d)} GMT`;
+}
+
+/** Plain text for gauge labels (strips HTML from API interpretation). */
+export function plainSignalText(text: string | undefined): string | undefined {
+  if (!text?.trim()) return undefined;
+  return text.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim() || undefined;
 }
 

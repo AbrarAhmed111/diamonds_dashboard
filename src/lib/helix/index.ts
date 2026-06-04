@@ -1,6 +1,11 @@
 export { fetchDashboardSnapshot } from "./client";
 export { mapHelixSnapshot } from "./mapSnapshot";
-export { extractConsolidationBullets, parseConsolidationBullets } from "./parseSummary";
+export {
+  extractPosition,
+  parseConsolidationBullets,
+  parseConsolidationSummary,
+} from "./parseSummary";
+export type { ConsolidationSummary } from "./parseSummary";
 export {
   DEFAULT_SNAPSHOT_PARAMS,
   getHelixApiKey,

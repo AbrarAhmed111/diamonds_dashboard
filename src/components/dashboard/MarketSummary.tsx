@@ -1,14 +1,14 @@
 "use client";
 
-import Badge from "@/components/ui/Badge";
+import SignalDescription from "@/components/dashboard/SignalDescription";
+import type { ConsolidationSummary } from "@/lib/dashboard";
 import type { Signal, SentimentType } from "@/lib/types";
 import { SENTIMENT_LABEL, getOverallSentiment } from "@/lib/sentiment";
 import { formatDateTime } from "@/lib/format";
 
 interface Props {
   signals: Signal[];
-  lastFetchedAt: Date | null;
-  bullets?: string[];
+  consolidation: ConsolidationSummary;
 }
 
 const FALLBACK_BULLETS: Record<SentimentType, string[]> = {
@@ -31,27 +31,43 @@ const FALLBACK_BULLETS: Record<SentimentType, string[]> = {
   ],
 };
 
-export default function MarketSummary({ signals, lastFetchedAt, bullets }: Props) {
-  const sentiment = getOverallSentiment(signals);
-  const bulletList = bullets?.length ? bullets : FALLBACK_BULLETS[sentiment];
+export default function MarketSummary({ signals, consolidation }: Props) {
+  const summary = consolidation ?? {
+    position: null,
+    description: null,
+    updatedAt: null,
+    bullets: [],
+  };
+  const fallbackSentiment = getOverallSentiment(signals);
+  const bulletSentiment = summary.position ?? fallbackSentiment;
+  const bulletList = summary.bullets.length
+    ? summary.bullets
+    : FALLBACK_BULLETS[bulletSentiment];
+  const updatedLabel = summary.updatedAt ? formatDateTime(summary.updatedAt) : "–";
+  const positionLabel = summary.position ? SENTIMENT_LABEL[summary.position] : null;
 
   return (
     <section
-      aria-labelledby="market-sentiment-heading"
-      className="surface-card surface-card-pad"
+      aria-labelledby={summary.description ? "market-summary-description" : undefined}
+      className="signal-split-card surface-card surface-card-pad"
     >
-      <p className="text-meta">Market data updated:</p>
-      <div className="mt-1 flex flex-wrap items-center gap-2 sm:gap-3">
-        <h2
-          id="market-sentiment-heading"
-          className="text-section-date"
-        >
-          {formatDateTime(lastFetchedAt)}
-        </h2>
-        <Badge tone="sentiment" size="md" className="px-3 py-0.5">
-          {SENTIMENT_LABEL[sentiment]}
-        </Badge>
-      </div>
+      {positionLabel ? (
+        <p id="market-position" className="text-body-bold">
+          {positionLabel}
+        </p>
+      ) : null}
+
+      <p className={positionLabel ? "mt-2 text-meta sm:mt-3" : "text-meta"}>
+        Market data updated at {updatedLabel}
+      </p>
+
+      {summary.description ? (
+        <SignalDescription
+          html={summary.description}
+          id="market-summary-description"
+          className="mt-2 text-section-date text-ink sm:mt-3 [&_*]:font-medium [&_*]:text-ink"
+        />
+      ) : null}
 
       <ul className="mt-4 max-w-3xl space-y-2 sm:mt-5">
         {bulletList.map((line, i) => (

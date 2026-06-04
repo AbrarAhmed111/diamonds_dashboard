@@ -71,7 +71,7 @@ export default function RangeGaugeChart({
 
       {histValues.length ? (
         <div className="mt-6 sm:mt-7">
-          <div className="flex h-[56px] gap-[5px] sm:h-[68px] sm:gap-[6px]">
+          <div className="flex h-[64px] gap-[5px] sm:h-[80px] sm:gap-[6px] md:h-[88px]">
             {histValues.map((point, i) => {
               const positive = point.value >= 0;
               const ratio = Math.abs(point.value) / histMax;

@@ -10,15 +10,16 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import {
-  extractConsolidationBullets,
-  fetchDashboardSnapshot,
-  HelixApiError,
-  mapHelixSnapshot,
-  type HelixSignal,
-} from "@/lib/helix";
 import { isSnapshotStale, msUntilNextRefresh } from "@/lib/refreshSchedule";
+import type {
+  ConsolidationSummary,
+  DashboardApiResponse,
+  DashboardPayload,
+} from "@/lib/dashboard";
+import { EMPTY_CONSOLIDATION, normalizeDashboardPayload } from "@/lib/dashboard";
 import type { Signal } from "./types";
+
+const DASHBOARD_ENDPOINT = "/api/helix";
 
 const STORAGE_KEY = "dp.lastFetchedAt";
 
@@ -30,7 +31,7 @@ interface LoadOptions {
 
 interface DataContextValue {
   signals: Signal[];
-  consolidationBullets: string[];
+  consolidation: ConsolidationSummary;
   status: Status;
   isLoading: boolean;
   error: string | null;
@@ -51,20 +52,30 @@ function readStoredLastFetched(): Date | null {
   }
 }
 
-async function loadHelixSnapshot(): Promise<HelixSignal[]> {
-  const response = await fetchDashboardSnapshot();
-  if (!response.ok) {
-    throw new HelixApiError(response.error.message, {
-      code: response.error.code,
-      status: 0,
-    });
+async function loadDashboard(signal?: AbortSignal): Promise<DashboardPayload> {
+  const res = await fetch(DASHBOARD_ENDPOINT, {
+    signal,
+    headers: { Accept: "application/json" },
+  });
+
+  let body: DashboardApiResponse;
+  try {
+    body = (await res.json()) as DashboardApiResponse;
+  } catch {
+    throw new Error(`Market data request failed (${res.status}).`);
   }
-  return response.data;
+
+  if (!res.ok || !body.ok) {
+    const message = body.ok === false ? body.error.message : `Market data request failed (${res.status}).`;
+    throw new Error(message);
+  }
+
+  return normalizeDashboardPayload(body);
 }
 
 export function SignalsProvider({ children }: { children: ReactNode }) {
   const [signals, setSignals] = useState<Signal[]>([]);
-  const [consolidationBullets, setConsolidationBullets] = useState<string[]>([]);
+  const [consolidation, setConsolidation] = useState<ConsolidationSummary>(EMPTY_CONSOLIDATION);
   const [status, setStatus] = useState<Status>("loading");
   const [error, setError] = useState<string | null>(null);
   const [lastFetchedAt, setLastFetchedAt] = useState<Date | null>(null);
@@ -88,18 +99,14 @@ export function SignalsProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const snapshot = await loadHelixSnapshot();
-      setSignals(mapHelixSnapshot(snapshot));
-      setConsolidationBullets(extractConsolidationBullets(snapshot));
-      persistLastFetched(new Date());
+      const dashboard = await loadDashboard();
+      setSignals(dashboard.signals);
+      setConsolidation(dashboard.consolidation ?? EMPTY_CONSOLIDATION);
+      const fetchedAt = new Date(dashboard.fetchedAt);
+      persistLastFetched(Number.isNaN(fetchedAt.getTime()) ? new Date() : fetchedAt);
       setStatus("ready");
     } catch (e) {
-      const message =
-        e instanceof HelixApiError
-          ? e.message
-          : e instanceof Error
-            ? e.message
-            : "Unknown error";
+      const message = e instanceof Error ? e.message : "Unknown error";
       if (!silent) {
         setError(message);
         setStatus("error");
@@ -148,14 +155,14 @@ export function SignalsProvider({ children }: { children: ReactNode }) {
   const value = useMemo<DataContextValue>(
     () => ({
       signals,
-      consolidationBullets,
+      consolidation,
       status,
       isLoading: status === "loading",
       error,
       lastFetchedAt,
       refresh: () => load(),
     }),
-    [signals, consolidationBullets, status, error, lastFetchedAt, load],
+    [signals, consolidation, status, error, lastFetchedAt, load],
   );
 
   return <DataContext.Provider value={value}>{children}</DataContext.Provider>;

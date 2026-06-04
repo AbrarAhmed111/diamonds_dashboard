@@ -4,11 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Briefcase,
+  Layers3,
   LayoutDashboard,
   LineChart,
   LogOut,
   PanelLeft,
   Search,
+  Shield,
+  Youtube,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -30,12 +33,19 @@ interface NavSection {
 
 const MEMBERS_URL = "http://members.diamondpigs.com/";
 
+const CRYPTO_UPDATES_URL =
+  "https://youtube.com/playlist?list=PLBseDg6N6kOnj9Fwtzc4531DR-s_b7UBN&si=VbOgZN1cbUjFAmjq";
+const BITCOIN_PROTECT_URL =
+  "https://www.diamondpigs.com/investment-strategies/crypto-active/bitcoin-protect";
+const TOP_10_CRYPTO_INDEX_URL =
+  "https://www.diamondpigs.com/investment-strategies/crypto-index/top-10-crypto-index";
+
 const SECTIONS: NavSection[] = [
   {
     label: "Overview",
     items: [
       { href: MEMBERS_URL, label: "Dashboard", icon: LayoutDashboard, external: true },
-      { href: MEMBERS_URL, label: "Connect Your Exchange Wallet", icon: Briefcase, external: true },
+      { href: MEMBERS_URL, label: "Connect Your Exchange", icon: Briefcase, external: true },
     ],
   },
   {
@@ -46,6 +56,29 @@ const SECTIONS: NavSection[] = [
         label: "Sentiment",
         icon: LineChart,
         match: (pathname) => pathname === "/",
+      },
+      {
+        href: CRYPTO_UPDATES_URL,
+        label: "Crypto Updates in 60 Seconds",
+        icon: Youtube,
+        external: true,
+      },
+    ],
+  },
+  {
+    label: "Investment Strategies",
+    items: [
+      {
+        href: BITCOIN_PROTECT_URL,
+        label: "Bitcoin Protect Strategy",
+        icon: Shield,
+        external: true,
+      },
+      {
+        href: TOP_10_CRYPTO_INDEX_URL,
+        label: "Top 10 Crypto Index",
+        icon: Layers3,
+        external: true,
       },
     ],
   },

@@ -11,6 +11,7 @@ import type { ChartRange, Signal } from "@/lib/types";
 interface SignalCardProps {
   signal: Signal;
   defaultRange?: ChartRange;
+  ranges?: ChartRange[];
   rangeCaption?: string;
   valueOverride?: string;
 }
@@ -18,11 +19,13 @@ interface SignalCardProps {
 export default function SignalCard({
   signal,
   defaultRange = "3M",
+  ranges,
   rangeCaption,
   valueOverride,
 }: SignalCardProps) {
   const { range, setRange, sliced, changePct, displayValue, caption } = useSignalRange(signal, {
     defaultRange,
+    allowedRanges: ranges,
   });
 
   const changeTone =
@@ -50,14 +53,14 @@ export default function SignalCard({
       </div>
 
       <div className="mt-3 sm:mt-4">
-        <RangeTabs value={range} onChange={setRange} />
+        <RangeTabs value={range} onChange={setRange} ranges={ranges} />
       </div>
 
       <div className="mt-4 sm:mt-6">
         <SignalLineChart
           values={sliced}
           unit={signal.unit}
-          height={180}
+          height={220}
           ariaLabel={`${signal.name} ${range} chart`}
           chartRange={range}
         />

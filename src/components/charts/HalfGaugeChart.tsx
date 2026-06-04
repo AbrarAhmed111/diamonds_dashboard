@@ -15,7 +15,7 @@ interface Props {
 }
 
 const VIEWBOX_W = 280;
-const VIEWBOX_H = 160;
+const VIEWBOX_H = 172;
 
 function arcPath(percent: number, radius: number, cx: number, cy: number) {
   const p = Math.max(0, Math.min(1, percent));
@@ -93,22 +93,30 @@ export default function HalfGaugeChart({
         );
       })}
 
-      <foreignObject x={0} y={cy - 30} width={VIEWBOX_W} height={36} xmlns="http://www.w3.org/1999/xhtml">
+      <foreignObject x={0} y={cy - 32} width={VIEWBOX_W} height={36} xmlns="http://www.w3.org/1999/xhtml">
         <div className="flex h-full items-center justify-center text-stat-value tabular-nums">
           {value}
         </div>
       </foreignObject>
       {label ? (
-        <text
-          x={cx}
-          y={cy + 11}
-          fontSize={typography.gauge.label}
-          fill={chartColors.tick}
-          textAnchor="middle"
-          dominantBaseline="middle"
+        <foreignObject
+          x={12}
+          y={cy + 2}
+          width={VIEWBOX_W - 24}
+          height={26}
+          xmlns="http://www.w3.org/1999/xhtml"
         >
-          {label}
-        </text>
+          <p
+            className="m-0 px-0.5 text-center leading-snug"
+            style={{
+              fontSize: typography.gauge.label,
+              lineHeight: 1.35,
+              color: chartColors.tick,
+            }}
+          >
+            {label}
+          </p>
+        </foreignObject>
       ) : null}
     </svg>
   );

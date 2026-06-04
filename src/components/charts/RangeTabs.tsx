@@ -3,16 +3,18 @@
 import { cn } from "@/lib/utils";
 import type { ChartRange } from "@/lib/types";
 
-const RANGES: ChartRange[] = ["1D", "1W", "1M", "3M", "12M"];
+export const DEFAULT_CHART_RANGES: ChartRange[] = ["1D", "1W", "1M", "3M", "12M"];
 
 export default function RangeTabs({
   value,
   onChange,
+  ranges = DEFAULT_CHART_RANGES,
   size = "sm",
   className,
 }: {
   value: ChartRange;
   onChange: (range: ChartRange) => void;
+  ranges?: ChartRange[];
   size?: "sm" | "md";
   className?: string;
 }) {
@@ -25,7 +27,7 @@ export default function RangeTabs({
         className,
       )}
     >
-      {RANGES.map((r) => {
+      {ranges.map((r) => {
         const active = r === value;
         return (
           <button

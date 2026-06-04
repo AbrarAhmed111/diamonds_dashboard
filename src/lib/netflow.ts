@@ -1,85 +1,37 @@
 import type { SignalValue } from "./types";
 
-export interface NetflowSeriesPoint {
+export interface NetflowChartPoint {
   label: string;
-  inflows: number;
-  outflows: number;
+  timestamp: string;
+  netflow: number;
 }
 
-export interface NetflowWeekMetrics {
-  netflowWeek: number;
-  grossInflow: number;
-  grossOutflow: number;
-  exchangeBalanceChangeWoW: number | null;
+const netflowDateFmt = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  timeZone: "UTC",
+});
+
+/** X-axis label, e.g. "May 30", "Jun 1". */
+export function formatNetflowAxisDate(timestamp: string): string {
+  const d = new Date(`${timestamp.slice(0, 10)}T00:00:00.000Z`);
+  if (Number.isNaN(d.getTime())) return timestamp.slice(0, 10);
+  return netflowDateFmt.format(d);
 }
 
-const WEEKDAY_ORDER = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
-
-function weekdayIndex(timestamp: string): number {
-  const day = new Date(`${timestamp.slice(0, 10)}T00:00:00.000Z`).getUTCDay();
-  return day === 0 ? 6 : day - 1;
-}
-
-function weekdayLabel(timestamp: string): string {
-  return WEEKDAY_ORDER[weekdayIndex(timestamp)] ?? "Mon";
-}
-
-function splitFlows(point: SignalValue): { inflows: number; outflows: number } {
-  if (typeof point.inflows === "number" && typeof point.outflows === "number") {
-    return {
-      inflows: Math.max(0, point.inflows),
-      outflows: Math.max(0, point.outflows),
-    };
-  }
-
-  const net = point.value;
-  return {
-    inflows: Math.max(0, net),
-    outflows: Math.max(0, -net),
-  };
-}
-
-export function computeNetflowWeekMetrics(values: SignalValue[]): NetflowWeekMetrics {
-  const last7 = values.slice(-7);
-  const netflowWeek = last7.reduce((sum, point) => sum + point.value, 0);
-  const grossInflow = last7.reduce((sum, point) => sum + splitFlows(point).inflows, 0);
-  const grossOutflow = last7.reduce((sum, point) => sum + splitFlows(point).outflows, 0);
-
-  let exchangeBalanceChangeWoW: number | null = null;
-  if (values.length > 7) {
-    const balanceNow = values.reduce((sum, point) => sum + point.value, 0);
-    const balanceWeekAgo = values.slice(0, -7).reduce((sum, point) => sum + point.value, 0);
-    if (balanceWeekAgo !== 0) {
-      exchangeBalanceChangeWoW =
-        ((balanceNow - balanceWeekAgo) / Math.abs(balanceWeekAgo)) * 100;
-    }
-  }
-
-  return {
-    netflowWeek,
-    grossInflow,
-    grossOutflow,
-    exchangeBalanceChangeWoW,
-  };
-}
-
-export function buildNetflowWeek(values: SignalValue[]): NetflowSeriesPoint[] {
-  const last7 = values.slice(-7);
-  return [...last7]
-    .sort((a, b) => weekdayIndex(a.timestamp) - weekdayIndex(b.timestamp))
-    .map((point) => {
-      const { inflows, outflows } = splitFlows(point);
-      return {
-        label: weekdayLabel(point.timestamp),
-        inflows,
-        outflows,
-      };
-    });
+/** Last 7 daily netflow points from the API, sorted chronologically. */
+export function buildNetflowLast7Days(values: SignalValue[]): NetflowChartPoint[] {
+  const sorted = [...values].sort((a, b) => a.timestamp.localeCompare(b.timestamp));
+  return sorted.slice(-7).map((point) => ({
+    label: formatNetflowAxisDate(point.timestamp),
+    timestamp: point.timestamp,
+    netflow: point.value,
+  }));
 }
 
 function niceAxisStep(peak: number): number {
   if (peak <= 60) return 10;
-  const rawStep = peak / 5;
+  const rawStep = peak / 4;
   const magnitude = 10 ** Math.floor(Math.log10(rawStep));
   const normalized = rawStep / magnitude;
   if (normalized <= 1) return magnitude;
@@ -88,16 +40,30 @@ function niceAxisStep(peak: number): number {
   return 10 * magnitude;
 }
 
-export function buildNetflowYAxis(data: NetflowSeriesPoint[]) {
-  const peak = Math.max(
-    1,
-    ...data.flatMap((point) => [point.inflows, point.outflows]),
-  );
-  const step = niceAxisStep(peak);
-  const top = Math.max(step, Math.ceil(peak / step) * step);
-  const ticks: number[] = [];
-  for (let value = 0; value <= top; value += step) {
-    ticks.push(value);
+/** Signed Y-axis for netflow (positive and negative values). */
+export function buildNetflowSignedYAxis(data: NetflowChartPoint[]) {
+  if (!data.length) {
+    return { min: -1000, max: 1000, ticks: [-1000, 0, 1000] };
   }
-  return { max: top, ticks };
+
+  const values = data.map((point) => point.netflow);
+  let min = Math.min(...values);
+  let max = Math.max(...values);
+  const span = Math.max(max - min, 1);
+  const pad = Math.max(span * 0.12, 100);
+
+  min = Math.min(min - pad, 0);
+  max = Math.max(max + pad, 0);
+
+  const peak = Math.max(Math.abs(min), Math.abs(max), 1);
+  const step = niceAxisStep(peak);
+  const axisMin = Math.floor(min / step) * step;
+  const axisMax = Math.ceil(max / step) * step;
+
+  const ticks: number[] = [];
+  for (let value = axisMin; value <= axisMax + step * 0.001; value += step) {
+    ticks.push(Number(value.toFixed(2)));
+  }
+
+  return { min: axisMin, max: axisMax, ticks };
 }

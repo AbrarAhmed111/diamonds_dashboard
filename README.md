@@ -20,8 +20,8 @@ A frontend proof of concept for the Diamond Pigs market signals dashboard. The a
 | Charts | Recharts |
 | Icons | Lucide React |
 | Font | Inter Tight (`next/font/google`) |
-| Data | Helix API (`dashboard.snapshot`) |
-| Hosting | Static export (`output: "export"`) |
+| Data | Helix API (`dashboard.snapshot`) via internal `/api/helix` route |
+| Hosting | Next.js server build (Node / serverless, e.g. Vercel) |
 
 ## Quick start
 
@@ -33,7 +33,7 @@ cp .env.example .env.local
 Add your Helix API key to `.env.local`:
 
 ```env
-NEXT_PUBLIC_HELIX_API_KEY=dp_your_key_here
+HELIX_API_KEY=dp_your_key_here
 ```
 
 Then start the dev server:
@@ -44,7 +44,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-> **Note:** Because the app is a static export, Helix is called **from the browser**. `NEXT_PUBLIC_HELIX_API_KEY` is required for the Market sentiment page to load data.
+> **Note:** Helix is called **only on the server** through the `/api/helix` route. `HELIX_API_KEY` is **not** prefixed with `NEXT_PUBLIC`, so it is never bundled into the browser.
 
 ### Scripts
 
@@ -60,42 +60,47 @@ Open [http://localhost:3000](http://localhost:3000).
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `NEXT_PUBLIC_HELIX_API_KEY` | Yes | API key used by the dashboard at runtime |
-| `NEXT_PUBLIC_HELIX_API_URL` | No | Helix endpoint (default: `https://helix.diamondpigs.com/api/v1`) |
-| `NEXT_PUBLIC_BASE_PATH` | No | Base path when hosting under a sub-path |
+| `HELIX_API_KEY` | Yes | Server-side API key. Never exposed to the browser. |
+| `HELIX_API_URL` | No | Helix endpoint (default: `https://helix.diamondpigs.com/api/v1`) |
 
 See [`.env.example`](./.env.example) for the full template.
 
-## Data
+## Data flow
 
-On load, `SignalsProvider` (`src/lib/data.tsx`) requests a Helix `dashboard.snapshot` with `output_prompt_id: 7` and `limit_days: 730`.
+```
+Browser → GET /api/helix → server cache → Helix dashboard.snapshot
+```
 
-The response is mapped to dashboard signals in `src/lib/helix/mapSnapshot.ts` and summary bullets are parsed from `consolidation_summary`.
+1. `SignalsProvider` (`src/lib/data.tsx`) fetches **only** the internal route `GET /api/helix` — it never talks to Helix directly.
+2. The route (`src/app/api/helix/route.ts`) reads from a **server-side cache** (`src/lib/helix/serverCache.ts`).
+3. The cache calls Helix `dashboard.snapshot` (`output_prompt_id: 7`, `limit_days: 730`) **at most once every 4 hours**. All visitors share the cached payload until the window expires.
+4. Helix data is mapped to dashboard signals (`src/lib/helix/mapSnapshot.ts`) and the market summary (`consolidation_summary`: position, description, timestamp, bullets) **on the server**, so the browser receives display-ready JSON (`{ signals, consolidation, fetchedAt }`).
 
 | Dashboard signal | Helix source |
 | --- | --- |
 | BTC Price | `btc_price_4h` |
-| Market Buying Power | `ssr` |
+| Stablecoin Buying Power | `ssr` |
 | BTC Netflow | `btc_exchange_netflow` |
 | BTC Funding Rate | `btc_funding_rate` (+ open interest extras) |
-| Global Liquidity | `global_m2` (fallback: `m2`) — values in USD billions, displayed as trillions |
+| US Money Supply | `global_m2` (fallback: `m2`) — US M2 in USD billions, displayed as trillions |
 | Crypto Market Sentiment | `fear_greed` |
 | VIX (Global Volatility) | `vix` |
 
-Indicator **descriptions** shown on cards are defined in the mapper. **Values**, **charts**, and the **market summary bullets** come from the API.
+Signal card **descriptions** come from Helix. The **market summary** (position, headline description, update time, and bullets) is parsed from `consolidation_summary` on the server.
 
 ### Refresh behaviour
 
-- `lastFetchedAt` is stored in `localStorage`
-- Data is refetched automatically every **4 hours**, aligned to **00:00 GMT** (then 04:00, 08:00, 12:00, 16:00, 20:00)
-- While the tab is open, the next refresh is scheduled at the upcoming GMT boundary; returning to a backgrounded tab triggers a catch-up fetch if the current window was missed
-- Manual refresh is available from the UI
+- **Server cache** is authoritative: Helix is hit at most once per 4-hour window, shared across all visitors.
+- The client displays `fetchedAt` (the real data age) and stores it in `localStorage`.
+- While the tab is open, the client re-requests `/api/helix` on GMT-aligned 4-hour boundaries (00:00, 04:00, …); returning to a backgrounded tab triggers a catch-up request. These hit the cached route, so they are cheap.
+- Manual refresh is available from the UI.
 
 ## Routes
 
 | Route | Description |
 | --- | --- |
 | `/` | Market sentiment overview with signal cards |
+| `GET /api/helix` | Server route returning cached, display-ready dashboard JSON |
 
 ## Project structure
 
@@ -108,8 +113,11 @@ src/
     dashboard/            Signal cards, summary, badges, loading/error states
     charts/               Line charts, gauges
     ui/                   Button, Badge, Input, Avatar
+  app/
+    api/helix/route.ts    Server route: cached Helix proxy (no key in browser)
   lib/
-    data.tsx              Helix fetch, context, and refresh logic
+    data.tsx              Client provider — fetches /api/helix only
+    dashboard.ts          Shared internal API contract types
     refreshSchedule.ts    GMT-aligned 4-hour auto-refresh windows
     useSignalRange.ts     Shared range selection and stat sync
     types.ts              Domain types
@@ -118,22 +126,23 @@ src/
     theme.ts              Shared chart and gauge color tokens
     netflow.ts            Netflow weekly chart helpers
     liquidity.ts          Global M2 trillion scaling and chart axis helpers
-    helix/                Helix API client, types, and snapshot mapper
+    helix/                Helix client, types, snapshot mapper, and server cache
 ```
 
 ## Deployment
 
-The app is configured for static export:
+The app is a Next.js **server build** (not a static export), because the Helix
+key must stay server-side. It needs a host that runs Node / serverless functions
+(e.g. Vercel, or any Node server) — it can no longer be served as pure static files.
 
 ```bash
 npm run build
+npm run start
 ```
 
-Deploy the contents of `./out` to Vercel, Netlify, GitHub Pages, or any static host.
-
-Set `NEXT_PUBLIC_HELIX_API_KEY` (and optionally `NEXT_PUBLIC_HELIX_API_URL`) in your hosting provider’s environment variables before building.
-
-For sub-path hosting (e.g. GitHub Pages), set `basePath` in `next.config.mjs` and `NEXT_PUBLIC_BASE_PATH` to match your path.
+Set `HELIX_API_KEY` (and optionally `HELIX_API_URL`) in your hosting provider’s
+environment variables. Because the key is **not** prefixed with `NEXT_PUBLIC`, it
+is only available to the server route and never shipped to the browser.
 
 ## Design system
 
@@ -143,7 +152,7 @@ Sentiment mode is applied via a `data-sentiment` attribute on the app shell, whi
 
 ## Out of scope (POC)
 
-- No backend, authentication, or database
+- No authentication or database (the only backend is the cached `/api/helix` proxy)
 - No static JSON fallback — Helix API only
 
 ## License
