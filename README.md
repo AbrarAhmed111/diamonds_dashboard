@@ -1,13 +1,13 @@
 # Diamond Pigs Signals Dashboard
 
-A frontend proof of concept for the Diamond Pigs market signals dashboard. The app renders a Figma-aligned UI and loads live market data from the **Helix API**.
+A Next.js dashboard for Diamond Pigs market intelligence. The application presents live signal data from the Helix API in a responsive, brand-aligned interface with charts, gauges, and a consolidated market summary.
 
 ## Features
 
-- **Market sentiment** (`/`) — consolidated summary, signal cards, line charts, and gauges
-- **Loading states** — skeleton UI while Helix data is fetched
+- **Market sentiment overview** — consolidated summary, signal cards, line charts, and gauges
+- **Server-side data layer** — secure Helix integration with shared caching
 - **Sentiment theming** — positive, neutral, and negative modes driven by signal data
-- **Responsive layout** — desktop sidebar, collapsible navigation, mobile drawer
+- **Responsive layout** — desktop sidebar, collapsible navigation, and mobile drawer
 - **Accessibility** — keyboard navigation, focus states, and chart fallbacks
 
 ## Tech stack
@@ -36,7 +36,7 @@ Add your Helix API key to `.env.local`:
 HELIX_API_KEY=dp_your_key_here
 ```
 
-Then start the dev server:
+Then start the development server:
 
 ```bash
 npm run dev
@@ -44,14 +44,14 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-> **Note:** Helix is called **only on the server** through the `/api/helix` route. `HELIX_API_KEY` is **not** prefixed with `NEXT_PUBLIC`, so it is never bundled into the browser.
+Helix is accessed only on the server through the `/api/helix` route. `HELIX_API_KEY` is not prefixed with `NEXT_PUBLIC`, so it is never exposed to the browser.
 
 ### Scripts
 
 | Command | Description |
 | --- | --- |
 | `npm run dev` | Start the development server |
-| `npm run build` | Build a static export to `./out` |
+| `npm run build` | Create an optimized production build |
 | `npm run start` | Serve the production build locally |
 | `npm run lint` | Run ESLint |
 | `npm run format` | Format with Prettier |
@@ -60,47 +60,46 @@ Open [http://localhost:3000](http://localhost:3000).
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `HELIX_API_KEY` | Yes | Server-side API key. Never exposed to the browser. |
+| `HELIX_API_KEY` | Yes | Server-side API key |
 | `HELIX_API_URL` | No | Helix endpoint (default: `https://helix.diamondpigs.com/api/v1`) |
 
 See [`.env.example`](./.env.example) for the full template.
 
-## Data flow
+## Architecture
 
 ```
 Browser → GET /api/helix → server cache → Helix dashboard.snapshot
 ```
 
-1. `SignalsProvider` (`src/lib/data.tsx`) fetches **only** the internal route `GET /api/helix` — it never talks to Helix directly.
-2. The route (`src/app/api/helix/route.ts`) reads from a **server-side cache** (`src/lib/helix/serverCache.ts`).
-3. The cache calls Helix `dashboard.snapshot` (`output_prompt_id: 7`, `limit_days: 730`) **at most once every 4 hours**. All visitors share the cached payload until the window expires.
-4. Helix data is mapped to dashboard signals (`src/lib/helix/mapSnapshot.ts`) and the market summary (`consolidation_summary`: position, description, timestamp, bullets) **on the server**, so the browser receives display-ready JSON (`{ signals, consolidation, fetchedAt }`).
+1. `SignalsProvider` (`src/lib/data.tsx`) loads dashboard data from `GET /api/helix`.
+2. The API route (`src/app/api/helix/route.ts`) serves responses from a server-side cache (`src/lib/helix/serverCache.ts`).
+3. The cache refreshes from Helix `dashboard.snapshot` (`output_prompt_id: 7`, `limit_days: 730`) on a four-hour TTL. All visitors receive the same cached payload until the window expires.
+4. Helix responses are mapped to display-ready signals (`src/lib/helix/mapSnapshot.ts`) and market summary data (`consolidation_summary`) on the server. The client receives `{ signals, consolidation, fetchedAt }`.
 
 | Dashboard signal | Helix source |
 | --- | --- |
 | BTC Price | `btc_price_4h` |
 | Stablecoin Buying Power | `ssr` |
 | BTC Netflow | `btc_exchange_netflow` |
-| BTC Funding Rate | `btc_funding_rate` (+ open interest extras) |
-| US Money Supply | `global_m2` (fallback: `m2`) — US M2 in USD billions, displayed as trillions |
+| BTC Funding Rate | `btc_funding_rate` (+ open interest metadata) |
+| US Money Supply | `global_m2` (fallback: `m2`) |
 | Crypto Market Sentiment | `fear_greed` |
 | VIX (Global Volatility) | `vix` |
 
-Signal card **descriptions** come from Helix. The **market summary** (position, headline description, update time, and bullets) is parsed from `consolidation_summary` on the server.
+Signal descriptions and the market summary (position, headline, update time, and bullets) are sourced from Helix and rendered on the client.
 
-### Refresh behaviour
+### Data refresh
 
-- **Server cache** is authoritative: Helix is hit at most once per 4-hour window, shared across all visitors.
-- The client displays `fetchedAt` (the real data age) and stores it in `localStorage`.
-- While the tab is open, the client re-requests `/api/helix` on GMT-aligned 4-hour boundaries (00:00, 04:00, …); returning to a backgrounded tab triggers a catch-up request. These hit the cached route, so they are cheap.
-- Manual refresh is available from the UI.
+- The server cache limits Helix requests to one refresh per four-hour window.
+- The UI displays `fetchedAt` to indicate data age.
+- The client re-fetches `/api/helix` on GMT-aligned four-hour boundaries while the tab is open, with a catch-up request when the tab becomes visible again.
 
 ## Routes
 
 | Route | Description |
 | --- | --- |
-| `/` | Market sentiment overview with signal cards |
-| `GET /api/helix` | Server route returning cached, display-ready dashboard JSON |
+| `/` | Market sentiment dashboard |
+| `GET /api/helix` | Cached dashboard JSON API |
 
 ## Project structure
 
@@ -114,47 +113,38 @@ src/
     charts/               Line charts, gauges
     ui/                   Button, Badge, Input, Avatar
   app/
-    api/helix/route.ts    Server route: cached Helix proxy (no key in browser)
+    api/helix/route.ts    Server route: Helix proxy with caching
   lib/
-    data.tsx              Client provider — fetches /api/helix only
-    dashboard.ts          Shared internal API contract types
-    refreshSchedule.ts    GMT-aligned 4-hour auto-refresh windows
-    useSignalRange.ts     Shared range selection and stat sync
+    data.tsx              Client provider
+    dashboard.ts          Internal API contract types
+    refreshSchedule.ts    GMT-aligned refresh windows
+    useSignalRange.ts     Range selection and stat sync
     types.ts              Domain types
     format.ts             Value, date, and change formatters
     sentiment.ts          Sentiment and range helpers
-    theme.ts              Shared chart and gauge color tokens
-    netflow.ts            Netflow weekly chart helpers
-    liquidity.ts          Global M2 trillion scaling and chart axis helpers
-    helix/                Helix client, types, snapshot mapper, and server cache
+    theme.ts              Chart and gauge color tokens
+    netflow.ts            Netflow chart helpers
+    liquidity.ts          M2 scaling and chart axis helpers
+    helix/                Helix client, types, mapper, and server cache
 ```
 
 ## Deployment
 
-The app is a Next.js **server build** (not a static export), because the Helix
-key must stay server-side. It needs a host that runs Node / serverless functions
-(e.g. Vercel, or any Node server) — it can no longer be served as pure static files.
+The application requires a Node.js or serverless runtime (e.g. Vercel) because Helix credentials and caching run on the server.
 
 ```bash
 npm run build
 npm run start
 ```
 
-Set `HELIX_API_KEY` (and optionally `HELIX_API_URL`) in your hosting provider’s
-environment variables. Because the key is **not** prefixed with `NEXT_PUBLIC`, it
-is only available to the server route and never shipped to the browser.
+Configure `HELIX_API_KEY` and optionally `HELIX_API_URL` in your hosting environment. Server-only variables are not bundled into client JavaScript.
 
 ## Design system
 
-Colors, typography, and spacing follow the Diamond Pigs design tokens in `tailwind.config.ts` and `src/assets/css/globals.css`. Chart and gauge components pull shared values from `src/lib/theme.ts` so SVG and Recharts styling stay consistent with Tailwind classes.
+Colors, typography, and spacing follow Diamond Pigs design tokens in `tailwind.config.ts` and `src/assets/css/globals.css`. Chart and gauge components use shared values from `src/lib/theme.ts` for consistent SVG and Recharts styling.
 
-Sentiment mode is applied via a `data-sentiment` attribute on the app shell, which updates CSS custom properties for accents, badges, and summary surfaces.
-
-## Out of scope (POC)
-
-- No authentication or database (the only backend is the cached `/api/helix` proxy)
-- No static JSON fallback — Helix API only
+Sentiment mode is applied via a `data-sentiment` attribute on the application shell, which updates CSS custom properties for accents, badges, and summary surfaces.
 
 ## License
 
-MIT — POC engagement.
+MIT
