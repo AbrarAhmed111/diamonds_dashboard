@@ -10,6 +10,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import ChartDayAxisTick from "@/components/charts/ChartDayAxisTick";
+import { formatMonthAxisTick, parseDateParts } from "@/lib/chartAxis";
 import { chartColors } from "@/lib/theme";
 import { typography } from "@/lib/typography";
 import type { ChartRange, SignalValue } from "@/lib/types";
@@ -56,26 +58,6 @@ function maxDayTicks(span: number, pointCount: number, range?: ChartRange): numb
   if (span <= 7) return Math.min(pointCount, 7);
   if (span <= 31) return Math.min(pointCount, 6);
   return Math.min(pointCount, 6);
-}
-
-const MONTH_LABELS = [
-  "JAN",
-  "FEB",
-  "MAR",
-  "APR",
-  "MAY",
-  "JUN",
-  "JUL",
-  "AUG",
-  "SEP",
-  "OCT",
-  "NOV",
-  "DEC",
-] as const;
-
-function parseDateParts(timestamp: string) {
-  const [ys, ms, ds] = timestamp.slice(0, 10).split("-");
-  return { year: Number(ys), month: Number(ms) - 1, day: Number(ds) };
 }
 
 const ChartTooltip = ({
@@ -152,11 +134,6 @@ function buildMonthTicks(data: Array<{ x: string; y: number }>) {
   return ticks;
 }
 
-function formatMonthTick(value: string | number) {
-  const { month } = parseDateParts(String(value));
-  return MONTH_LABELS[month] ?? "";
-}
-
 function buildDayTicks(data: Array<{ x: string; y: number }>, range?: ChartRange) {
   const span = spanDaysFromData(data);
   const maxTicks = maxDayTicks(span, data.length, range);
@@ -167,41 +144,6 @@ function buildPercentTicks(values: number[]) {
   const maxVal = Math.max(...values, 0);
   const top = Math.max(12, Math.ceil(maxVal / 2) * 2);
   return Array.from({ length: top / 2 + 1 }, (_, i) => i * 2);
-}
-
-function DayAxisTick({
-  x = 0,
-  y = 0,
-  payload,
-  index = 0,
-  visibleTicks = [],
-}: {
-  x?: number;
-  y?: number;
-  payload?: { value: string };
-  index?: number;
-  visibleTicks?: Array<{ value: string }>;
-}) {
-  if (!payload?.value) return null;
-
-  const { day, month } = parseDateParts(String(payload.value));
-  const monthLabel = MONTH_LABELS[month] ?? "";
-  const prev =
-    index > 0 ? parseDateParts(String(visibleTicks[index - 1]?.value ?? "")) : null;
-  const showMonth = index === 0 || !prev || prev.month !== month;
-
-  return (
-    <g transform={`translate(${x},${y})`}>
-      <text textAnchor="middle" fill={chartColors.tick} fontSize={typography.chart.axis} dy={12}>
-        {day}
-      </text>
-      {showMonth ? (
-        <text textAnchor="middle" fill={chartColors.tick} fontSize={typography.chart.label} dy={26}>
-          {monthLabel}
-        </text>
-      ) : null}
-    </g>
-  );
 }
 
 function YAxisTickLeft({
@@ -315,7 +257,7 @@ export default function SignalLineChart({
               interval={0}
               tick={
                 mode === "day" ? (
-                  <DayAxisTick />
+                  <ChartDayAxisTick />
                 ) : (
                   { fontSize: typography.chart.axis, fill: chartColors.tick }
                 )
@@ -324,7 +266,7 @@ export default function SignalLineChart({
                 mode === "day"
                   ? undefined
                   : mode === "month"
-                    ? formatMonthTick
+                    ? formatMonthAxisTick
                     : (v) => `${parseDateParts(String(v)).year}`
               }
             />

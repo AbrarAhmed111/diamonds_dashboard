@@ -55,7 +55,7 @@ export default function FundingRateCard({ signal }: Props) {
         />
       </div>
 
-      <dl className="mt-4 space-y-3 sm:mt-5">
+      <dl className="mt-4 grid grid-cols-3 items-start gap-2 sm:mt-5 sm:gap-4">
         <Stat
           label="7d avg"
           value={seven !== null ? formatChange(fundingRateToPercent(seven), "%", 3) : "–"}
@@ -64,12 +64,14 @@ export default function FundingRateCard({ signal }: Props) {
           label="Annualized"
           value={annualized !== null ? formatChange(annualized, "%", 2) : "–"}
         />
-        <div>
+        <div className="min-w-0">
           <dt className="text-caption text-ink-muted">Open Interest</dt>
-          <dd className="mt-0.5 flex flex-wrap items-baseline gap-2 text-small font-medium text-ink">
+          <dd className="mt-0.5 text-small font-medium text-ink">
             <span>{oi !== null ? formatValue(oi, "USD") : "–"}</span>
             {oiInterpretation ? (
-              <span className="font-normal text-ink-muted">{oiInterpretation}</span>
+              <span className="mt-0.5 block text-caption font-normal leading-snug text-ink-muted">
+                {oiInterpretation}
+              </span>
             ) : null}
           </dd>
         </div>
@@ -80,7 +82,7 @@ export default function FundingRateCard({ signal }: Props) {
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div>
+    <div className="min-w-0">
       <dt className="text-caption text-ink-muted">{label}</dt>
       <dd className="mt-0.5 text-small font-medium text-ink">{value}</dd>
     </div>

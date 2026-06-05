@@ -1,29 +1,14 @@
 import type { SignalValue } from "./types";
 
 export interface NetflowChartPoint {
-  label: string;
   timestamp: string;
   netflow: number;
-}
-
-const netflowDateFmt = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric",
-  timeZone: "UTC",
-});
-
-/** X-axis label, e.g. "May 30", "Jun 1". */
-export function formatNetflowAxisDate(timestamp: string): string {
-  const d = new Date(`${timestamp.slice(0, 10)}T00:00:00.000Z`);
-  if (Number.isNaN(d.getTime())) return timestamp.slice(0, 10);
-  return netflowDateFmt.format(d);
 }
 
 /** Last 7 daily netflow points from the API, sorted chronologically. */
 export function buildNetflowLast7Days(values: SignalValue[]): NetflowChartPoint[] {
   const sorted = [...values].sort((a, b) => a.timestamp.localeCompare(b.timestamp));
   return sorted.slice(-7).map((point) => ({
-    label: formatNetflowAxisDate(point.timestamp),
     timestamp: point.timestamp,
     netflow: point.value,
   }));

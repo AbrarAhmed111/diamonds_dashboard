@@ -12,7 +12,8 @@ import {
   YAxis,
 } from "recharts";
 import type { RectangleProps } from "recharts";
-import { formatBtcChartAxis, formatBtcNetflow } from "@/lib/format";
+import ChartDayAxisTick from "@/components/charts/ChartDayAxisTick";
+import { formatBtcChartAxis, formatBtcNetflow, formatDate } from "@/lib/format";
 import { buildNetflowSignedYAxis, type NetflowChartPoint } from "@/lib/netflow";
 import { chartColors, gaugeColors } from "@/lib/theme";
 import { typography } from "@/lib/typography";
@@ -22,8 +23,6 @@ interface Props {
   height?: number;
   ariaLabel?: string;
 }
-
-const AXIS_TICK = { fontSize: typography.chart.axis, fill: chartColors.tick };
 
 /** Figma-style gradients: saturated at the bar tip, fading toward the zero line. */
 const NETFLOW_GRADIENT = {
@@ -80,7 +79,7 @@ const TooltipContent = ({
   const netflow = payload[0].value;
   return (
     <div className="rounded-lg border border-neutral-500/60 bg-white/95 px-3 py-2 text-caption shadow-card backdrop-blur">
-      <p className="font-medium text-ink">{label}</p>
+      <p className="font-medium text-ink">{formatDate(String(label))}</p>
       <p className="mt-1 text-ink">Netflow: {formatBtcNetflow(netflow)}</p>
     </div>
   );
@@ -174,7 +173,7 @@ export default function NetflowBarChart({ data, height = 260, ariaLabel }: Props
       <ResponsiveContainer width="100%" height={height}>
         <BarChart
           data={data}
-          margin={{ top: 10, right: 12, bottom: 0, left: 0 }}
+          margin={{ top: 10, right: 12, bottom: 38, left: 0 }}
           barCategoryGap="22%"
         >
           <defs>
@@ -192,13 +191,13 @@ export default function NetflowBarChart({ data, height = 260, ariaLabel }: Props
           <CartesianGrid stroke={chartColors.grid} strokeDasharray="2 6" vertical={false} />
           <ReferenceLine y={0} stroke={chartColors.tick} strokeWidth={1} />
           <XAxis
-            dataKey="label"
+            dataKey="timestamp"
             stroke={chartColors.tick}
             tickLine={false}
             axisLine={false}
             tickMargin={10}
-            tick={AXIS_TICK}
             interval={0}
+            tick={<ChartDayAxisTick />}
           />
           <YAxis
             stroke={chartColors.tick}
