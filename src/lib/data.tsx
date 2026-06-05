@@ -27,7 +27,7 @@ type Status = "loading" | "ready" | "error";
 
 interface LoadOptions {
   silent?: boolean;
-  /** Bypass the server cache and call Helix immediately. */
+  /** Bypass the server cache and call Helix immediately (Account → Refresh data). */
   force?: boolean;
 }
 

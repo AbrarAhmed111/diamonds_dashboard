@@ -40,37 +40,34 @@ export default function MarketSummary({ signals, consolidation }: Props) {
     bullets: [],
   };
   const fallbackSentiment = getOverallSentiment(signals);
-  const bulletSentiment = summary.position ?? fallbackSentiment;
+  const sentiment = summary.position ?? fallbackSentiment;
   const bulletList = summary.bullets.length
     ? summary.bullets
-    : FALLBACK_BULLETS[bulletSentiment];
+    : FALLBACK_BULLETS[sentiment];
   const updatedLabel = summary.updatedAt ? formatDateTime(summary.updatedAt) : "–";
-  const positionLabel = summary.position ? SENTIMENT_LABEL[summary.position] : null;
 
   return (
     <section
-      aria-labelledby="market-sentiment-heading"
+      aria-labelledby={summary.description ? "market-sentiment-heading" : undefined}
+      aria-label={summary.description ? undefined : "Market consensus summary"}
       className="signal-split-card surface-card surface-card-pad"
     >
-      <p className="text-meta">Market data updated:</p>
+      <p className="text-meta">
+        Market data updated at {updatedLabel}
+      </p>
 
-      <div className="mt-1 flex flex-wrap items-center gap-2 sm:gap-3">
-        <h2 id="market-sentiment-heading" className="text-section-date">
-          {updatedLabel}
-        </h2>
-        {positionLabel && summary.position ? (
-          <Badge tone={summary.position} size="md">
-            {positionLabel}
-          </Badge>
+      <div className="mt-3 flex flex-wrap gap-2 items-center sm:mt-4">
+        {summary.description ? (
+          <SignalDescription
+            html={summary.description}
+            id="market-sentiment-heading"
+            className="text-card-title [&_*]:m-0 [&_*]:font-inherit [&_*]:text-inherit [&_p]:inline"
+          />
         ) : null}
+        <Badge tone={sentiment} size="md" className="shrink-0">
+          {SENTIMENT_LABEL[sentiment]}
+        </Badge>
       </div>
-
-      {summary.description ? (
-        <SignalDescription
-          html={summary.description}
-          className="mt-5 text-card-body sm:mt-6 [&_*]:text-ink-muted"
-        />
-      ) : null}
 
       <ul className="market-summary-bullets">
         {bulletList.map((line, i) => (

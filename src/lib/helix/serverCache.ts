@@ -31,7 +31,7 @@ async function buildSnapshot(): Promise<DashboardPayload> {
 }
 
 interface SnapshotOptions {
-  /** Bypass the in-memory cache and call Helix immediately (manual refresh / testing). */
+  /** Bypass the in-memory cache and call Helix immediately (manual refresh). */
   force?: boolean;
 }
 

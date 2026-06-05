@@ -7,7 +7,6 @@ import {
   Layers3,
   LayoutDashboard,
   LineChart,
-  LogOut,
   PanelLeft,
   Search,
   Shield,
@@ -228,21 +227,6 @@ export default function Sidebar({
         ))}
       </nav>
 
-      <div className={cn("p-4", collapsed && "px-2")}>
-        <button
-          type="button"
-          title={collapsed ? "Log out" : undefined}
-          className={cn(
-            "flex w-full items-center justify-center border border-negative-500 bg-white text-btn-sm font-medium text-negative-500 transition-colors duration-fast ease-standard hover:bg-negative-50 focus-ring",
-            collapsed
-              ? "rounded px-2 py-3"
-              : "gap-2.5 rounded px-5 py-3",
-          )}
-        >
-          <LogOut className="h-5 w-5 shrink-0" strokeWidth={2.25} />
-          {!collapsed ? "Log out" : null}
-        </button>
-      </div>
     </aside>
   );
 }

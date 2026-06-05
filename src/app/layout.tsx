@@ -13,11 +13,7 @@ const interTight = Inter_Tight({
 
 export const metadata: Metadata = {
   title: "Diamond Pigs Signals Dashboard",
-  description:
-    "A pixel-perfect proof-of-concept dashboard for the Diamond Pigs Signals platform.",
-  icons: {
-    icon: "/favicon.ico",
-  },
+  description: "Market sentiment dashboard for the Diamond Pigs Signals platform.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

@@ -14,6 +14,8 @@ interface Props {
   signal: Signal;
   metricLabel?: string;
   valueOverride?: string;
+  /** When false, hides the large stat above the chart (e.g. when shown in the title badge). */
+  showHeadlineValue?: boolean;
   defaultRange?: ChartRange;
   ranges?: ChartRange[];
   rangeChangeMode?: RangeChangeMode;
@@ -24,6 +26,7 @@ export default function SignalSplitCard({
   signal,
   metricLabel,
   valueOverride,
+  showHeadlineValue = true,
   defaultRange = "3M",
   ranges,
   rangeChangeMode = "relative",
@@ -64,9 +67,13 @@ export default function SignalSplitCard({
         <div className="signal-split-card__chart">
           <div className="flex flex-wrap items-start justify-between gap-2 sm:gap-3">
             <div>
-              <p className="text-stat-value">{valueOverride ?? displayValue}</p>
+              {showHeadlineValue ? (
+                <p className="text-stat-value">{valueOverride ?? displayValue}</p>
+              ) : null}
               {metricLabel ? (
-                <p className="mt-1 text-meta">{metricLabel}</p>
+                <p className={showHeadlineValue ? "mt-1 text-meta" : "text-meta"}>
+                  {metricLabel}
+                </p>
               ) : null}
             </div>
           </div>

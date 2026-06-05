@@ -29,28 +29,20 @@ function AccountDropdownMenu({
   return (
     <div
       role="menu"
-      className="absolute right-0 top-full z-20 mt-2 w-52 overflow-hidden rounded-3xl border border-neutral-500/40 bg-white shadow-card sm:w-56"
+      className="absolute right-0 top-full z-20 mt-2 w-52 overflow-hidden rounded-3xl border border-neutral-500/40 bg-white p-1 shadow-card sm:w-56"
     >
-      <div className="border-b border-neutral-500/40 p-3">
-        <p className="text-small font-medium text-ink">Owen Wilson</p>
-        <p className="text-caption text-ink-muted">owen@diamondpigs.demo</p>
-      </div>
-      <div className="p-1">
-        <button
-          type="button"
-          disabled={isLoading}
-          onClick={() => {
-            onClose();
-            onRefresh();
-          }}
-          className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-small text-ink hover:bg-neutral-400 focus-ring disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          <RefreshCcw
-            className={cn("h-4 w-4", isLoading && "animate-spin")}
-          />
-          Refresh data
-        </button>
-      </div>
+      <button
+        type="button"
+        disabled={isLoading}
+        onClick={() => {
+          onClose();
+          onRefresh();
+        }}
+        className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-small text-ink hover:bg-neutral-400 focus-ring disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        <RefreshCcw className={cn("h-4 w-4", isLoading && "animate-spin")} />
+        Refresh data
+      </button>
     </div>
   );
 }
@@ -101,7 +93,7 @@ export default function TopBar({ title, subtitle, onOpenMenu }: TopBarProps) {
               aria-label="Account"
             >
               <Avatar
-                initials="OW"
+                initials="DP"
                 className="h-6 w-6 bg-negative-50 text-[10px] font-medium text-negative-500 shadow-none"
               />
             </button>
@@ -142,7 +134,7 @@ export default function TopBar({ title, subtitle, onOpenMenu }: TopBarProps) {
             aria-expanded={open}
           >
             <Avatar
-              initials="OW"
+              initials="DP"
               className="bg-negative-50 text-caption font-medium text-negative-500 shadow-none"
             />
             <span className="text-small font-medium">Account</span>

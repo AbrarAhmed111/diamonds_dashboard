@@ -48,7 +48,8 @@ export default function SentimentPage() {
           {get("buying_power") ? (
             <SignalSplitCard
               signal={get("buying_power")!}
-              metricLabel="Stablecoin Supply / Total Crypto Market Cap"
+              metricLabel="Stablecoin Supply / Bitcoin Market Cap"
+              showHeadlineValue={false}
               valueMode="change"
               defaultRange="1W"
               ranges={CHART_RANGES_WITHOUT_1D}

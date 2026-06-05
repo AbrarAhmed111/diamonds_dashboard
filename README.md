@@ -93,6 +93,7 @@ Signal descriptions and the market summary (position, headline, update time, and
 - The server cache limits Helix requests to one refresh per four-hour window.
 - The UI displays `fetchedAt` to indicate data age.
 - The client re-fetches `/api/helix` on GMT-aligned four-hour boundaries while the tab is open, with a catch-up request when the tab becomes visible again.
+- **Account → Refresh data** bypasses the cache and fetches a new snapshot from Helix immediately (`GET /api/helix?force=true`).
 
 ## Routes
 

@@ -26,7 +26,6 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error("[api/helix] failed to load dashboard snapshot:", error);
-    console.count("Helix API Called");
     const isHelix = error instanceof HelixApiError;
     const body: DashboardApiResponse = {
       ok: false,
