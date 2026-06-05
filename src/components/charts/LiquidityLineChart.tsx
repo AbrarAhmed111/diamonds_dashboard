@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Area,
   CartesianGrid,
@@ -17,6 +17,7 @@ import {
   buildLiquidityYAxis,
   formatGlobalLiquidityTooltipDate,
   formatGlobalLiquidityXAxisTick,
+  liquidityMaxTicksForWidth,
   toLiquidityChartPoints,
   type LiquidityDateRangeType,
 } from "@/lib/liquidity";
@@ -86,12 +87,14 @@ function LiquidityXAxisTick({
   payload,
   xTicks,
   rangeType,
+  compact,
 }: {
   x?: number;
   y?: number;
   payload?: { value: string };
   xTicks: string[];
   rangeType: LiquidityDateRangeType;
+  compact?: boolean;
 }) {
   if (!payload?.value) return null;
 
@@ -99,6 +102,7 @@ function LiquidityXAxisTick({
   const tickIndex = xTicks.indexOf(timestamp);
   const label = formatGlobalLiquidityXAxisTick(timestamp, rangeType, {
     previousTimestamp: tickIndex > 0 ? xTicks[tickIndex - 1] : undefined,
+    compact,
   });
   const fontSize =
     rangeType === "monthly" && xTicks.length > 12
@@ -119,11 +123,47 @@ function LiquidityXAxisTick({
   );
 }
 
+/** Below Tailwind `md` — x-axis uses reduced ticks + compact labels only here. */
+const SMALL_SCREEN_MAX_WIDTH = 767;
+
+function useLiquidityChartLayout() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${SMALL_SCREEN_MAX_WIDTH}px)`);
+    const updateViewport = () => setIsSmallScreen(mq.matches);
+    updateViewport();
+    mq.addEventListener("change", updateViewport);
+
+    const element = ref.current;
+    if (!element) {
+      return () => mq.removeEventListener("change", updateViewport);
+    }
+
+    const updateWidth = () => setWidth(element.getBoundingClientRect().width);
+    updateWidth();
+
+    const observer = new ResizeObserver(() => updateWidth());
+    observer.observe(element);
+
+    return () => {
+      mq.removeEventListener("change", updateViewport);
+      observer.disconnect();
+    };
+  }, []);
+
+  return { ref, width, isSmallScreen };
+}
+
 export default function LiquidityLineChart({
   values,
   height = 200,
   ariaLabel,
 }: Props) {
+  const { ref, width: chartWidth, isSmallScreen } = useLiquidityChartLayout();
+
   const data = useMemo(() => {
     return toLiquidityChartPoints(values).map((point) => ({
       ...point,
@@ -131,8 +171,17 @@ export default function LiquidityLineChart({
     }));
   }, [values]);
 
+  const maxTicks = useMemo(
+    () => (isSmallScreen ? liquidityMaxTicksForWidth(chartWidth) : undefined),
+    [isSmallScreen, chartWidth],
+  );
+  const compactLabels = isSmallScreen;
+
   const yAxis = useMemo(() => buildLiquidityYAxis(data), [data]);
-  const { rangeType, ticks: xTicks } = useMemo(() => buildLiquidityXAxisTicks(data), [data]);
+  const { rangeType, ticks: xTicks } = useMemo(
+    () => buildLiquidityXAxisTicks(data, maxTicks),
+    [data, maxTicks],
+  );
   const yAxisWidth = useMemo(() => yAxisWidthForTicks(yAxis.ticks), [yAxis.ticks]);
 
   if (!data.length) {
@@ -148,11 +197,21 @@ export default function LiquidityLineChart({
   }
 
   return (
-    <div className="w-full" role="img" aria-label={ariaLabel ?? "US M2 money supply chart"}>
+    <div
+      ref={ref}
+      className="w-full"
+      role="img"
+      aria-label={ariaLabel ?? "US M2 money supply chart"}
+    >
       <ResponsiveContainer width="100%" height={height}>
         <ComposedChart
           data={data}
-          margin={{ top: 10, right: 12, bottom: rangeType === "monthly" ? 8 : 4, left: 0 }}
+          margin={{
+            top: 10,
+            right: 12,
+            bottom: rangeType === "monthly" ? (compactLabels ? 10 : 8) : 4,
+            left: 0,
+          }}
         >
           <defs>
             <linearGradient id="dp-liquidity-area" x1="0" y1="0" x2="0" y2="1">
@@ -169,7 +228,13 @@ export default function LiquidityLineChart({
             ticks={xTicks}
             interval={0}
             tickMargin={8}
-            tick={<LiquidityXAxisTick xTicks={xTicks} rangeType={rangeType} />}
+            tick={
+              <LiquidityXAxisTick
+                xTicks={xTicks}
+                rangeType={rangeType}
+                compact={compactLabels}
+              />
+            }
           />
           <YAxis
             stroke={chartColors.tick}

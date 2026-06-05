@@ -1,5 +1,6 @@
 "use client";
 
+import Badge from "@/components/ui/Badge";
 import SignalDescription from "@/components/dashboard/SignalDescription";
 import type { ConsolidationSummary } from "@/lib/dashboard";
 import type { Signal, SentimentType } from "@/lib/types";
@@ -48,30 +49,32 @@ export default function MarketSummary({ signals, consolidation }: Props) {
 
   return (
     <section
-      aria-labelledby={summary.description ? "market-summary-description" : undefined}
+      aria-labelledby="market-sentiment-heading"
       className="signal-split-card surface-card surface-card-pad"
     >
-      {positionLabel ? (
-        <p id="market-position" className="text-body-bold">
-          {positionLabel}
-        </p>
-      ) : null}
+      <p className="text-meta">Market data updated:</p>
 
-      <p className={positionLabel ? "mt-2 text-meta sm:mt-3" : "text-meta"}>
-        Market data updated at {updatedLabel}
-      </p>
+      <div className="mt-1 flex flex-wrap items-center gap-2 sm:gap-3">
+        <h2 id="market-sentiment-heading" className="text-section-date">
+          {updatedLabel}
+        </h2>
+        {positionLabel && summary.position ? (
+          <Badge tone={summary.position} size="md">
+            {positionLabel}
+          </Badge>
+        ) : null}
+      </div>
 
       {summary.description ? (
         <SignalDescription
           html={summary.description}
-          id="market-summary-description"
-          className="mt-2 text-section-date text-ink sm:mt-3 [&_*]:font-medium [&_*]:text-ink"
+          className="mt-5 text-card-body sm:mt-6 [&_*]:text-ink-muted"
         />
       ) : null}
 
-      <ul className="mt-4 max-w-3xl space-y-2 sm:mt-5">
+      <ul className="market-summary-bullets">
         {bulletList.map((line, i) => (
-          <li key={i} className="flex gap-2.5 text-small text-ink/85 sm:gap-3 md:text-body">
+          <li key={i}>
             <span
               aria-hidden
               className="mt-[10px] h-2 w-2 shrink-0 rounded-full bg-sentiment"

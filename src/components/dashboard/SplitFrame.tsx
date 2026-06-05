@@ -35,9 +35,9 @@ export default function SplitFrame({
           <div className="w-full md:max-w-[90%]">
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               <SignalIcon id={signal.id} category={signal.category} />
-              <h3 className="text-body-bold">{signal.name}</h3>
+              <h3 className="text-card-title">{signal.name}</h3>
               {badge ? (
-                <Badge tone={badge.tone ?? "positive"} size="md" className="px-2.5">
+                <Badge tone={badge.tone ?? "positive"} size="md">
                   {badge.label}
                 </Badge>
               ) : null}

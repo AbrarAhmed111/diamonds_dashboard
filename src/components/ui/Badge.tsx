@@ -17,14 +17,13 @@ interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
 }
 
 const toneClasses: Record<Tone, string> = {
-  positive: "border border-positive-500/40 bg-positive-50 text-positive-700",
-  neutral: "border border-blue-500/35 bg-blue-50 text-blue-700",
-  negative: "border border-negative-500/40 bg-negative-50 text-negative-700",
-  warning: "border border-warning-500/40 bg-warning-50 text-warning-700",
-  info: "border border-blue-500/35 bg-blue-50 text-blue-700",
-  muted: "border border-neutral-500/70 bg-neutral-400 text-neutral-800",
-  sentiment:
-    "border border-sentiment/35 bg-sentiment-soft text-sentiment-ink",
+  positive: "border-green-400 bg-green-50",
+  neutral: "border-neutral-500 bg-neutral-400",
+  negative: "border-negative-500 bg-negative-50",
+  warning: "border-warning-500 bg-warning-50",
+  info: "border-blue-300 bg-blue-50",
+  muted: "border-neutral-500 bg-neutral-400",
+  sentiment: "border-neutral-500 bg-neutral-400",
 };
 
 export default function Badge({
@@ -38,8 +37,8 @@ export default function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-[50px] font-medium",
-        size === "sm" ? "px-2.5 py-0.5 text-caption" : "px-3 py-1 text-small",
+        "inline-flex items-center gap-1.5 rounded-full border font-normal text-ink",
+        size === "sm" ? "px-3 py-0.5 text-caption" : "px-5 py-1 text-small",
         toneClasses[tone],
         className,
       )}

@@ -101,11 +101,12 @@ export default function TopBar({ title, subtitle, onOpenMenu }: TopBarProps) {
               <div className="p-1">
                 <button
                   type="button"
+                  disabled={isLoading}
                   onClick={() => {
                     setOpen(false);
-                    refresh();
+                    void refresh();
                   }}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-small text-ink hover:bg-neutral-400 focus-ring"
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-small text-ink hover:bg-neutral-400 focus-ring disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   <RefreshCcw
                     className={cn(

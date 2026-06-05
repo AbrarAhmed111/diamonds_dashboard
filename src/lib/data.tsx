@@ -27,6 +27,8 @@ type Status = "loading" | "ready" | "error";
 
 interface LoadOptions {
   silent?: boolean;
+  /** Bypass the server cache and call Helix immediately. */
+  force?: boolean;
 }
 
 interface DataContextValue {
@@ -52,9 +54,14 @@ function readStoredLastFetched(): Date | null {
   }
 }
 
-async function loadDashboard(signal?: AbortSignal): Promise<DashboardPayload> {
-  const res = await fetch(DASHBOARD_ENDPOINT, {
+async function loadDashboard(
+  signal?: AbortSignal,
+  force = false,
+): Promise<DashboardPayload> {
+  const endpoint = force ? `${DASHBOARD_ENDPOINT}?force=true` : DASHBOARD_ENDPOINT;
+  const res = await fetch(endpoint, {
     signal,
+    cache: force ? "no-store" : "default",
     headers: { Accept: "application/json" },
   });
 
@@ -99,7 +106,7 @@ export function SignalsProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      const dashboard = await loadDashboard();
+      const dashboard = await loadDashboard(undefined, options?.force);
       setSignals(dashboard.signals);
       setConsolidation(dashboard.consolidation ?? EMPTY_CONSOLIDATION);
       const fetchedAt = new Date(dashboard.fetchedAt);
@@ -160,7 +167,7 @@ export function SignalsProvider({ children }: { children: ReactNode }) {
       isLoading: status === "loading",
       error,
       lastFetchedAt,
-      refresh: () => load(),
+      refresh: () => load({ force: true }),
     }),
     [signals, consolidation, status, error, lastFetchedAt, load],
   );

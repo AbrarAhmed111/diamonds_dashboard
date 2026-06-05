@@ -21,7 +21,7 @@ export default function NetflowCard({ signal }: Props) {
       ? { label: "Leaving Exchanges (bullish)", tone: "positive" as const }
       : latestNetflow > 0
         ? { label: "Entering Exchanges (bearish)", tone: "negative" as const }
-        : { label: "Neutral", tone: "muted" as const };
+        : { label: "Neutral", tone: "neutral" as const };
 
   const interpretation = plainSignalText(signal.interpretation);
 

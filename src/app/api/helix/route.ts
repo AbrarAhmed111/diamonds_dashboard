@@ -10,14 +10,18 @@ export const dynamic = "force-dynamic";
 // in front of this route also serves a shared response for up to 4 hours.
 const CACHE_MAX_AGE_SECONDS = 4 * 60 * 60;
 
-export async function GET() {
+export async function GET(request: Request) {
+  const force = new URL(request.url).searchParams.get("force") === "true";
+
   try {
-    const payload = await getDashboardSnapshot();
+    const payload = await getDashboardSnapshot({ force });
     const body: DashboardApiResponse = { ok: true, ...payload };
 
     return NextResponse.json(body, {
       headers: {
-        "Cache-Control": `public, s-maxage=${CACHE_MAX_AGE_SECONDS}, stale-while-revalidate=600`,
+        "Cache-Control": force
+          ? "no-store"
+          : `public, s-maxage=${CACHE_MAX_AGE_SECONDS}, stale-while-revalidate=600`,
       },
     });
   } catch (error) {

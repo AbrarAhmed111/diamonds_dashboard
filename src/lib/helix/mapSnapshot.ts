@@ -1,3 +1,4 @@
+import { annualizeFundingRate } from "@/lib/funding";
 import type { Signal, SentimentType, SignalValue } from "@/lib/types";
 import type { HelixSignal, HelixSignalValue } from "./types";
 
@@ -177,9 +178,7 @@ function mapFundingExtras(
 
   return {
     ...(seven !== undefined ? { seven_day_avg: seven } : {}),
-    ...(latest !== undefined
-      ? { annualized_estimate: latest * 3 * 365 * 100 }
-      : {}),
+    ...(latest !== undefined ? { annualized_estimate: annualizeFundingRate(latest) } : {}),
     ...(oi !== undefined ? { open_interest: oi } : {}),
     ...(oiInterpretation ? { open_interest_interpretation: oiInterpretation } : {}),
   };

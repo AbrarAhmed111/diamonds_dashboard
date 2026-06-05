@@ -94,7 +94,7 @@ body {
     @apply text-body-m font-medium text-ink md:text-body;
   }
   .text-card-title {
-    @apply text-h3-m font-medium text-ink md:text-h4;
+    @apply text-h3-m font-semibold text-ink md:text-h4;
   }
   .text-card-body {
     @apply text-small text-ink-muted;
@@ -109,7 +109,13 @@ body {
     @apply rounded-md border border-neutral-500/40 bg-white shadow-card;
   }
   .surface-card-pad {
-    @apply p-5 sm:p-6 md:p-8;
+    @apply p-6 md:p-8;
+  }
+  .market-summary-bullets {
+    @apply mt-4 max-w-3xl space-y-2 sm:mt-5;
+  }
+  .market-summary-bullets > li {
+    @apply flex gap-2.5 text-small leading-relaxed text-ink/85 sm:gap-3 md:text-body md:leading-relaxed;
   }
   .signal-split-card {
     @apply min-h-[20rem] sm:min-h-[21rem] md:min-h-[22rem];

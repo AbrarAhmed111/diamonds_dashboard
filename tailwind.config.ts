@@ -140,6 +140,8 @@ const config: Config = {
       fontWeight: {
         normal: "400",
         medium: "500",
+        semibold: "600",
+        bold: "700",
       },
       transitionDuration: {
         fast: "120ms",

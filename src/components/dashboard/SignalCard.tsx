@@ -5,7 +5,6 @@ import RangeTabs from "@/components/charts/RangeTabs";
 import SignalLineChart from "@/components/charts/SignalLineChart";
 import SignalIcon from "./SignalIcon";
 import { useSignalRange } from "@/lib/useSignalRange";
-import { cn } from "@/lib/utils";
 import type { ChartRange, Signal } from "@/lib/types";
 
 interface SignalCardProps {
@@ -37,15 +36,21 @@ export default function SignalCard({
     <article className="surface-card surface-card-pad overflow-hidden">
       <header className="flex flex-wrap items-center gap-2 sm:gap-3">
         <SignalIcon id={signal.id} category={signal.category} size="sm" />
-        <h3 className="text-body-bold">{signal.name}</h3>
+        <h3 className="text-card-title">{signal.name}</h3>
       </header>
 
       <div className="mt-4 flex flex-wrap items-center gap-2 sm:mt-5 sm:gap-3">
         <p className="text-metric">{valueOverride ?? displayValue}</p>
         <Badge
-          tone={changeTone === "positive" ? "positive" : changeTone === "negative" ? "negative" : "muted"}
+          tone={
+            changeTone === "positive"
+              ? "positive"
+              : changeTone === "negative"
+                ? "negative"
+                : "neutral"
+          }
           size="md"
-          className={cn("px-2.5", changeTone === "muted" && "text-ink-muted")}
+          className="px-3"
         >
           {changePct === null ? "–" : `${changePct >= 0 ? "+" : ""}${changePct.toFixed(1)}%`}
         </Badge>

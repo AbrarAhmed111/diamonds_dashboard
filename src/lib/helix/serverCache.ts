@@ -30,9 +30,16 @@ async function buildSnapshot(): Promise<DashboardPayload> {
   };
 }
 
+interface SnapshotOptions {
+  /** Bypass the in-memory cache and call Helix immediately (manual refresh / testing). */
+  force?: boolean;
+}
+
 /** Returns cached dashboard data, refreshing from Helix once the 4-hour window expires. */
-export async function getDashboardSnapshot(): Promise<DashboardPayload> {
-  if (cache && cache.expiresAt > Date.now()) {
+export async function getDashboardSnapshot(
+  options?: SnapshotOptions,
+): Promise<DashboardPayload> {
+  if (!options?.force && cache && cache.expiresAt > Date.now()) {
     return cache.payload;
   }
 

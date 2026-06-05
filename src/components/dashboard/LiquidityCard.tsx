@@ -21,7 +21,7 @@ export default function LiquidityCard({
     [signal.values],
   );
 
-  const tone = change === null ? "muted" : change >= 0 ? "positive" : "negative";
+  const tone = change === null ? "neutral" : change >= 0 ? "positive" : "negative";
 
   return (
     <SplitFrame

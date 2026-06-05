@@ -63,9 +63,14 @@ function pickEvenlySpacedTimestamps(timestamps: string[], maxTicks: number): str
 }
 
 /** Month labels from actual data timestamps — no fabricated months. */
-export function buildLiquidityMonthTicks(data: Array<{ x: string }>): string[] {
-  // Monthly mode only applies when span < 24 months — show every available point.
-  return data.map((point) => point.x);
+export function buildLiquidityMonthTicks(
+  data: Array<{ x: string }>,
+  maxTicks?: number,
+): string[] {
+  const timestamps = data.map((point) => point.x);
+  if (!timestamps.length) return [];
+  if (!maxTicks || timestamps.length <= maxTicks) return timestamps;
+  return pickEvenlySpacedTimestamps(timestamps, maxTicks);
 }
 
 function parseYear(timestamp: string): number {
@@ -104,27 +109,42 @@ export function buildLiquidityYearTicks(data: Array<{ x: string; y: number }>): 
   return ticks;
 }
 
-export function buildLiquidityXAxisTicks(data: Array<{ x: string; y: number }>): {
+export function buildLiquidityXAxisTicks(
+  data: Array<{ x: string; y: number }>,
+  maxTicks?: number,
+): {
   rangeType: LiquidityDateRangeType;
   ticks: string[];
 } {
   const rangeType = getDateRangeType(data);
   const ticks =
-    rangeType === "monthly" ? buildLiquidityMonthTicks(data) : buildLiquidityYearTicks(data);
+    rangeType === "monthly"
+      ? buildLiquidityMonthTicks(data, maxTicks)
+      : buildLiquidityYearTicks(data);
 
   return { rangeType, ticks };
+}
+
+/** Max x-axis labels that fit without overlapping at a given chart width (px). */
+export function liquidityMaxTicksForWidth(width: number): number {
+  if (width <= 0) return 6;
+  return Math.max(4, Math.floor(width / 52));
 }
 
 export function formatGlobalLiquidityXAxisTick(
   timestamp: string,
   rangeType: LiquidityDateRangeType,
-  context?: { previousTimestamp?: string },
+  context?: { previousTimestamp?: string; compact?: boolean },
 ): string {
   const { year, month } = parseLiquidityDate(timestamp);
   const monthLabel = MONTH_SHORT[month] ?? "";
 
   if (rangeType === "yearly") {
     return String(year);
+  }
+
+  if (context?.compact) {
+    return `${monthLabel} '${String(year).slice(-2)}`;
   }
 
   const prevYear = context?.previousTimestamp

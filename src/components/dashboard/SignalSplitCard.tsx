@@ -8,7 +8,6 @@ import SignalDescription from "./SignalDescription";
 import { SPLIT_CARD_CHART_HEIGHT } from "./SplitFrame";
 import { type RangeChangeMode } from "@/lib/format";
 import { useSignalRange, type RangeValueMode } from "@/lib/useSignalRange";
-import { cn } from "@/lib/utils";
 import type { ChartRange, Signal } from "@/lib/types";
 
 interface Props {
@@ -45,11 +44,13 @@ export default function SignalSplitCard({
         <aside className="signal-split-card__aside">
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <SignalIcon id={signal.id} category={signal.category} size="sm" />
-            <h3 className="text-body-bold">{signal.name}</h3>
+            <h3 className="text-card-title">{signal.name}</h3>
             <Badge
-              tone={tone === "positive" ? "positive" : tone === "negative" ? "negative" : "muted"}
+              tone={
+                tone === "positive" ? "positive" : tone === "negative" ? "negative" : "neutral"
+              }
               size="md"
-              className={cn("px-2.5", tone === "muted" && "text-ink-muted")}
+              className="px-3"
             >
               {changePct === null ? "–" : `${changePct >= 0 ? "+" : ""}${changePct.toFixed(1)}%`}
             </Badge>
